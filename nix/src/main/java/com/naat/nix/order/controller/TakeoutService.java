@@ -18,4 +18,8 @@ public class TakeoutService {
   public Iterable<Takeout> getClientOrders(Client client) {
     return takeoutDao.findByClientEmail(client.getUser().getEmail());
   }
+
+  public void saveOrder(Takeout takeout) {
+    takeoutDao.save(takeout);
+  }
 }

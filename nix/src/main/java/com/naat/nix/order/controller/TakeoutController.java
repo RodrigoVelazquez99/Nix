@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
@@ -29,6 +31,16 @@ public class TakeoutController {
       model.addAttribute("client_orders", orders);
     }
     
-    return "client_orders";
+    return "orders";
+  }
+
+  @PostMapping
+  public String setOrder(Model model, Principal principal,
+   @RequestBody Takeout takeout) {
+     User user = (User) principal;
+     if(user.getDeliveryMan() != null || user.getAdmin() != null) {
+       service.saveOrder(takeout);
+     }
+    return "orders";
   }
 }
