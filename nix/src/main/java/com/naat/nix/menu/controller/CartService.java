@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.sql.SQLIntegrityConstraintViolationException;
 
 
 @Service
@@ -58,7 +59,7 @@ public class CartService {
   * Si el carrito se encuentra en la base de datos, lo actualiza
   * @param c el carrito que se actualiza
   */
-  public Cart actualizar (Cart c) {
+  public Cart actualizar (Cart c) throws SQLIntegrityConstraintViolationException {
     Optional<Cart> carrito = repository.findById(c.getCartId());
     Cart a = null;
     if (carrito.isPresent()) {

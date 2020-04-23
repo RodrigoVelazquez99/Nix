@@ -4,7 +4,7 @@
 <html xmlns:th="http://www.thymeleaf.org" >
 
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+
 <title> Menu de navegacion </title>
 
   <meta charset="utf-8">
@@ -50,9 +50,76 @@
 	</div>
 	</nav>
 
+  <div class="card-group">
+
+    <tr th:each="platillo : ${menu}">
+
+    <div class="card" style="width: 18rem;">
+      <img class="card-img-top" src="..." alt="Imagen" >
+        <div class="card-body">
+          <h5 class="card-title" th:text="${platillo.nombre}"></h5>
+          <p class="card-text" th:utext="${platillo.descripcion}"></p>
+          <p class="card-text" th:utext="${platillo.precio}"></p>
+          <button class="btn btn-primary stretched-link" data-toggle="modal"
+                  data-target="#agregarCarrito"
+                  th:attr="data-nombre=${platillo.nombre},
+                  data-descripcion=${platillo.descripcion},
+                  data-id=${platillo.idPlatillo},
+                  data-precio=${platillo.precio},
+                  data-foto=${platillo.foto}">Ver mas</button>
+        </div>
+    </div>
+
+    </tr>
+
+  </div>
 
 
 
+  <div class="container">
+    <!-- Modal -->
+    <div class="modal fade" id="agregarCarrito" aria-labelledby="agregarCarrito">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+
+          <!-- Modal Header -->
+          <div class="modal-header">
+            <h1 class="modal-title"> Platillo </h1>
+          </div>
+
+          <!-- Modal body -->
+          <div class="modal-body">
+            <h6 class="modal-descripcion"> Descripcion </h6>
+            <h6 class="modal-precio"> Precio </h6>
+          </div>
+
+          <!-- Modal footer -->
+          <div class="modal-footer">
+            <a class="btn btn-secondary" data-dismiss="modal" > Cerrar </a>
+            <a class="btn btn-success" id="verPlatillo" href = "/carrito/agregar/"> Agregar al carrito </a>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
 
 </body>
+
+<script>
+$('#agregarCarrito').on('show.bs.modal', function (event) {
+  var button = $(event.relatedTarget)
+  var nombre = button.data('nombre')
+  var id = button.data('id')
+  var descripcion = button.data('descripcion')
+  var precio = button.data('precio')
+  document.getElementById("verPlatillo").href= "/carrito/agregar/" + id.toString()
+  var modal = $(this)
+  modal.find('.modal-title').text(nombre)
+  modal.find('.modal-descripcion').text("Descripcion: " + descripcion)
+  modal.find('.modal-precio').text("Precio: " + precio)
+})
+</script>
+
 </html>

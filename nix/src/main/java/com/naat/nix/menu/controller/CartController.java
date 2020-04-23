@@ -1,6 +1,7 @@
 package com.naat.nix.menu.controller;
 
 import com.naat.nix.menu.controller.CartService;
+import com.naat.nix.menu.controller.FoodService;
 import com.naat.nix.menu.model.Food;
 import com.naat.nix.menu.model.Cart;
 import com.naat.nix.menu.model.CartID;
@@ -23,9 +24,13 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping(value = "/carrito")
 public class CartController {
 
-	/* El servicio */
+	/* El servicio para manejar las operaciones sobre el carrito */
 	@Autowired
-	CartService service;
+	CartService cartService;
+
+	/* El servicio para manejar las operaciones sobre los platillos */
+	@Autowired
+	FoodService foodService;
 
 	/* Referencia al carrito actual */
 	Cart carrito;
@@ -43,7 +48,7 @@ public class CartController {
 	@RequestMapping( value = "/ver", method = RequestMethod.GET )
 	public ModelAndView verCarrito() {
 		ModelAndView modelAndView = new ModelAndView("VerCarritoIH");
-		carrito = service.obtenerCarritoId(carIdTest);
+		carrito = cartService.obtenerCarritoId(carIdTest);
 		ArrayList<Food> platillos = new ArrayList<Food>(carrito.getPlatillos());
 		modelAndView.addObject("carrito", platillos);
 		return modelAndView;
@@ -79,7 +84,35 @@ public class CartController {
 	*/
 	@RequestMapping( value = "/eliminar")
 	public String eliminar() {
-		service.actualizar(carrito);
+		try {
+			cartService.actualizar(carrito);
+		} catch ( Exception e) {
+			/* Llamada a la pagina de error del sistema */
+			return "redirect:/error";
+		}
+		return "redirect:/carrito/ver";
+	}
+
+	/**
+	* Solicitud para agregar un platillo al carrito.
+	* Obten el platillo de la base de datos, guarda en el carrito
+	* y actualiza el carrito en la base de datos.
+	* Finalmente deririge a la vista del menu
+	* @param f el id del platillo a agregar
+	*/
+	@RequestMapping( value = "/agregar/{id_platillo}")
+	public String agregar(@PathVariable("id_platillo") int id_platillo) {
+		Food p = foodService.obtenerPlatilloPorId(id_platillo);
+		// El carrito esta vacio 
+		if (carrito == null) {
+			carrito = cartService.obtenerCarritoId(carIdTest);
+		}
+		carrito.agregar(p);
+		// Puede que ya se haya agregado el platillo
+		try {
+			carrito = cartService.actualizar(carrito);
+		} catch ( Exception e) { }
+		// Simplemente mostramos el carrito sin cambios
 		return "redirect:/carrito/ver";
 	}
 
