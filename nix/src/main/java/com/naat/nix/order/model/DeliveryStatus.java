@@ -6,6 +6,11 @@ package com.naat.nix.order.model;
  */
 public enum DeliveryStatus {
   /**
+   * Still preparing the order.
+   */
+  PREPARING,
+  
+  /**
    * Order ready to be taken.
    */
   READY,

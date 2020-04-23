@@ -1,10 +1,8 @@
 package com.naat.nix.order.controller;
 
 import java.security.Principal;
-import java.util.ArrayList;
 
 import com.naat.nix.order.model.Takeout;
-import com.naat.nix.user.model.User;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,25 +20,15 @@ public class TakeoutController {
 
   @GetMapping
   public String getOrders(Model model, Principal principal) {
-    User user = (User) principal;
-
-    Iterable<Takeout> orders = new ArrayList<Takeout>(); // Provisional default value
-
-    if(user.getClient() != null){
-      orders = service.getClientOrders(user.getClient());
-      model.addAttribute("client_orders", orders);
-    }
-    
+    var orders = service.getOrders(principal);
+    model.addAllAttributes(orders);
     return "orders";
   }
 
   @PostMapping
   public String setOrder(Model model, Principal principal,
    @RequestBody Takeout takeout) {
-     User user = (User) principal;
-     if(user.getDeliveryMan() != null || user.getAdmin() != null) {
-       service.saveOrder(takeout);
-     }
+    service.saveOrder(principal, takeout);
     return "orders";
   }
 }
