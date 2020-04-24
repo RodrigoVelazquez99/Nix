@@ -37,7 +37,7 @@ public class Cart {
 	public Cart () {
 	}
 
-	public Cart (CartID cartId, String correo) {
+	public Cart (CartID cartId) {
 	  	this.cartId = cartId;
 	  	this.platillos = new ArrayList<Food>();
   }
