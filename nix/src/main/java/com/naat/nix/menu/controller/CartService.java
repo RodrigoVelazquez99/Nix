@@ -6,15 +6,19 @@ import com.naat.nix.menu.model.CartID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.sql.SQLIntegrityConstraintViolationException;
-
 
 @Service
 public class CartService {
+
+  @PersistenceContext
+  EntityManager entityManager;
 
   @Autowired
   private CartRepository repository;
@@ -32,6 +36,17 @@ public class CartService {
       return cart.get();
     }
     return null;
+  }
+
+  /* Obtiene el carrito por el correo de usuario */
+  public Cart obtenerCarritoCorreo (String correo_usuario) {
+    Query query = entityManager.createQuery("FROM Cart c WHERE c.cartId.correo =: correo", Cart.class);
+    query.setParameter("correo", correo_usuario);
+    ArrayList<Cart> carts = (ArrayList<Cart>) query.getResultList();
+    if (carts.size() == 0) {
+      return null;
+    }
+    return carts.get(0);
   }
 
   /**

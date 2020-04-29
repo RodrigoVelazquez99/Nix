@@ -36,7 +36,7 @@ public class CartController {
 	Cart carrito;
 
 	/* Identificador del usuario actual (Solo de prueba por el momento) */
-	CartID carIdTest = new CartID (1, "m@ciencias.unam.mx");
+	String user ="m@ciencias.unam.mx";
 
 
 	/**
@@ -48,7 +48,7 @@ public class CartController {
 	@RequestMapping( value = "/ver", method = RequestMethod.GET )
 	public ModelAndView verCarrito() {
 		ModelAndView modelAndView = new ModelAndView("VerCarritoIH");
-		carrito = cartService.obtenerCarritoId(carIdTest);
+		check();
 		ArrayList<Food> platillos = new ArrayList<Food>(carrito.getPlatillos());
 		modelAndView.addObject("carrito", platillos);
 		return modelAndView;
@@ -103,10 +103,7 @@ public class CartController {
 	@RequestMapping( value = "/agregar/{id_platillo}")
 	public String agregar(@PathVariable("id_platillo") int id_platillo) {
 		Food p = foodService.obtenerPlatilloPorId(id_platillo);
-		// El carrito esta vacio 
-		if (carrito == null) {
-			carrito = cartService.obtenerCarritoId(carIdTest);
-		}
+		check();
 		carrito.agregar(p);
 		// Puede que ya se haya agregado el platillo
 		try {
@@ -114,6 +111,25 @@ public class CartController {
 		} catch ( Exception e) { }
 		// Simplemente mostramos el carrito sin cambios
 		return "redirect:/carrito/ver";
+	}
+
+	/**
+	* Revisa si el carrito del usuario actual existe
+	* en la base de datos (porque puede que apenas se registro)
+	* y asigna a la variable carrito el valor
+	* de la base de datos
+	*/
+	private void check () {
+		// Revisa si el carrito se encuentra en la base de datos
+		carrito = cartService.obtenerCarritoCorreo(user);
+		// El usuario apenas se registro
+		if (carrito == null) {
+			// Le asignamos un id
+			ArrayList<Cart> c = (ArrayList<Cart>) cartService.obtenerCarritos();
+			int id = (c.size() == 0) ? 1 : c.size() + 1;
+			carrito = new Cart (new CartID (id, user));
+			carrito = cartService.guardar(carrito);
+		}
 	}
 
 }
