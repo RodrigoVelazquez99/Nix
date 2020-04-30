@@ -7,36 +7,47 @@
 </head>
 
 <body>
-  <!-- Barra de navegación -->
-  <b-navbar th:fragment="nav-bar">
-    <b-navbar-brand href="#">Na'at</b-navbar-brand>
+  <!-- Barra de navegacion  -->
+	<nav class="navbar navbar-expand-sm bg-dark navbar-dark" th:fragment= "navbar">
 
-    <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
+    <a class="navbar-brand" href="/">Nix</a>
+      <div class="container">
 
-    <b-collapse is-nav id="nav-collapse">
 
-      <!-- Ajustado a la derecha -->
-      <b-navbar-nav>
-        <b-nav-form>
-          <b-form-input placeholer="Buscar"></b-form-input>
-          <b-button type="submit">Buscar</b-button>
-        </b-nav-form>
-      </b-navbar-nav>
+	  	<form class="form-inline" action="/action_page.php">
+	    	<input class="form-control mr-sm-2" type="text" placeholder="Ingresa tu busqueda" width= 100>
+	    	<button class="btn btn-success" type="submit">Buscar</button>
+	  	</form>
+		 <ul class="nav nav-pills">
 
-      <!-- Ajustado a la izquierda -->
-      <b-navbar-nav class="ml-auto">
-        <b-nav-item href="#">Pedidos</b-nav-item>
-        <b-nav-item href="#">Carrito</b-nav-item>
+		  <li class="nav-item dropdown">
+		    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="" >Categorias</a>
+		    <div class="dropdown-menu">
+		      <a class="dropdown-item" href="#">Categoria 1</a>
+		      <a class="dropdown-item" href="#">Categoria 2</a>
+		      <a class="dropdown-item" href="#">Categoria 3</a>
+		    </div>
+		  </li>
 
-        <b-nav-item-dropdown text="Usuario">
-          <b-dropdown-item href="#">Peril</b-dropdown-item>
-          <b-dropdown-item href="#">Salir</b-dropdown-item>
-        </b-nav-item-dropdown>
-      </b-navbar-nav>
-      
-    </b-collapse>
+		  <li class="nav-item">
+		    <a class="nav-link" href="/pedidos/ver">Pedidos</a>
+		  </li>
 
-  </b-navbar>
+		  <li class="nav-item">
+		    <a class="nav-link" href="/carrito/ver">Carrito</a>
+		  </li>
+
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="" >Usuario</a>
+        <div class="dropdown-menu">
+          <a class="dropdown-item" href="/perfil/ver">Perfil</a>
+          <a class="dropdown-item" href="/salir">Salir</a>
+        </div>
+      </li>
+
+		</ul>
+	</div>
+	</nav>
 
   <!-- En desarrollo, lista genérica para mostrar elementos -->
   <b-card-group deck th:fragment="options">
