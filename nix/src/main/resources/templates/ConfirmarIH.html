@@ -4,8 +4,8 @@
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-	
-	
+
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 
@@ -23,75 +23,46 @@
 </head>
 
 <body>
+
 	<!-- Barra de navegacion  -->
-	<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
-      <div class="container">  	
-	  	<form class="form-inline" action="/action_page.php">
-	    	<input class="form-control mr-sm-2" type="text" placeholder="Ingresa tu busqueda" width= 100>
-	    	<button class="btn btn-success" type="submit">Buscar </button>
-	  	</form>
-		 <ul class="nav nav-pills">
-		  
-		  <li class="nav-item dropdown">
-		    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">Categorias</a>
-		    <div class="dropdown-menu">
-		      <a class="dropdown-item" href="#">Categoria 1</a>
-		      <a class="dropdown-item" href="#">Categoria 2</a>
-		      <a class="dropdown-item" href="#">Categoria 3</a>
-		    </div>
-		  </li>
-		  
-		  <li class="nav-item">
-		    <a class="nav-link" href="#">Pedidos</a>
-		  </li>
-		  
-		  <li class="nav-item">
-		    <a class="nav-link" href="#">Carrito</a>
-		  </li>
-		  		  
-		  <li class="nav-item">
-		    <a class="nav-link" href="#">Perfil</a>
-		  </li>
-		</ul> 
-	</div>
-	</nav>
-	
-	<div class="container" > 
-	<div class="d-flex align-items-center justify-content-center" style="height: 100px" >	
-		<button type="button" class="btn btn-secondary" data-toggle="modal"  data-target="#confirmar-popup">Confirmar</button>	
+	<div th:insert="fragments/common :: navbar"></div>
+
+	<div class="container" >
+	<div class="d-flex align-items-center justify-content-center" style="height: 100px" >
+		<button type="button" class="btn btn-secondary" data-toggle="modal"  data-target="#confirmar-popup">Confirmar</button>
 	</div>
 	</div>
-	
-	
+
+
 	<div class="container">
   <!-- Modal -->
   <div class="modal fade " id="confirmar-popup">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
-      
+
         <!-- Modal Header -->
         <div class="modal-header">
-          <h4 class="modal-title-center"> Confirmación</h4>
+          <h4 class="modal-title-center"> Confirmacion</h4>
         </div>
-        
+
         <!-- Modal body -->
         <div class="modal-body">
-          <h1  class= "text-center"></h1>¿ Deseas continuar ?
+          <h1  class= "text-center"></h1>Â¿ Deseas continuar ?
         </div>
-        
+
         <!-- Modal footer -->
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-          <a class="btn btn-success" href = "#">Aceptar</a>          
+          <a class="btn btn-success" href = "#">Aceptar</a>
         </div>
-        
+
       </div>
     </div>
   </div>
-  
+
 </div>
-	
-	
+
+
 
 
 </body>

@@ -16,38 +16,8 @@
 
 <body>
 
-	<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
-      <div class="container">
-	  	<form class="form-inline" action="/action_page.php">
-	    	<input class="form-control mr-sm-2" type="text" placeholder="Ingresa tu busqueda" width= 100>
-	    	<button class="btn btn-success" type="submit">Buscar </button>
-	  	</form>
-		 <ul class="nav nav-pills">
-
-		  <li class="nav-item dropdown">
-		    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">Categorias</a>
-		    <div class="dropdown-menu">
-		      <a class="dropdown-item" href="#">Categoria 1</a>
-		      <a class="dropdown-item" href="#">Categoria 2</a>
-		      <a class="dropdown-item" href="#">Categoria 3</a>
-		    </div>
-		  </li>
-
-		  <li class="nav-item">
-		    <a class="nav-link" href="#">Pedidos</a>
-		  </li>
-
-		  <li class="nav-item">
-		    <a class="nav-link disabled" href="#">Carrito</a>
-		  </li>
-
-		  <li class="nav-item">
-		    <a class="nav-link" href="#">Perfil</a>
-		  </li>
-		</ul>
-	</div>
-	</nav>
-
+  <!-- Barra de navegacion  -->
+	<div th:insert="fragments/common :: navbar"></div>
 
 	<div class="container pt-3">
 	<h1> Carrito de compras </h1>
