@@ -51,7 +51,6 @@
 
 
   <!-- Popup para confirmar alguna accion
-       ${cancelar} el url al cual se redirige despues de presionar el boton de Cancelar
        ${aceptar} el url al cual se redirige despues de presionar el boton de Aceptar
     -->
   <div class="container" th:fragment = "confirmar-popup">
@@ -72,7 +71,7 @@
 
           <!-- Modal footer -->
           <div class="modal-footer">
-            <a class="btn btn-secondary" th:href = "${cancelar}" > Cancelar </a>
+            <a class="btn btn-secondary" data-dismiss="modal" > Cancelar </a>
             <a class="btn btn-success" th:href = "${aceptar}"> Aceptar</a>
           </div>
 
