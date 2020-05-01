@@ -66,7 +66,6 @@ public class CartController {
 		modelAndView.addObject("carrito", platillos);
 		// Las url del popup
 		modelAndView.addObject("aceptar", "/carrito/eliminar");
-		modelAndView.addObject("cancelar", "/carrito/editar");
 		return modelAndView;
 	}
 
