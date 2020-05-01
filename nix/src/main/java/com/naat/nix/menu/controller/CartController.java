@@ -64,6 +64,9 @@ public class CartController {
 		ModelAndView modelAndView = new ModelAndView("EliminarCarritoIH");
 		ArrayList<Food> platillos = new ArrayList<Food>(carrito.getPlatillos());
 		modelAndView.addObject("carrito", platillos);
+		// Las url del popup
+		modelAndView.addObject("aceptar", "/carrito/eliminar");
+		modelAndView.addObject("cancelar", "/carrito/editar");
 		return modelAndView;
 	}
 
