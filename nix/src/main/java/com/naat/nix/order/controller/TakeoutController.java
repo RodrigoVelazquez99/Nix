@@ -1,12 +1,10 @@
 package com.naat.nix.order.controller;
 
-import java.security.Principal;
-import java.util.ArrayList;
-
-import com.naat.nix.order.model.Takeout;
-import com.naat.nix.user.model.User;
+import com.naat.nix.user.config.UserWrapper;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,16 +17,9 @@ public class TakeoutController {
   private TakeoutService service;
 
   @GetMapping
-  public String getOrders(Model model, Principal principal) {
-    User user = (User) principal;
-
-    Iterable<Takeout> orders = new ArrayList<Takeout>(); // Provisional default value
-
-    if(user.getClient() != null){
-      orders = service.getClientOrders(user.getClient());
-      model.addAttribute("client_orders", orders);
-    }
-    
-    return "client_orders";
+  public String getOrders(Model model, @AuthenticationPrincipal UserWrapper principal) {
+    var orders = service.getOrders(principal);
+    model.addAllAttributes(orders);
+    return "orders";
   }
 }
