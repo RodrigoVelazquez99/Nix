@@ -6,6 +6,7 @@ import java.util.Map;
 
 import com.naat.nix.order.model.DeliveryStatus;
 import com.naat.nix.order.model.Takeout;
+import com.naat.nix.user.config.UserWrapper;
 import com.naat.nix.user.model.Client;
 import com.naat.nix.user.model.DeliveryMan;
 import com.naat.nix.user.model.User;
@@ -23,7 +24,7 @@ public class TakeoutService {
   private TakeoutRepository takeoutDao;
 
   public Map<String, Iterable<Takeout>> getOrders(Principal principal) {
-    User user = (User) principal;
+    User user = ((UserWrapper)principal).getCustomUser();
 
     HashMap<String, Iterable<Takeout>> orders = new HashMap<>();
 
@@ -65,9 +66,18 @@ public class TakeoutService {
   }
   
   public void saveOrder(Principal principal, Takeout takeout) {
-    User user = (User) principal;
-     if(user.getDeliveryMan() != null || user.getAdmin() != null) {
-       takeoutDao.save(takeout);
-     }
+    User user = ((UserWrapper)principal).getCustomUser();
+    if(user.getDeliveryMan() != null || user.getAdmin() != null) {
+      takeoutDao.save(takeout);
+    }
+  }
+
+  public void selectOrder(Principal principal, Takeout takeout) {
+    User user = ((UserWrapper)principal).getCustomUser();
+
+    if(user.getDeliveryMan() != null && takeout.getDeliveryMan() == null) {
+      takeout.setDeliveryMan(user.getDeliveryMan());
+      takeoutDao.save(takeout);
+    }
   }
 }

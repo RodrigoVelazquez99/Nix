@@ -26,9 +26,16 @@ public class TakeoutController {
   }
 
   @PostMapping
-  public String setOrder(Model model, Principal principal,
+  public String saveOrder(Model model, Principal principal,
    @RequestBody Takeout takeout) {
     service.saveOrder(principal, takeout);
+    return "orders";
+  }
+
+  @PostMapping("/select")
+  public String selectOrder(Model model, Principal principal,
+   @RequestBody Takeout takeout) {
+    service.selectOrder(principal, takeout);
     return "orders";
   }
 }
