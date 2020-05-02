@@ -36,15 +36,15 @@ public class UserConfiguration implements UserDetailsService{
     var authorities = new ArrayList<SimpleGrantedAuthority>();
 
     if(user.getAdmin() != null){
-      authorities.add(new SimpleGrantedAuthority("ADMIN"));
+      authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
     }
 
     if(user.getClient() != null){
-      authorities.add(new SimpleGrantedAuthority("CLIENT"));
+      authorities.add(new SimpleGrantedAuthority("ROLE_CLIENT"));
     }
 
     if(user.getDeliveryMan() != null) {
-      authorities.add(new SimpleGrantedAuthority("DELIVERYMAN"));
+      authorities.add(new SimpleGrantedAuthority("ROLE_DELIVERYMAN"));
     }
 
     return new UserWrapper(user, username, password, authorities);

@@ -4,6 +4,8 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
+import org.springframework.security.core.userdetails.UserDetails;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
