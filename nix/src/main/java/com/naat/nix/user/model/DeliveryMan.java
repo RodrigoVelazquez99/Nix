@@ -4,20 +4,28 @@ import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
+import javax.persistence.MapsId;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 import com.naat.nix.order.model.Takeout;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 
 @Data
+@NoArgsConstructor
+@RequiredArgsConstructor
 @Entity
 public class DeliveryMan {
   @Id
+  private String email;
+
   @OneToOne
-  @JoinColumn(name = "user_email")
+  @MapsId
+  @NonNull
   private User user;
 
   @OneToMany(mappedBy = "deliveryMan")
