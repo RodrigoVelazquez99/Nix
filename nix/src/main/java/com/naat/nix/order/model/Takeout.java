@@ -18,8 +18,6 @@ import com.naat.nix.menu.model.Food;
 import com.naat.nix.user.model.Client;
 import com.naat.nix.user.model.DeliveryMan;
 
-import org.hibernate.annotations.CreationTimestamp;
-
 import lombok.Data;
 
 /**
