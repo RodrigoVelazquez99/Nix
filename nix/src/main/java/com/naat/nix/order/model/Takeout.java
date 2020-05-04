@@ -3,6 +3,7 @@ package com.naat.nix.order.model;
 import java.time.LocalDate;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -16,8 +17,6 @@ import javax.persistence.ManyToOne;
 import com.naat.nix.menu.model.Food;
 import com.naat.nix.user.model.Client;
 import com.naat.nix.user.model.DeliveryMan;
-
-import org.hibernate.annotations.CreationTimestamp;
 
 import lombok.Data;
 
@@ -38,8 +37,8 @@ public class Takeout {
   /**
    * Order's date. Assuming a order is fullfillied in one day.
    */
-  @CreationTimestamp
-  private LocalDate delivery_date;
+  @Column(columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+  private LocalDate deliveryDate;
 
   /**
    * Order status.
@@ -56,13 +55,13 @@ public class Takeout {
     joinColumns = @JoinColumn(name="takeout_id"),
     inverseJoinColumns = @JoinColumn(name="food_id")
   )
-  private List<Food> foos_items;
+  private List<Food> food_items;
 
   /**
    * Person who bought the order.
    */
   @ManyToOne
-  @JoinColumn(name="cliend_id")
+  @JoinColumn(name="client_id")
   private Client client;
 
   /**
