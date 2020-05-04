@@ -7,52 +7,84 @@
   <body>
     <header th:insert="fragments/common::navbar"></header>
 
-    <div class="card-group" sec:authorize="hasRole('ADMIN')" >
-      <div class="card" style="width: 18rem;">
-        <div class="card-body">
-          <h5 class="card-title">Cosas de admisnitrador</h5>
-          <h6 class="card-subtitle mb-2 text-muted">Como órdenes listas o así</h6>
-          <p class="card-text">
-            Detalles pedido
-          </p>
-        </div>
+    <!-- Vista para el cliente -->
+    <div sec:authorize="hasRole('CLIENT')">
+
+      <h3 style="padding: 2rem;">Órdenes pendientes</h3>
+      <div class="row flex-nowrap" style="overflow: scroll;">
+        <tr th:each="order : ${client_current_orders}">
+          <div th:replace="fragments/common::end_ordercard"></div>
+        </tr>
+      </div>
+
+      <h3 style="padding: 2rem;">Historial de pedidos</h3>
+      <div class="row flex-nowrap" style="overflow: scroll;">
+        <tr th:each="order : ${client_past_orders}">
+          <div th:replace="fragments/common::end_ordercard"></div>
+        </tr>
       </div>
     </div>
+    <!-- /Vista para el cliente-->
 
-    <div class="card-group" sec:authorize="hasRole('CLIENT')" >
-      <div class="card" style="width: 18rem;">
-        <div class="card-body">
-          <h5 class="card-title">Orden de cliente</h5>
-          <h6 class="card-subtitle mb-2 text-muted">Varios estados</h6>
-          <p class="card-text">
-            Detalles pedido
-          </p>
-        </div>
+    <!-- Vista para el repartidor -->
+    <div sec:authorize="hasRole('DELIVERYMAN')">
+
+      <h3 style="padding: 2rem;">Órdenes disponibles</h3>
+      <div class="row flex-nowrap" style="overflow: scroll;">
+        <tr th:each="order : ${ready_orders}">
+          <div th:replace="fragments/common::select_ordercard"></div>
+        </tr>
+      </div>
+
+      <h3 style="padding: 2rem;">Órdenes pendientes</h3>
+      <div class="row flex-nowrap" style="overflow: scroll;">
+        <tr th:each="order : ${delivery_current_orders}">
+          <div th:replace="fragments/common::change_ordercard"></div>
+        </tr>
+      </div>
+
+      <h3 style="padding: 2rem;">Órdenes entregadas</h3>
+      <div class="row flex-nowrap" style="overflow: scroll;">
+        <tr th:each="order : ${delivery_past_orders}">
+          <div th:replace="fragments/common::end_ordercard"></div>
+        </tr>
       </div>
     </div>
+    <!-- /Vista para el repartidor -->
 
-    <div class="card-group" sec:authorize="hasRole('DELIVERYMAN')" >
-      <div class="card" style="width: 18rem;">
-        <div class="card-body">
-          <h5 class="card-title">Ordenes por entregas</h5>
-          <h6 class="card-subtitle mb-2 text-muted">Responsabilida del repartidor actual</h6>
-          <p class="card-text">
-            Detalles pedido
-          </p>
-        </div>
+    <!-- Vista para el administrador -->
+    <div sec:authorize="hasRole('ADMIN')">
+
+      <h3 style="padding: 2rem;">Órdenes listas</h3>
+      <div class="row flex-nowrap" style="overflow: scroll;">
+        <tr th:each="order : ${preparing_orders}">
+          <div th:replace="fragments/common::change_ordercard"></div>
+        </tr>
       </div>
-    </div>
 
-    <!--
-      <tr th:each="order : ${client_orders}">
-        <div class="card">
-          <div class="card-body">
-            <td><span th:text="${order.id}"> Title </span></td>
-            <td><span th:text="${order.status}"> Title </span></td>
-          </div>
-        </div>
-      </tr>
-    -->
+      <h3 style="padding: 2rem;">Órdenes para recolectar</h3>
+      <div class="row flex-nowrap" style="overflow: scroll;">
+        <tr th:each="order : ${ready_orders}">
+          <div th:replace="fragments/common::end_ordercard"></div>
+        </tr>
+      </div>
+
+      <h3 style="padding: 2rem;">Órdenes en camino</h3>
+      <div class="row flex-nowrap" style="overflow: scroll;">
+        <tr th:each="order : ${delivering_orders}">
+          <div th:replace="fragments/common::end_ordercard"></div>
+        </tr>
+      </div>
+
+      <h3 style="padding: 2rem;">Órdenes entregadas</h3>
+      <div class="row flex-nowrap" style="overflow: scroll;">
+        <tr th:each="order : ${delivered_orders}">
+          <div th:replace="fragments/common::end_ordercard"></div>
+        </tr>
+      </div>
+
+    </div>
+    <!-- /Vista para el administrador-->
   </body>
 </html>
 
