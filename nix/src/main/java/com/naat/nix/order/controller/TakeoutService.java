@@ -1,7 +1,8 @@
 package com.naat.nix.order.controller;
 
-import java.security.Principal;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.naat.nix.order.model.DeliveryStatus;
@@ -26,42 +27,81 @@ public class TakeoutService {
   public Map<String, Iterable<Takeout>> getOrders(UserWrapper principal) {
     User user = principal.getCustomUser();
 
-    HashMap<String, Iterable<Takeout>> orders = new HashMap<>();
+    var orders = new HashMap<String, Iterable<Takeout>>();
 
     if(user.getClient() != null){
-      var cli_orders = getClientOrders(user.getClient());
-      orders.put("client_orders", cli_orders);
+      orders.putAll(getClientOrders(user.getClient()));
     }
 
     if(user.getDeliveryMan() != null) {
-      var del_orders = getDeliveryManOrders(user.getDeliveryMan());
-      orders.put("delivery_orders", del_orders);
+      orders.putAll(getDeliveryManOrders(user.getDeliveryMan()));
 
-      var ready_orders = getReadyOrders();
-      orders.put("ready_orders", ready_orders);
+      orders.put("ready_orders", getOrdersByStatus().get("ready_orders"));
     }
 
     if(user.getAdmin() != null) {
-      var prep_orders = getPreparingOrders();
-      orders.put("prep_orders", prep_orders);
+      orders.putAll(getOrdersByStatus());
     }
 
     return orders;
   }
 
-  public Iterable<Takeout> getClientOrders(Client client) {
-    return takeoutDao.findByClientEmail(client.getUser().getEmail());
+  public HashMap<String, Iterable<Takeout>> getClientOrders(Client client) {
+    var orders = classifyOrders(
+      takeoutDao.findByClientEmail(client.getEmail()),
+      DeliveryStatus.DELIVERED
+    );
+
+    var classifiedOrders = new HashMap<String, Iterable<Takeout>>();
+    classifiedOrders.put("client_past_orders", orders.get(0));
+    classifiedOrders.put("client_current_orders", orders.get(1));
+    return classifiedOrders;
   }
 
-  public Iterable<Takeout> getDeliveryManOrders(DeliveryMan man) {
-    return takeoutDao.findByDeliveryManEmail(man.getUser().getEmail());
+  public HashMap<String, Iterable<Takeout>> getDeliveryManOrders(
+  DeliveryMan man) {
+    var orders = classifyOrders(
+      takeoutDao.findByDeliveryManEmail(man.getEmail()),
+      DeliveryStatus.DELIVERED
+    );
+
+    var classifiedOrders = new HashMap<String, Iterable<Takeout>>();
+    classifiedOrders.put("delivery_past_orders", orders.get(0));
+    classifiedOrders.put("delivery_current_orders", orders.get(1));
+    return classifiedOrders;
   }
 
-  public Iterable<Takeout> getPreparingOrders() {
-    return takeoutDao.findByStatus(DeliveryStatus.PREPARING);
+  public HashMap<String, Iterable<Takeout>> getOrdersByStatus() {
+    var classifiedOrders = new HashMap<String, Iterable<Takeout>>();
+
+    for(var status : DeliveryStatus.values()) {
+      classifiedOrders.put(
+        status.name().toLowerCase() + "_orders",
+        takeoutDao.findByStatus(status)
+      );
+    }
+    return classifiedOrders;
   }
 
-  public Iterable<Takeout> getReadyOrders() {
-    return takeoutDao.findByStatus(DeliveryStatus.READY);
+  private List<Iterable<Takeout>> classifyOrders(Iterable<Takeout> orders,
+  DeliveryStatus status) {
+
+    var ordersOne = new ArrayList<Takeout>();
+    var ordersAnother = new ArrayList<Takeout>();
+
+    orders.forEach(
+      ord -> {
+        if(ord.getStatus() == status) {
+          ordersOne.add(ord);
+        } else {
+          ordersAnother.add(ord);
+        }
+      }
+    );
+
+    return List.of(
+      (Iterable<Takeout>)ordersOne,
+      (Iterable<Takeout>)ordersAnother
+    );
   }
 }
