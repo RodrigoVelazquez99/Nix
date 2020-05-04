@@ -30,4 +30,4 @@ public class DeliveryMan {
 
   @OneToMany(mappedBy = "deliveryMan")
   private List<Takeout> orders;
-}
+} 
