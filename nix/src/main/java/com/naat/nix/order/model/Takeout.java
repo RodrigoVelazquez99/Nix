@@ -44,7 +44,7 @@ public class Takeout {
    * Order status.
    */
   @Enumerated(EnumType.STRING)
-  private DeliveryStatus status = DeliveryStatus.READY;
+  private DeliveryStatus status = DeliveryStatus.PREPARING;
 
   /**
    * Food in the order.

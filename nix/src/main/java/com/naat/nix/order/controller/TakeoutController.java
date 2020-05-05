@@ -7,6 +7,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
@@ -20,5 +21,21 @@ public class TakeoutController {
     var orders = service.getOrders(principal);
     model.addAllAttributes(orders);
     return "orders";
+  }
+
+  @GetMapping("/select/{takeoutId}")
+  public String selectOrder(Model model, @PathVariable Long takeoutId,
+      @AuthenticationPrincipal UserWrapper principal) throws Exception {
+
+    service.selectOrder(principal, takeoutId);
+    return "redirect:/orders";
+  }
+
+  @GetMapping("update/{takeoutId}")
+  public String updateOrder(Model model, @PathVariable Long takeoutId,
+    @AuthenticationPrincipal UserWrapper principal) throws Exception {
+
+    service.updateStatusOrder(principal, takeoutId);
+    return "redirect:/orders";
   }
 }

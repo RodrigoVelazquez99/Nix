@@ -117,7 +117,7 @@
     <p>Platillos: </p>
     <ul>
       <li th:each="food : ${order.food_items}"
-        th:text="${food.description} + ': ' + ${food.imagePath}"></li>
+        th:text="${food.name} + ': ' + ${food.description}"></li>
     </ul>
   </div>
   <!-- /Cuerpo de la tarjeta de órdenes -->
@@ -135,7 +135,7 @@
   <div class="card" style="min-width: 300px; max-width: 300px; height: 300px;overflow: scroll;"
     th:fragment="select_ordercard">
     <div class="card-header">
-      <a href="#" class="card-link">Seleccionar</a>
+      <a th:href="@{'orders/select/' + ${order.id}}" class="card-link">Seleccionar</a>
     </div>
     <div th:replace="::ordercard_body"></div>
   </div>
@@ -145,7 +145,7 @@
   <div class="card" style="min-width: 300px; max-width: 300px; height: 300px;overflow: scroll;"
     th:fragment="change_ordercard">
     <div class="card-header">
-      <a href="#" class="card-link">Mover siguiente etapa</a>
+      <a th:href="@{'orders/update/' + ${order.id}}" class="card-link">Avanzar estatus</a>
     </div>
     <div th:replace="::ordercard_body"></div>
   </div>

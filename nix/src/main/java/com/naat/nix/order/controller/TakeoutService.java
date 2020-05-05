@@ -104,4 +104,52 @@ public class TakeoutService {
       (Iterable<Takeout>)ordersAnother
     );
   }
+  
+  public void updateStatusOrder(UserWrapper principal, Long takeoutId) throws Exception {
+    User user = principal.getCustomUser();
+    Takeout takeout = takeoutDao.findById(takeoutId).orElseThrow(
+      () -> new Exception("Takeout not in database")
+    );
+
+    if(user.getAdmin() != null) {
+      switch(takeout.getStatus()) {
+        case PREPARING:
+          takeout.setStatus(DeliveryStatus.READY);
+          break;
+        default:
+          throw new Exception("Invalid admin status change");
+      }
+    }
+
+    if(user.getDeliveryMan() != null) {
+      switch(takeout.getStatus()) {
+        case DELIVERING : 
+          takeout.setStatus(DeliveryStatus.DELIVERED);
+          break;
+        default:
+          throw new Exception("Invalid delivery admin status change");
+      }
+    }
+
+    takeoutDao.save(takeout);
+  }
+
+  public void selectOrder(UserWrapper principal, Long takeoutId) throws Exception {
+    User user = principal.getCustomUser();
+    Takeout takeout = takeoutDao.findById(takeoutId).orElseThrow(
+      () -> new Exception("Takeout not in database")
+    );
+
+    Boolean valid = 
+      user.getDeliveryMan() != null && takeout.getDeliveryMan() == null
+      && takeout.getStatus() == DeliveryStatus.READY;
+
+    if(valid) {
+      takeout.setDeliveryMan(user.getDeliveryMan());
+      takeout.setStatus(DeliveryStatus.DELIVERING);
+      takeoutDao.save(takeout);
+    } else {
+      throw new Exception("Takeout already selected");
+    }
+  }
 }
