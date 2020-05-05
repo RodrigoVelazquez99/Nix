@@ -15,6 +15,10 @@ import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
+/**
+ * Entity representing users of our system. Extends UserDetails to use with
+ * Spring Security.
+ */
 @Data
 @NoArgsConstructor
 @RequiredArgsConstructor
