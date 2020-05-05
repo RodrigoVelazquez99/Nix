@@ -13,10 +13,9 @@
         <h2 class="form-heading">Iniciar sesion</h2>
         <div class="form-group ${error != null ? 'has-error' : ''}">
 
-            <input name="username" type="text" class="form-control" placeholder="Nombre"
+            <input name="email" type="email" class="form-control" placeholder="Correo"
                    autofocus="true"/>
             <input name="password" type="password" class="form-control" placeholder="Contraseña"/>
-            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 
             <button class="btn btn-lg btn-primary btn-block" type="submit">Iniciar sesion</button>
             <p th:text="${error}"> </p>

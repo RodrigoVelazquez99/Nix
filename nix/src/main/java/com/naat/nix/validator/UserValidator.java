@@ -1,4 +1,4 @@
-package com.naat.nix.validator;
+  package com.naat.nix.validator;
 
 import com.naat.nix.user.model.User;
 import com.naat.nix.user.controller.UserService;
