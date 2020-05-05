@@ -22,10 +22,10 @@ public class UserConfiguration implements UserDetailsService{
   @Autowired
   private UserRepository dao;
 
-  public UserDetails loadUserByUsername(String name) {
-    User user = dao.findByUsername(name);
+  public UserDetails loadUserByUsername(String email) {
+    User user = dao.findByEmail(email);
     if (user == null) {
-      throw new UsernameNotFoundException(name);
+      throw new UsernameNotFoundException(email);
     }
     return buildUser(user);
   }
