@@ -7,4 +7,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 class NixApplicationTests {
 
 
+      @Test
+  	   void contextLoads() {
+  	   }
+       
 }

@@ -30,23 +30,6 @@ public class DeliveryMan implements Serializable {
   @NotFound(action=NotFoundAction.IGNORE)
   private User user;
 
-  public DeliveryMan(){
-  }
 
-  public String getEmail () {
-    return this.email;
-  }
-
-  public void setEmail (String email) {
-    this.email = email;
-  }
-
-  public User getUser () {
-    return this.user;
-  }
-
-  public void setUser (User user) {
-    this.user = user;
-  }
 
 }

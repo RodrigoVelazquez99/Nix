@@ -29,23 +29,5 @@ public class Admin implements Serializable {
   @NotFound(action=NotFoundAction.IGNORE)
   private User user;
 
-  public Admin (){
-  }
-
-  public String getEmail () {
-    return this.email;
-  }
-
-  public void setEmail (String email) {
-    this.email = email;
-  }
-
-  public User getUser () {
-    return this.user;
-  }
-
-  public void setUser (User user) {
-    this.user = user;
-  }
 
 }

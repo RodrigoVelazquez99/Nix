@@ -45,47 +45,5 @@ public class Client implements Serializable {
   )
   private List<String> address;
 
-  public Client (){
-  }
-
-  public String getEmail () {
-    return this.email;
-  }
-
-  public void setEmail (String email) {
-    this.email = email;
-  }
-
-  public User getUser (){
-    return this.user;
-  }
-
-  public void setUser (User user){
-    this.user = user;
-  }
-
-  public String getPhone (){
-    return this.phone;
-  }
-
-  public void setPhone (String phone){
-    this.phone = phone;
-  }
-
-  public int getScore (){
-    return this.score;
-  }
-
-  public void setScore (int score){
-    this.score = score;
-  }
-
-  public List<String> getAddress () {
-    return this.address;
-  }
-
-  public void setAddress (List<String> address) {
-    this.address = address;
-  }
 
 }
