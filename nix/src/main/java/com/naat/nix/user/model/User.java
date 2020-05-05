@@ -20,9 +20,9 @@ import lombok.RequiredArgsConstructor;
  * Spring Security.
  */
 @Data
+@Entity
 @NoArgsConstructor
 @RequiredArgsConstructor
-@Entity
 @Table(name = "Usuario")
 public class User {
 

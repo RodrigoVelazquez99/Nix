@@ -1,6 +1,5 @@
 package com.naat.nix.user.controller;
 
-import com.naat.nix.user.model.Admin;
 import com.naat.nix.user.model.Client;
 import com.naat.nix.user.model.DeliveryMan;
 import com.naat.nix.user.model.User;

@@ -27,7 +27,6 @@ public class UserConfiguration implements UserDetailsService{
     if (user == null) {
       throw new UsernameNotFoundException(email);
     }
-
     return buildUser(user);
   }
 

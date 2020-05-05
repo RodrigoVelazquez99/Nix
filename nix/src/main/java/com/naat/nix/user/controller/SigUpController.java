@@ -2,7 +2,6 @@ package com.naat.nix.user.controller;
 
 import javax.validation.Valid;
 
-import com.naat.nix.user.model.Admin;
 import com.naat.nix.user.model.User;
 import com.naat.nix.validator.UserValidator;
 
