@@ -21,7 +21,7 @@ public class SecurityService {
 
     final Logger logger = LoggerFactory.getLogger(SecurityService.class);
 
-    
+
     public String findLoggedInUsername() {
         Object userDetails = SecurityContextHolder.getContext().getAuthentication().getDetails();
         if (userDetails instanceof UserDetails) {
@@ -33,7 +33,6 @@ public class SecurityService {
 
 
     public void autoLogin(String username, String password) {
-      System.out.println("AUTOLOGGEANDO");
         UserDetails userDetails = userDetailsService.loadUserByUsername(username);
         UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(userDetails, password, userDetails.getAuthorities());
 
