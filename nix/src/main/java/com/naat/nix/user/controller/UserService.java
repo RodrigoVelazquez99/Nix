@@ -1,6 +1,8 @@
 package com.naat.nix.user.controller;
 
+import com.naat.nix.user.model.Admin;
 import com.naat.nix.user.model.Client;
+import com.naat.nix.user.model.DeliveryMan;
 import com.naat.nix.user.model.User;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +16,10 @@ public class UserService {
     private UserRepository userRepository;
 
     @Autowired
-    private ClientService clientService;
+    private DeliveryManRepository deliveryRepository;
+
+    @Autowired
+    private ClientRepository clientRepository;
 
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -33,7 +38,15 @@ public class UserService {
       client.setEmail(user.getEmail());
       client.setUser(user);
       user.setClient(client);
-      clientService.saveClient(client);
+      clientRepository.save(client);
+    }
+
+    public void newDelivery(User user) {
+      DeliveryMan deliveryMan = new DeliveryMan();
+      deliveryMan.setEmail(user.getEmail());
+      deliveryMan.setUser(user);
+      user.setDeliveryMan(deliveryMan);
+      deliveryRepository.save(deliveryMan);
     }
 
     public void saveUser (User user){
