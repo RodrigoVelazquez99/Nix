@@ -30,4 +30,12 @@ public class TakeoutController {
     service.selectOrder(principal, takeoutId);
     return "redirect:/orders";
   }
+
+  @GetMapping("update/{takeoutId}")
+  public String updateOrder(Model model, @PathVariable Long takeoutId,
+    @AuthenticationPrincipal UserWrapper principal) throws Exception {
+
+    service.updateStatusOrder(principal, takeoutId);
+    return "redirect:/orders";
+  }
 }
