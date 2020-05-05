@@ -20,9 +20,9 @@ import lombok.Data;
 @Table(name = "Repartidor")
 public class DeliveryMan implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 
-@Id
+  @Id
   @Column(name = "correo")
   private String email;
 
@@ -30,7 +30,4 @@ public class DeliveryMan implements Serializable {
   @PrimaryKeyJoinColumn
   @NotFound(action=NotFoundAction.IGNORE)
   private User user;
-
-
-
 }

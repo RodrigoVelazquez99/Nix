@@ -11,19 +11,26 @@ import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 
 @Data
+@NoArgsConstructor
+@RequiredArgsConstructor
 @Entity
 @Table(name = "Usuario")
 public class User {
 
   @Id
+  @NonNull
   @Column(name = "correo")
   private String email;
 
   @Column(name = "nombre")
   private String username;
 
+  @NonNull
   @Column(name = "contraseña")
   private String password;
 
@@ -41,6 +48,4 @@ public class User {
   @OneToOne(mappedBy = "user")
   @NotFound(action=NotFoundAction.IGNORE)
   private DeliveryMan deliveryMan;
-
-
 }
