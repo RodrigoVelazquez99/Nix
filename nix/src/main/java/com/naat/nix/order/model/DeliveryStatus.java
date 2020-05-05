@@ -9,7 +9,6 @@ public enum DeliveryStatus {
    * Still preparing the order.
    */
   PREPARING,
-  
   /**
    * Order ready to be taken.
    */
@@ -24,4 +23,15 @@ public enum DeliveryStatus {
    * Order already delivered.
    */
   DELIVERED;
+
+  public String toString() {
+    var s = "";
+    switch(this) {
+      case PREPARING: s = "En preparación"; break;
+      case READY: s = "Listo para repartición"; break;
+      case DELIVERING: s = "En camino"; break;
+      case DELIVERED: s = "Entregado"; break;
+    }
+    return s;
+  }
 }
