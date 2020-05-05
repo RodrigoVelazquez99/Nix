@@ -2,7 +2,7 @@ package com.naat.nix.user.config;
 
 import java.util.ArrayList;
 
-import com.naat.nix.user.controller.UserRespository;
+import com.naat.nix.user.controller.UserRepository;
 import com.naat.nix.user.model.User;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,13 +20,13 @@ import org.springframework.stereotype.Service;
 public class UserConfiguration implements UserDetailsService{
 
   @Autowired
-  private UserRespository dao;
+  private UserRepository dao;
 
-  public UserDetails loadUserByUsername(String name) {
-    User user = dao.findById(name).orElseThrow(
-      () -> new UsernameNotFoundException("User not in DB")
-    );
-
+  public UserDetails loadUserByUsername(String email) {
+    User user = dao.findByEmail(email);
+    if (user == null) {
+      throw new UsernameNotFoundException(email);
+    }
     return buildUser(user);
   }
 
