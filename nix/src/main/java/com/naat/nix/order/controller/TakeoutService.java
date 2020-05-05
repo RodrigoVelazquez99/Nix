@@ -1,13 +1,8 @@
 package com.naat.nix.order.controller;
 
-<<<<<<< HEAD
-import java.security.Principal;
-import java.util.HashMap;
-=======
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
->>>>>>> follow-order
 import java.util.Map;
 
 import com.naat.nix.order.model.DeliveryStatus;
@@ -29,29 +24,6 @@ public class TakeoutService {
   @Autowired
   private TakeoutRepository takeoutDao;
 
-<<<<<<< HEAD
-  public Map<String, Iterable<Takeout>> getOrders(Principal principal) {
-    User user = ((UserWrapper)principal).getCustomUser();
-
-    HashMap<String, Iterable<Takeout>> orders = new HashMap<>();
-
-    if(user.getClient() != null){
-      var cli_orders = getClientOrders(user.getClient());
-      orders.put("client_orders", cli_orders);
-    }
-
-    if(user.getDeliveryMan() != null) {
-      var del_orders = getDeliveryManOrders(user.getDeliveryMan());
-      orders.put("delivery_orders", del_orders);
-
-      var ready_orders = getReadyOrders();
-      orders.put("ready_orders", ready_orders);
-    }
-
-    if(user.getAdmin() != null) {
-      var prep_orders = getPreparingOrders();
-      orders.put("prep_orders", prep_orders);
-=======
   public Map<String, Iterable<Takeout>> getOrders(UserWrapper principal) {
     User user = principal.getCustomUser();
 
@@ -69,16 +41,11 @@ public class TakeoutService {
 
     if(user.getAdmin() != null) {
       orders.putAll(getOrdersByStatus());
->>>>>>> follow-order
     }
 
     return orders;
   }
 
-<<<<<<< HEAD
-  public Iterable<Takeout> getClientOrders(Client client) {
-    return takeoutDao.findByClientEmail(client.getUser().getEmail());
-=======
   public HashMap<String, Iterable<Takeout>> getClientOrders(Client client) {
     var orders = classifyOrders(
       takeoutDao.findByClientEmail(client.getEmail()),
@@ -136,34 +103,31 @@ public class TakeoutService {
       (Iterable<Takeout>)ordersOne,
       (Iterable<Takeout>)ordersAnother
     );
->>>>>>> follow-order
-  }
-
-  public Iterable<Takeout> getDeliveryManOrders(DeliveryMan man) {
-    return takeoutDao.findByDeliveryManEmail(man.getUser().getEmail());
-  }
-
-  public Iterable<Takeout> getPreparingOrders() {
-    return takeoutDao.findByStatus(DeliveryStatus.PREPARING);
-  }
-
-  public Iterable<Takeout> getReadyOrders() {
-    return takeoutDao.findByStatus(DeliveryStatus.READY);
   }
   
-  public void saveOrder(Principal principal, Takeout takeout) {
+  public void saveOrder(UserWrapper principal, Takeout takeout) {
     User user = ((UserWrapper)principal).getCustomUser();
     if(user.getDeliveryMan() != null || user.getAdmin() != null) {
       takeoutDao.save(takeout);
     }
   }
 
-  public void selectOrder(Principal principal, Takeout takeout) {
-    User user = ((UserWrapper)principal).getCustomUser();
+  public void selectOrder(UserWrapper principal, Long takeoutId) throws Exception {
+    User user = principal.getCustomUser();
+    Takeout takeout = takeoutDao.findById(takeoutId).orElseThrow(
+      () -> new Exception("Takeout not in database")
+    );
 
-    if(user.getDeliveryMan() != null && takeout.getDeliveryMan() == null) {
+    Boolean valid = 
+      user.getDeliveryMan() != null && takeout.getDeliveryMan() == null
+      && takeout.getStatus() == DeliveryStatus.READY;
+
+    if(valid) {
       takeout.setDeliveryMan(user.getDeliveryMan());
+      takeout.setStatus(DeliveryStatus.DELIVERING);
       takeoutDao.save(takeout);
+    } else {
+      throw new Exception("Takeout already selected");
     }
   }
 }

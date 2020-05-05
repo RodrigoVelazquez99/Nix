@@ -61,17 +61,13 @@ public class Takeout {
    * Person who bought the order.
    */
   @ManyToOne
-<<<<<<< HEAD
-  @JoinColumn(name="client_email")
-=======
   @JoinColumn(name="client_id")
->>>>>>> follow-order
   private Client client;
 
   /**
    * Person in charge of the deliverying.
    */
   @ManyToOne
-  @JoinColumn(name="delivery_man_email")
+  @JoinColumn(name="delivery_man_id")
   private DeliveryMan deliveryMan;
 }
