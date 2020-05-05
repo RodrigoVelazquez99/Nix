@@ -17,7 +17,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import lombok.Data;
 
+@Data
 @Entity
 @Table(name="Carrito")
 public class Cart {
@@ -34,29 +36,13 @@ public class Cart {
 	)
 	private List<Food> platillos;
 
-	public Cart () {
+	public Cart(){		
 	}
 
 	public Cart (CartID cartId) {
 	  	this.cartId = cartId;
 	  	this.platillos = new ArrayList<Food>();
   }
-
-	public CartID getCartId() {
-		return this.cartId;
-	}
-
-	public void setCartId(CartID cartId){
-		this.cartId = cartId;
-	}
-
-  	public List<Food> getPlatillos() {
-	    return this.platillos;
-  	}
-
-	public void setPlatillos(List<Food> p) {
-		this.platillos = p;
-	}
 
   	public void agregar(Food p) {
 	  	this.platillos.add(p);
@@ -89,15 +75,6 @@ public class Cart {
 			}
 		}
 		return null;
-	}
-
-	public List<Food> copiaPlatillos() {
-		ArrayList<Food> c = new ArrayList<Food>();
-		for (int i = 0; i < this.platillos.size() ;i++) {
-			Food f = new Food(this.platillos.get(i));
-			c.add(f);
-		}
-		return c;
 	}
 
 }

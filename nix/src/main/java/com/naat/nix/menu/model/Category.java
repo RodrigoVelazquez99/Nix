@@ -11,7 +11,9 @@ import javax.persistence.Table;
 import java.sql.Blob;
 import java.util.ArrayList;
 import java.util.List;
+import lombok.Data;
 
+@Data
 @Entity
 @Table(name="Categoria")
 public class Category {
@@ -29,14 +31,6 @@ public class Category {
   public Category (String categoria) {
     this.categoria = categoria;
     foods = new ArrayList<Food>();
-  }
-
-  public List<Food> getFoods() {
-    return this.foods;
-  }
-
-  public void setFoods(ArrayList<Food> foods) {
-    this.foods = foods;
   }
 
 }

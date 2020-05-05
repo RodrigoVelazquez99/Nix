@@ -5,10 +5,13 @@ import com.naat.nix.menu.controller.FoodService;
 import com.naat.nix.menu.model.Food;
 import com.naat.nix.menu.model.Cart;
 import com.naat.nix.menu.model.CartID;
+import com.naat.nix.user.model.User;
+import com.naat.nix.user.config.UserWrapper;
 
 import java.util.List;
 import java.util.ArrayList;
 
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -35,9 +38,6 @@ public class CartController {
 	/* Referencia al carrito actual */
 	Cart carrito;
 
-	/* Identificador del usuario actual (Solo de prueba por el momento) */
-	String user ="m@ciencias.unam.mx";
-
 
 	/**
 	* Solicitud para ver el carrito.
@@ -45,10 +45,11 @@ public class CartController {
 	* a la variable 'carrito' y carga sus platillos.
 	* en la vista VerCarritoIH.html.
 	**/
-	@RequestMapping( value = "/ver", method = RequestMethod.GET )
-	public ModelAndView verCarrito() {
+	@RequestMapping( value = "/ver", method = RequestMethod.GET)
+	public ModelAndView verCarrito(@AuthenticationPrincipal UserWrapper user) {
+		User current = user.getCustomUser();
 		ModelAndView modelAndView = new ModelAndView("VerCarritoIH");
-		check();
+		check(current);
 		ArrayList<Food> platillos = new ArrayList<Food>(carrito.getPlatillos());
 		modelAndView.addObject("carrito", platillos);
 		return modelAndView;
@@ -103,9 +104,10 @@ public class CartController {
 	* @param f el id del platillo a agregar
 	*/
 	@RequestMapping( value = "/agregar/{id_platillo}")
-	public String agregar(@PathVariable("id_platillo") int id_platillo) {
+	public String agregar(@PathVariable("id_platillo") int id_platillo, @AuthenticationPrincipal UserWrapper user) {
+		User current = user.getCustomUser();
 		Food p = foodService.obtenerPlatilloPorId(id_platillo);
-		check();
+		check(current);
 		carrito.agregar(p);
 		// Puede que ya se haya agregado el platillo
 		try {
@@ -121,15 +123,15 @@ public class CartController {
 	* y asigna a la variable carrito el valor
 	* de la base de datos
 	*/
-	private void check () {
+	private void check (User user) {
 		// Revisa si el carrito se encuentra en la base de datos
-		carrito = cartService.obtenerCarritoCorreo(user);
+		carrito = cartService.obtenerCarritoCorreo(user.getEmail());
 		// El usuario apenas se registro
 		if (carrito == null) {
 			// Le asignamos un id
 			ArrayList<Cart> c = (ArrayList<Cart>) cartService.obtenerCarritos();
 			int id = (c.size() == 0) ? 1 : c.size() + 1;
-			carrito = new Cart (new CartID (id, user));
+			carrito = new Cart (new CartID (id, user.getEmail()));
 			carrito = cartService.guardar(carrito);
 		}
 	}
