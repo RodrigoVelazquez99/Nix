@@ -1,18 +1,17 @@
 package com.naat.nix.user.model;
 
 import java.io.Serializable;
-import javax.persistence.PrimaryKeyJoinColumn;
-import org.hibernate.annotations.NotFound;
-import org.hibernate.annotations.NotFoundAction;
+
 import javax.persistence.CascadeType;
-import com.naat.nix.user.model.User;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.Table;
-import javax.persistence.OneToOne;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
+import javax.persistence.Table;
+
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 
 import lombok.Data;
 
@@ -21,7 +20,9 @@ import lombok.Data;
 @Table(name = "Repartidor")
 public class DeliveryMan implements Serializable {
 
-  @Id
+	private static final long serialVersionUID = 1L;
+
+@Id
   @Column(name = "correo")
   private String email;
 

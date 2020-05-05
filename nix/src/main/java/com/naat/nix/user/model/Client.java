@@ -23,6 +23,8 @@ import lombok.Data;
 @Table(name = "Cliente")
 public class Client implements Serializable {
 
+  private static final long serialVersionUID = 1L;
+  
   @Id
   @Column(name = "correo")
   private String email;
