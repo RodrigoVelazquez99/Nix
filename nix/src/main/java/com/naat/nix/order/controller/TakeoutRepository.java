@@ -6,11 +6,14 @@ import com.naat.nix.order.model.Takeout;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
+/**
+ * Managing Takeout entity manipulation with the DB.
+ */
 @Repository
 public interface TakeoutRepository extends CrudRepository<Takeout, Long>{
 
   /**
-   * Filtering orders by clint
+   * Filtering orders by client
    * @param id
    * @return Iterable of all the client takeout orders.
    */

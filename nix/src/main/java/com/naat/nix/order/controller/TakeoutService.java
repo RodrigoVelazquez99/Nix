@@ -104,4 +104,30 @@ public class TakeoutService {
       (Iterable<Takeout>)ordersAnother
     );
   }
+  
+  public void saveOrder(UserWrapper principal, Takeout takeout) {
+    User user = ((UserWrapper)principal).getCustomUser();
+    if(user.getDeliveryMan() != null || user.getAdmin() != null) {
+      takeoutDao.save(takeout);
+    }
+  }
+
+  public void selectOrder(UserWrapper principal, Long takeoutId) throws Exception {
+    User user = principal.getCustomUser();
+    Takeout takeout = takeoutDao.findById(takeoutId).orElseThrow(
+      () -> new Exception("Takeout not in database")
+    );
+
+    Boolean valid = 
+      user.getDeliveryMan() != null && takeout.getDeliveryMan() == null
+      && takeout.getStatus() == DeliveryStatus.READY;
+
+    if(valid) {
+      takeout.setDeliveryMan(user.getDeliveryMan());
+      takeout.setStatus(DeliveryStatus.DELIVERING);
+      takeoutDao.save(takeout);
+    } else {
+      throw new Exception("Takeout already selected");
+    }
+  }
 }

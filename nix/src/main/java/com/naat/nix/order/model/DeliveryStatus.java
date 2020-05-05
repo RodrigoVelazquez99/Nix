@@ -9,7 +9,6 @@ public enum DeliveryStatus {
    * Still preparing the order.
    */
   PREPARING,
-
   /**
    * Order ready to be taken.
    */
