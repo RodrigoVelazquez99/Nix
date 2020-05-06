@@ -46,4 +46,9 @@ public class Food {
 	@ManyToMany(mappedBy="platillos")
 	private List<Cart> carritos;
 
+	public Food(String nombre, String descripcion, String foto, int precio, Category categoria) {
+		this.nombre = nombre; this.descripcion = descripcion; this.foto = foto;
+		this.precio = precio; this.categoria = categoria;
+	}
+
 }
