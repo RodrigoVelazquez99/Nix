@@ -1,16 +1,21 @@
 package com.naat.nix.menu.controller;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 import com.naat.nix.menu.model.Cart;
 import com.naat.nix.menu.model.CartID;
 import com.naat.nix.menu.model.Food;
+import com.naat.nix.order.controller.TakeoutService;
+import com.naat.nix.order.model.Takeout;
 import com.naat.nix.user.config.UserWrapper;
 import com.naat.nix.user.model.User;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -31,6 +36,10 @@ public class CartController {
 	/* El servicio para manejar las operaciones sobre los platillos */
 	@Autowired
 	FoodService foodService;
+
+	/* Manejo de órdenes */
+	@Autowired
+	TakeoutService takeoutService;
 
 	/* Referencia al carrito actual */
 	Cart carrito;
@@ -132,5 +141,32 @@ public class CartController {
 			carrito = cartService.guardar(carrito);
 		}
 	}
+
+	@GetMapping(value = "/ordenar")
+	public String confirmaOrden(Model model,
+	@AuthenticationPrincipal UserWrapper user) {
+		
+		var platillos = carrito.getPlatillos();
+		var cliente = user.getCustomUser().getClient();
+		//var precio = calculaPrecio();
+		var orden = new Takeout();
+		orden.setFood_items(platillos);
+		orden.setDeliveryDate(LocalDate.now());
+		//orden.setPr(precio);
+		orden.setClient(cliente);
+		//orden.setRepartidor(repartidor);
+		takeoutService.save(orden);
+		return "redirect:/menu";
+	}
+
+	/*
+	private double calculaPrecio() {
+			double total = 0;
+			for (Food f:this.platillos) {
+					total+=f.getPrecio();
+			}
+			return total;
+	}
+	*/
 
 }

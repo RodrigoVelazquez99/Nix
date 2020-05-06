@@ -30,3 +30,45 @@ insert into platillo (id, nombre, descripcion, foto, precio, categoria) values (
 insert into platillo (id, nombre, descripcion, foto, precio, categoria) values (18, 'Mat Lam Tam', 'Enhanced secondary encryption', 'fusce.tiff', 24, 'Bebidas');
 insert into platillo (id, nombre, descripcion, foto, precio, categoria) values (19, 'Veribet', 'User-friendly client-driven application', 'rhoncus_mauris_enim.tiff', 38, 'Bebidas');
 insert into platillo (id, nombre, descripcion, foto, precio, categoria) values (20, 'Trippledex', 'Exclusive transitional paradigm', 'rhoncus.tiff', 96, 'Ensaladas');
+
+/*
+* Órdenes
+**/
+insert into takeout (id, status, client_id, delivery_man_id) values (1, 'READY', 'client@naat.io', 'delivery@naat.io');
+insert into takeout (id, status, client_id, delivery_man_id) values (2, 'DELIVERYING', 'client@naat.io', 'delivery@naat.io');
+insert into takeout (id, status, client_id, delivery_man_id) values (3, 'DELIVERED', 'client@naat.io', 'delivery@naat.io');
+insert into takeout (id, status, client_id, delivery_man_id) values (4, 'PREPARING', 'client@naat.io', 'delivery@naat.io');
+insert into takeout (id, status, client_id, delivery_man_id) values (5, 'PREPARING', 'client@naat.io', 'delivery@naat.io');
+insert into takeout (id, status, client_id, delivery_man_id) values (6, 'READY', 'client@naat.io', 'delivery@naat.io');
+insert into takeout (id, status, client_id, delivery_man_id) values (7, 'DELIVERYING', 'client@naat.io', 'delivery@naat.io');
+insert into takeout (id, status, client_id, delivery_man_id) values (8, 'PREPARING', 'client@naat.io', 'delivery@naat.io');
+insert into takeout (id, status, client_id, delivery_man_id) values (9, 'DELIVERED', 'client@naat.io', 'delivery@naat.io');
+insert into takeout (id, status, client_id, delivery_man_id) values (10, 'DELIVERED', 'client@naat.io', 'delivery@naat.io');
+
+/*
+* Platillos en las órdenes
+**/
+insert into takeout_contains_food (takeout_id, food_id) values (3, 3);
+insert into takeout_contains_food (takeout_id, food_id) values (7, 19);
+insert into takeout_contains_food (takeout_id, food_id) values (9, 9);
+insert into takeout_contains_food (takeout_id, food_id) values (7, 3);
+insert into takeout_contains_food (takeout_id, food_id) values (2, 18);
+insert into takeout_contains_food (takeout_id, food_id) values (10, 18);
+insert into takeout_contains_food (takeout_id, food_id) values (2, 11);
+insert into takeout_contains_food (takeout_id, food_id) values (9, 15);
+insert into takeout_contains_food (takeout_id, food_id) values (9, 12);
+insert into takeout_contains_food (takeout_id, food_id) values (10, 2);
+insert into takeout_contains_food (takeout_id, food_id) values (2, 8);
+insert into takeout_contains_food (takeout_id, food_id) values (9, 11);
+insert into takeout_contains_food (takeout_id, food_id) values (9, 15);
+insert into takeout_contains_food (takeout_id, food_id) values (3, 5);
+insert into takeout_contains_food (takeout_id, food_id) values (7, 17);
+insert into takeout_contains_food (takeout_id, food_id) values (3, 7);
+insert into takeout_contains_food (takeout_id, food_id) values (10, 1);
+insert into takeout_contains_food (takeout_id, food_id) values (9, 10);
+insert into takeout_contains_food (takeout_id, food_id) values (10, 19);
+insert into takeout_contains_food (takeout_id, food_id) values (3, 2);
+insert into takeout_contains_food (takeout_id, food_id) values (3, 13);
+insert into takeout_contains_food (takeout_id, food_id) values (10, 1);
+insert into takeout_contains_food (takeout_id, food_id) values (7, 9);
+insert into takeout_contains_food (takeout_id, food_id) values (3, 5);

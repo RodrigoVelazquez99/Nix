@@ -10,9 +10,12 @@ import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
+
+import com.naat.nix.order.model.Takeout;
 
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
@@ -48,5 +51,6 @@ public class Client implements Serializable {
   )
   private List<String> address;
 
-
-}
+  @OneToMany(mappedBy = "client")
+  private List<Takeout> orders;
+} 
