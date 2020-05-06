@@ -25,6 +25,9 @@ public class LogInController {
     public String index(Model model, @AuthenticationPrincipal UserWrapper user) {
         String email = user.getCustomUser().getEmail();
         model.addAttribute("currentUsername", email);
-        return "index";
+        if(user.getCustomUser().getClient() != null) {
+          return "redirect:/menu";
+        }
+        return "redirect:/orders";
     }
 }

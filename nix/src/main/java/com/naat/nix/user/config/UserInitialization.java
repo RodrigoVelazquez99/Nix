@@ -3,9 +3,7 @@ package com.naat.nix.user.config;
 import javax.annotation.PostConstruct;
 
 import com.naat.nix.user.controller.AdminRepository;
-import com.naat.nix.user.controller.ClientRepository;
 import com.naat.nix.user.model.Admin;
-import com.naat.nix.user.model.Client;
 import com.naat.nix.user.model.User;
 
 import org.springframework.beans.factory.annotation.Autowired;

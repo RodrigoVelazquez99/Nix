@@ -13,11 +13,6 @@
     href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
   >
 
-  <link
-    rel="stylesheet"
-    href="/bower_components/bootstrap-horizon/bootstrap-horizon.css"
-  >
-
   <!-- JQuery JS -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   
@@ -64,7 +59,7 @@
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="" >Usuario</a>
         <div class="dropdown-menu">
-          <a class="dropdown-item" href="/perfil/ver">Perfil</a>
+          <a class="dropdown-item" href="#">Perfil</a>
           <a class="dropdown-item" href="/logout">Salir</a>
         </div>
       </li>
@@ -109,6 +104,7 @@
   <div class="card-body" th:fragment="ordercard_body">
     <h5 class="card-title" th:text="${order.status}"></h5>
     <p class="card-text" th:text="'Fecha de entrega: ' + ${order.deliveryDate}"></p>
+    <p class="card-text" th:text="'Total: $' + ${order.price}"></p>
     <p>Platillos: </p>
     <ul>
       <li th:each="food : ${order.food_items}"

@@ -148,25 +148,26 @@ public class CartController {
 		
 		var platillos = carrito.getPlatillos();
 		var cliente = user.getCustomUser().getClient();
-		//var precio = calculaPrecio();
+		var precio = calculaPrecio();
 		var orden = new Takeout();
 		orden.setFood_items(platillos);
 		orden.setDeliveryDate(LocalDate.now());
-		//orden.setPr(precio);
+		orden.setPrice(precio);
 		orden.setClient(cliente);
 		//orden.setRepartidor(repartidor);
 		takeoutService.save(orden);
+		carrito = new Cart();
 		return "redirect:/menu";
 	}
 
-	/*
+	
 	private double calculaPrecio() {
 			double total = 0;
-			for (Food f:this.platillos) {
+			for (Food f:carrito.getPlatillos()) {
 					total+=f.getPrecio();
 			}
 			return total;
 	}
-	*/
+	
 
 }
