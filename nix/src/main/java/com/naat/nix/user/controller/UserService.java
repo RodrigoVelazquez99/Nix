@@ -34,7 +34,7 @@ public class UserService {
       return userRepository.findByUsername(name);
     }
 
-    public void newClient (User user) {
+    public Client newClient (User user) {
       Client client = new Client();
       client.setEmail(user.getEmail());
       client.setUser(user);
@@ -43,14 +43,16 @@ public class UserService {
       client.getAddress().add(user.getAddress());
       user.setClient(client);
       clientRepository.save(client);
+      return client;
     }
 
-    public void newDelivery(User user) {
+    public DeliveryMan newDelivery(User user) {
       DeliveryMan deliveryMan = new DeliveryMan();
       deliveryMan.setEmail(user.getEmail());
       deliveryMan.setUser(user);
       user.setDeliveryMan(deliveryMan);
       deliveryRepository.save(deliveryMan);
+      return deliveryMan;
     }
 
     public void saveUser (User user){
