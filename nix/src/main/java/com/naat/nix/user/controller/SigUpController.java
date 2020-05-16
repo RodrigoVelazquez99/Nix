@@ -48,11 +48,11 @@ public class SigUpController {
 
           return "redirect:/";
       }
-      
+
       @GetMapping("/signup/delivery")
       @Secured("ROLE_ADMIN")
       public String deliveryRegistration(Model model) {
-        model.addAttribute("delivery", new User());
+        model.addAttribute("user", new User());
         return "delivery_signup";
       }
 

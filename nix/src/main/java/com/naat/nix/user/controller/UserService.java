@@ -4,6 +4,8 @@ import com.naat.nix.user.model.Client;
 import com.naat.nix.user.model.DeliveryMan;
 import com.naat.nix.user.model.User;
 
+import java.util.ArrayList;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -36,6 +38,9 @@ public class UserService {
       Client client = new Client();
       client.setEmail(user.getEmail());
       client.setUser(user);
+      client.setPhone(user.getPhone());
+      client.setAddress(new ArrayList<String>());
+      client.getAddress().add(user.getAddress());
       user.setClient(client);
       clientRepository.save(client);
     }

@@ -21,7 +21,7 @@ public class UserInitialization {
 
   @PostConstruct
   public void addUsers() {
-    var admin = new User("admin@naat.io", encoder.encode("admin"));
+    var admin = new User("admin@naat.io", encoder.encode("admin123"));
 
     var a = new Admin(admin);
     admin.setAdmin(a);
