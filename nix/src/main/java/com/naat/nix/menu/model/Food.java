@@ -2,46 +2,53 @@ package com.naat.nix.menu.model;
 
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
-import com.naat.nix.order.model.Takeout;
-
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
+@Table(name="Platillo")
 public class Food {
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Id
-  private Long id;
 
-  private String name;
+	@Id
+	@GeneratedValue
+	@Column(name="id")
+	private int idPlatillo;
 
-  private String description;
+	@Column(name="precio")
+	private int precio;
 
-  private String imagePath;
-  
-  private Long price;
+	@Column(name="descripcion")
+	private String descripcion;
 
-  @ManyToOne
-  @JoinColumn
-  private Category category;
+	@Column(name="foto")
+	private String foto;
 
-  @ManyToMany
-  @JoinTable(
-    name="cart_contains_food",
-    joinColumns = @JoinColumn(name="cart_id"),
-    inverseJoinColumns = @JoinColumn(name="food_id")
-  )
-  private List<Cart> containingCarts;
+	@Column(name="nombre")
+	private String nombre;
 
-  @ManyToMany(mappedBy = "food_items")
-  private List<Takeout> containingOrders;
+	@ManyToOne
+	@JoinColumn(name="categoria")
+	private Category categoria;
+
+	@ManyToMany(mappedBy="platillos")
+	private List<Cart> carritos;
+
+	public Food(String nombre, String descripcion, String foto, int precio, Category categoria) {
+		this.nombre = nombre; this.descripcion = descripcion; this.foto = foto;
+		this.precio = precio; this.categoria = categoria;
+	}
+
 }

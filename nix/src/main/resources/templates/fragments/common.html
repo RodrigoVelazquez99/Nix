@@ -13,11 +13,6 @@
     href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
   >
 
-  <link
-    rel="stylesheet"
-    href="/bower_components/bootstrap-horizon/bootstrap-horizon.css"
-  >
-
   <!-- JQuery JS -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   
@@ -38,50 +33,46 @@
     <div class="container">
 
       <!-- Barra de búsqueda -->
-	  	<form class="form-inline" action="#">
-	    	<input class="form-control mr-sm-2" type="text" placeholder="Ingresa tu busqueda" width= 100>
-	    	<button class="btn btn-success" type="submit">Buscar</button>
+      <form class="form-inline" action="#">
+        <input class="form-control mr-sm-2" type="text" placeholder="Ingresa tu busqueda" width= 100>
+        <button class="btn btn-success" type="submit">Buscar</button>
       </form>
       
-      <!-- Navegación -->
-		  <ul class="nav nav-pills">
+      <ul class="nav nav-pills">
 
-        <!-- Categorías -->
-        <!--
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="" >Categorias</a>
-          <div class="dropdown-menu">
-            <a class="dropdown-item" href="#">Categoria 1</a>
-            <a class="dropdown-item" href="#">Categoria 2</a>
-            <a class="dropdown-item" href="#">Categoria 3</a>
-          </div>
-        </li>
-        -->
+        <div class="nav-item" sec:authorize="hasRole('CLIENT')">
+          <a class="nav-link" href="/menu">Menú</a>
+        </div>
+
         
+        <div class="nav-item" sec:authorize="hasRole('ADMIN')">
+          <a class="nav-link" href="/signup/delivery">Registrar repartidor</a>
+        </div>
+
         <li class="nav-item">
           <a class="nav-link" href="/orders">Pedidos</a>
         </li>
 
-        <li class="nav-item">
+        <li class="nav-item" sec:authorize="hasRole('CLIENT')">
           <a class="nav-link" href="/carrito/ver">Carrito</a>
         </li>
 
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="" >Usuario</a>
           <div class="dropdown-menu">
-            <a class="dropdown-item" href="/perfil/ver">Perfil</a>
+            <a class="dropdown-item" href="#">Perfil</a>
             <a class="dropdown-item" href="/logout">Salir</a>
           </div>
         </li>
 
-		  </ul>
-	  </div>
+      </ul>
+    </div>
 	</nav>
 
 
   <!-- Popup para confirmar alguna accion
-       ${aceptar} el url al cual se redirige despues de presionar el boton de Aceptar
-    -->
+    ${aceptar} el url al cual se redirige despues de presionar el boton de Aceptar
+  -->
   <div class="container" th:fragment = "confirmar-popup">
     <!-- Modal -->
     <div class="modal fade" id="confirmar">
@@ -114,10 +105,11 @@
   <div class="card-body" th:fragment="ordercard_body">
     <h5 class="card-title" th:text="${order.status}"></h5>
     <p class="card-text" th:text="'Fecha de entrega: ' + ${order.deliveryDate}"></p>
+    <p class="card-text" th:text="'Total: $' + ${order.price}"></p>
     <p>Platillos: </p>
     <ul>
       <li th:each="food : ${order.food_items}"
-        th:text="${food.name} + ': ' + ${food.description}"></li>
+        th:text="${food.nombre} + ': ' + ${food.descripcion}"></li>
     </ul>
   </div>
   <!-- /Cuerpo de la tarjeta de órdenes -->

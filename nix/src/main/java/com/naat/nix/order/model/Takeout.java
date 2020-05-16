@@ -47,6 +47,11 @@ public class Takeout {
   private DeliveryStatus status = DeliveryStatus.PREPARING;
 
   /**
+   * Precio total de los alimentos
+   */
+  private Double price;
+
+  /**
    * Food in the order.
    */
   @ManyToMany

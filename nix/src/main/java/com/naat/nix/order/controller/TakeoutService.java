@@ -152,4 +152,8 @@ public class TakeoutService {
       throw new Exception("Takeout already selected");
     }
   }
+
+  public void save(Takeout t) {
+    takeoutDao.save(t);
+  }
 }
