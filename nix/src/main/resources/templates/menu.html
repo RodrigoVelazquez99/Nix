@@ -20,6 +20,7 @@
         <div class="card-body">
           <h5 class="card-title" th:text="${platillo.nombre}"></h5>
           <p class="card-text" th:utext="${platillo.descripcion}"></p>
+          <p class="card-text" th:utext="${platillo.categoria.categoria}"></p>
           <p class="card-text" th:utext="'$' + ${platillo.precio}"></p>
           <button class="btn btn-primary stretched-link" data-toggle="modal"
                   data-target="#agregarCarrito"

@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 ### IntelliJ IDEA ###
+=======
+## IntelliJ IDEA ###
+>>>>>>> f5de5d5b623fe0f24c44d4d92b3922969b1b8ad8
 .idea
 *.iws
 *.iml
