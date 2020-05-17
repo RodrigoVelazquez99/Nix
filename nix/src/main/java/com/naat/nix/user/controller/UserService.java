@@ -44,14 +44,16 @@ public class UserService {
       client.getAddress().add(clientForm.getAddress());
       user.setClient(client);
       clientRepository.save(client);
+      return client;
     }
 
-    public void newDelivery(User user) {
+    public DeliveryMan newDelivery(User user) {
       DeliveryMan deliveryMan = new DeliveryMan();
       deliveryMan.setEmail(user.getEmail());
       deliveryMan.setUser(user);
       user.setDeliveryMan(deliveryMan);
       deliveryRepository.save(deliveryMan);
+      return deliveryMan;
     }
 
     public void saveUser (User user){
