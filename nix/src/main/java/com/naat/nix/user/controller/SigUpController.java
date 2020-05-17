@@ -3,6 +3,7 @@ package com.naat.nix.user.controller;
 import javax.validation.Valid;
 
 import com.naat.nix.user.model.User;
+import com.naat.nix.user.model.ClientForm;
 import com.naat.nix.validator.UserValidator;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,12 +29,17 @@ public class SigUpController {
 
       @GetMapping("/signup")
       public String registration(Model model) {
-          model.addAttribute("user", new User());
+          model.addAttribute("clientForm", new ClientForm());
           return "signup";
       }
 
       @PostMapping("/signup")
-      public String registration(@ModelAttribute @Valid User user, BindingResult bindingResult) {
+      public String registration(@ModelAttribute @Valid ClientForm clientForm, BindingResult bindingResult) {
+          User user = new User();
+          user.setEmail(clientForm.getEmail());
+          user.setUsername(clientForm.getUsername());
+          user.setPassword(clientForm.getPassword());
+
           userValidator.validate(user, bindingResult);
 
           if (bindingResult.hasErrors()) {
@@ -42,7 +48,7 @@ public class SigUpController {
 
           userService.saveUser(user);
 
-          userService.newClient(user);
+          userService.newClient(user, clientForm);
 
           securityService.autoLogin(user.getUsername(), user.getPassword());
 

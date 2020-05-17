@@ -6,7 +6,7 @@
 
 <div class="col-lg-4 offset-lg-4 col-md-6 offset-md-3 col-12">
   <div class="container pt-5">
-        <form th:action="@{/signup}" th:object = "${user}"  method="POST">
+        <form th:action="@{/signup}" th:object = "${clientForm}"  method="POST">
             <h2 class="form-signin-heading pb-3 text-center">Registrate</h2>
 
                 <div th:if="${#fields.hasErrors('email')}">

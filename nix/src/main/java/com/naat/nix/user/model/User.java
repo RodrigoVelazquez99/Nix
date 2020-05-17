@@ -39,15 +39,6 @@ public class User {
   @Column(name = "contraseña")
   private String password;
 
-  @Transient
-  private String passwordConfirm;
-
-  @Transient
-  private String phone;
-
-  @Transient
-  private String address;
-
   @OneToOne(mappedBy = "user")
   @NotFound(action=NotFoundAction.IGNORE)
   private Admin admin;

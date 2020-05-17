@@ -1,6 +1,7 @@
 package com.naat.nix.user.controller;
 
 import com.naat.nix.user.model.Client;
+import com.naat.nix.user.model.ClientForm;
 import com.naat.nix.user.model.DeliveryMan;
 import com.naat.nix.user.model.User;
 
@@ -34,13 +35,13 @@ public class UserService {
       return userRepository.findByUsername(name);
     }
 
-    public void newClient (User user) {
+    public void newClient (User user, ClientForm clientForm) {
       Client client = new Client();
       client.setEmail(user.getEmail());
       client.setUser(user);
-      client.setPhone(user.getPhone());
+      client.setPhone(clientForm.getPhone());
       client.setAddress(new ArrayList<String>());
-      client.getAddress().add(user.getAddress());
+      client.getAddress().add(clientForm.getAddress());
       user.setClient(client);
       clientRepository.save(client);
     }
