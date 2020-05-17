@@ -23,32 +23,11 @@ public class UserValidator implements Validator {
     public void validate (Object o, Errors errors) {
         User user = (User) o;
 
-        if (user.getUsername() == null || user.getUsername().length() == 0) {
-            errors.rejectValue("username", "NotEmpty");
-        }
-        if (user.getUsername().length() < 6 || user.getUsername().length() > 32) {
-            errors.rejectValue("username", "Size.userForm.username");
-        }
         if (userService.findByUsername(user.getUsername()) != null) {
             errors.rejectValue("username", "Duplicate.userForm.username");
         }
         if (userService.findByEmail(user.getEmail()) != null) {
             errors.rejectValue("email", "Duplicate.userForm.email");
-        }
-        if (user.getEmail() == null || user.getEmail().length() == 0 ) {
-            errors.rejectValue("email", "NotEmptyEmail");
-        }
-        if (user.getPassword() == null || user.getPassword().length() == 0) {
-            errors.rejectValue("password", "NotEmptyPassword");
-        }
-        if (user.getPasswordConfirm() == null || user.getPasswordConfirm().length() == 0) {
-            errors.rejectValue("passwordConfirm", "NotEmptyPassword");
-        }
-        if (user.getPassword().length() < 7 || user.getPassword().length() > 32) {
-            errors.rejectValue("password", "Size.userForm.password");
-        }
-        if (!user.getPassword().equals(user.getPasswordConfirm())) {
-            errors.rejectValue("passwordConfirm", "Diff.userForm.passwordConfirm");
         }
     }
 }

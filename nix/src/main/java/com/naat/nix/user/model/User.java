@@ -6,6 +6,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import java.util.List;
 
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
@@ -37,9 +38,6 @@ public class User {
   @NonNull
   @Column(name = "contraseña")
   private String password;
-
-  @Transient
-  private String passwordConfirm;
 
   @OneToOne(mappedBy = "user")
   @NotFound(action=NotFoundAction.IGNORE)

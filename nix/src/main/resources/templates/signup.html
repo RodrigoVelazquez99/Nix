@@ -6,36 +6,80 @@
 
 <div class="col-lg-4 offset-lg-4 col-md-6 offset-md-3 col-12">
   <div class="container pt-5">
-        <form th:action="@{/signup}" th:object = "${user}"  method="POST">
-            <h2 class="form-signin-heading">Registrate</h2>
+        <form th:action="@{/signup}" th:object = "${clientForm}"  method="POST">
+            <h2 class="form-signin-heading pb-3 text-center">Registrate</h2>
+
+                <div th:if="${#fields.hasErrors('email')}">
+                  <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <p th:errors="*{email}"> </p>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                </div>
+
+                <div th:if="${#fields.hasErrors('username')}">
+                  <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <p th:errors="*{username}"> </p>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                </div>
 
                 <div class="form-group">
                     <input type="email" path="email" class="form-control" placeholder="Correo electronico"
-                                autofocus="true" th:field="*{email}"></input>
-                    <label th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></label>
+                                autofocus="true" th:field="*{email}" title="Ingresa un correo valido" required></input>
                 </div>
 
                 <div class="form-group">
                     <input type="text" path="username" class="form-control" placeholder="Nombre de usuario"
-                                autofocus="true" th:field="*{username}"></input>
-                    <label th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></label>
+                        autofocus="true" th:field="*{username}" title="Debe tener una longitud de al menos 6 caracteres y maximo 32"
+                        pattern=".{6,32}"  required></input>
                 </div>
 
                 <div class="form-group">
-                    <input type="password" path="password" class="form-control" placeholder="Contraseña" th:field="*{password}"></input>
-                    <label th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></label>
+                    <input id="password" type="password" path="password" class="form-control" placeholder="Contraseña" th:field="*{password}" pattern=".{8,}"
+                    title="La contraseña debe ser de al menos 8 caracteres" required></input>
                 </div>
 
                 <div class="form-group">
-                    <input type="password" path="passwordConfirm" class="form-control"
-                                placeholder="Confirma la contraseña" th:field="*{passwordConfirm}" ></input>
-                    <label th:if="${#fields.hasErrors('passwordConfirm')}" th:errors="*{passwordConfirm}"></label>
+                    <input id="passwordConfirm" type="password" path="passwordConfirm" class="form-control"
+                      placeholder="Confirma la contraseña" th:field="*{passwordConfirm}" title="La contraseña debe ser de al menos 8 caracteres"
+                      pattern=".{8,}" required></input>
+                </div>
+
+                <div class="form-group">
+                    <input id="phone" type="text" path="phone" class="form-control"
+                      placeholder="Ingresa un telefono valido" th:field="*{phone}" title="El telefono debe ser de 10 digitos"
+                      pattern="[0-9]{10}" required></input>
+                </div>
+
+                <div class="form-group">
+                    <textarea id="address" rows="3" cols="40" type="text" path="address" class="form-control"
+                      placeholder="Ingresa una direccion" th:field="*{address}" required></textarea>
                 </div>
 
             <button class="btn btn-lg btn-primary btn-block" type="submit">Registrarme</button>
         </form>
       </div>
     </div>
+
+    <script>
+    var password = document.getElementById("password");
+    var passwordConfirm = document.getElementById("passwordConfirm");
+
+    function validatePassword(){
+      if(password.value != passwordConfirm.value) {
+        passwordConfirm.setCustomValidity("No coinciden las entradas");
+      } else {
+        passwordConfirm.setCustomValidity('');
+      }
+    }
+
+    password.onchange = validatePassword;
+    passwordConfirm.onkeyup = validatePassword;
+    </script>
 
   </body>
 </html>
