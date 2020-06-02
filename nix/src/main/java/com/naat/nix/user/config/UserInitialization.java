@@ -29,7 +29,7 @@ public class UserInitialization {
   public void addUsers() {
 
     // Administrador
-    var adminUser = new User("admin@naat.io", encoder.encode("admin"));
+    var adminUser = new User("admin@naat.io", encoder.encode("admin123"));
     var admin = new Admin(adminUser);
     adminUser.setAdmin(admin);
     adminDao.save(admin);

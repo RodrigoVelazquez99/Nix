@@ -9,36 +9,47 @@
     <div class="container" style="padding: 2rem;">
       <div class="row justify-content-center">
         <div class="col-6">
-          <form th:action="@{/signup/delivery}" th:object = "${delivery}"  method="POST">
-            <h2 class="form-signin-heading">Registrar repartidor</h2>
+          <form th:action="@{/signup/delivery}" th:object = "${user}"  method="POST">
+            <h2 class="form-signin-heading pb-3 text-center">Registrar repartidor</h2>
 
-            <div class="form-group">
-              <input type="email" path="email" class="form-control" 
-                placeholder="Correo electronico" autofocus="true" th:field="*{email}"
-              >
-              </input>
-              <label th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Error del email</label>
+            <div th:if="${#fields.hasErrors('email')}">
+              <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <p th:errors="*{email}"> </p>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+            </div>
+
+            <div th:if="${#fields.hasErrors('username')}">
+              <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <p th:errors="*{username}"> </p>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
             </div>
 
             <div class="form-group">
-              <input type="text" path="username" class="form-control" placeholder="Nombre de usuario"
-                autofocus="true" th:field="*{username}"
-              >
-              </input>
-              <label th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Error del nombre</label>
+                <input type="email" path="email" class="form-control" placeholder="Correo electronico"
+                            autofocus="true" th:field="*{email}" title="Ingresa un correo valido" required></input>
             </div>
 
             <div class="form-group">
-              <input type="password" path="password" class="form-control" placeholder="Contraseña" th:field="*{password}"></input>
-              <label th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Error de password</label>
+                <input type="text" path="username" class="form-control" placeholder="Nombre de usuario"
+                    autofocus="true" th:field="*{username}" title="Debe tener una longitud de al menos 6 caracteres y maximo 32"
+                    pattern=".{6,32}"  required></input>
             </div>
 
             <div class="form-group">
-              <input type="password" path="passwordConfirm" class="form-control"
-                placeholder="Confirma la contraseña" th:field="*{passwordConfirm}"
-              >
-              </input>
-              <label th:if="${#fields.hasErrors('passwordConfirm')}" th:errors="*{passwordConfirm}">Error del email</label>
+                <input id="password" type="password" path="password" class="form-control" placeholder="Contraseña" th:field="*{password}" pattern=".{8,}"
+                title="La contraseña debe ser de al menos 8 caracteres" required></input>
+            </div>
+
+            <div class="form-group">
+                <input id="passwordConfirm" type="password" class="form-control"
+                  placeholder="Confirma la contraseña" title="La contraseña debe ser de al menos 8 caracteres"
+                  pattern=".{8,}" required></input>
             </div>
 
             <button class="btn btn-lg btn-primary btn-block" type="submit">Registrar</button>
@@ -46,5 +57,22 @@
         </div>
       </div>
     </div>
+
+    <script>
+    var password = document.getElementById("password");
+    var passwordConfirm = document.getElementById("passwordConfirm");
+
+    function validatePassword(){
+      if(password.value != passwordConfirm.value) {
+        passwordConfirm.setCustomValidity("No coinciden las entradas");
+      } else {
+        passwordConfirm.setCustomValidity('');
+      }
+    }
+
+    password.onchange = validatePassword;
+    passwordConfirm.onkeyup = validatePassword;
+    </script>
+
   </body>
 </html>
