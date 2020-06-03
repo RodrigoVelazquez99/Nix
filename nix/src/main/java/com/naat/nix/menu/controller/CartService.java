@@ -14,22 +14,34 @@ import com.naat.nix.menu.model.CartID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+/**
+ * Manipulaciones de los carritos
+ */
 @Service
 public class CartService {
 
+  /* Manejador de entidades para crear consultas en SQL puro */
   @PersistenceContext
   EntityManager entityManager;
 
+  /* DAO para los carritos */
   @Autowired
   private CartRepository repository;
 
-  /* Obtiene todos los carritos */
+  /**
+   * Obtiene todos los carritos existentes
+   * @return Lista de todos los carritos
+   */
   public ArrayList<Cart> getCarts(){
     ArrayList<Cart> carritos = (ArrayList<Cart>) repository.findAll();
     return carritos;
   }
 
-  /* Obtiene el carrito por el id */
+  /**
+   * Obtiene el carrito por su identificador
+   * @param id Identificador del carritoc (como credencial embedida)
+   * @return Carrito con el identificador proporcionado
+   */
   public Cart getCartById(CartID id) {
     Optional<Cart> cart = repository.findById(id);
     if (cart.isPresent()) {
@@ -38,7 +50,11 @@ public class CartService {
     return null;
   }
 
-  /* Obtiene el carrito por el correo de usuario */
+  /**
+   * Obtiene el carrito por el corree del usuario
+   * @param correo_usuario Correo del usuario
+   * @return Carrito del usuario con el correo proporcionado
+   */
   public Cart getCartByEmail(String correo_usuario) {
     Query query = entityManager.createQuery("FROM Cart c WHERE c.cartId.email =: correo", Cart.class);
     query.setParameter("correo", correo_usuario);
@@ -50,18 +66,19 @@ public class CartService {
   }
 
   /**
-  * Guarda el carrito en la base de datos
-  * @param c el carrito a guardar
-  */
+   * Guarda el carrito en la base de datos
+   * @param c el carrito a guardar
+   * @return Carrito que se acaba de guardar
+   */
   public Cart save(Cart c) {
     Cart n = repository.save(c);
     return n;
   }
 
   /**
-  * Elimina el carrito si se encuentra en la base de datos
-  * @param c el carrito a elimnar
-  */
+   * Elimina el carrito si se encuentra en la base de datos
+   * @param c el carrito a elimnar
+   */
 
   public void delete(Cart c) {
     Optional<Cart> carrito = repository.findById(c.getCartId());
@@ -71,9 +88,11 @@ public class CartService {
   }
 
   /**
-  * Si el carrito se encuentra en la base de datos, lo actualiza
-  * @param c el carrito que se actualiza
-  */
+   * Si el carrito se encuentra en la base de datos, lo actualiza
+   * @param c El carrito que se actualiza
+   * @throws SQLIntegrityConstraintViolationException
+   * @return Carrito recien actualizado
+   */
   public Cart update(Cart c) throws SQLIntegrityConstraintViolationException {
     Optional<Cart> carrito = repository.findById(c.getCartId());
     Cart a = null;

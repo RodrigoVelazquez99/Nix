@@ -13,15 +13,20 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 /**
- * Service implementation to use custom users with the default Spring Security
- * configuration.
+ * Construir usuario de Spring con un usuario de la aplicación (en la base de datos)
  */
 @Service
 public class UserConfiguration implements UserDetailsService{
 
+  /* DAO para manejar usuarios*/
   @Autowired
   private UserRepository dao;
 
+  /**
+   * Obtener un usuario de Spring usando usando un email
+   * @param email Identificador del usuario de Spring
+   * @return Usuario de Spring
+   */
   public UserDetails loadUserByUsername(String email) {
     User user = dao.findByEmail(email);
     if (user == null) {
@@ -30,6 +35,11 @@ public class UserConfiguration implements UserDetailsService{
     return buildUser(user);
   }
 
+  /**
+   * Crear instancia de usuario de Spring usando un usuario de la aplicación
+   * @param user Usuario de la aplicación
+   * @return Usuario de Spring
+   */
   private UserWrapper buildUser(User user) {
     String username = user.getEmail();
     String password = user.getPassword();

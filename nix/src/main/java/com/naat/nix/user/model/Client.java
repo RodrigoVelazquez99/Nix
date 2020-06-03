@@ -22,6 +22,9 @@ import org.hibernate.annotations.NotFoundAction;
 
 import lombok.Data;
 
+/**
+ * Representación de clientes en la base de datos
+ */
 @Data
 @Entity
 @Table(name = "Cliente")

@@ -15,8 +15,7 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
 /**
- * Entity representing users of our system. Extends UserDetails to use with
- * Spring Security.
+ * Representación de usuarios en la base de datos.
  */
 @Data
 @Entity

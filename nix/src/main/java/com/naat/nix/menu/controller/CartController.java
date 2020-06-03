@@ -14,7 +14,6 @@ import com.naat.nix.user.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,8 +22,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 
 /**
-* Controlador encargado de la lectura, manipulacion de platillos del carrito
-*/
+ * Controlador encargado de la lectura, manipulacion de platillos del carrito
+ */
 @Controller
 @RequestMapping(value = "/cart")
 public class CartController {
@@ -46,13 +45,15 @@ public class CartController {
 
 
 	/**
-	* Solicitud para ver el carrito.
-	* Obtiene el carrito de la base de datos, lo referencia
-	* a la variable 'carrito' y carga sus platillos.
-	* en la vista VerCarritoIH.html.
-	**/
+	 * Solicitud para ver el carrito.
+	 * Obtiene el carrito de la base de datos, lo referencia
+	 * a la variable 'carrito' y carga sus platillos.
+	 * en la vista VerCarritoIH.html.
+	 * @param user Usuario activo
+	 * @return Vista con atributos
+	 */
 	@RequestMapping( value = "", method = RequestMethod.GET)
-	public ModelAndView verCarrito(@AuthenticationPrincipal UserWrapper user) {
+	public ModelAndView seeCart(@AuthenticationPrincipal UserWrapper user) {
 		User current = user.getCustomUser();
 		ModelAndView modelAndView = new ModelAndView("cart");
 		check(current);
@@ -63,11 +64,12 @@ public class CartController {
 
 
 	/**
-	* Solicitud para editar el carrito.
-	* Carga los platillos del carrito en la vista EliminarCarritoIH
-	*/
+	 * Solicitud para editar el carrito.
+	 * Carga los platillos del carrito en la vista EliminarCarritoIH
+	 * @return Vista con atributos
+	 */
 	@RequestMapping( value = "/edit", method = RequestMethod.GET)
-	public ModelAndView editarCarrito() {
+	public ModelAndView editCart() {
 		ModelAndView modelAndView = new ModelAndView("cart_delete");
 		ArrayList<Food> platillos = new ArrayList<Food>(carrito.getFoods());
 		modelAndView.addObject("carrito", platillos);
@@ -77,22 +79,24 @@ public class CartController {
 	}
 
 	/**
-	* Solicitud para descartar un platillo.
-	* Elimina el platillo del carrito.
-	* @param nombre el nombre del platillo a descartar
-	*/
+	 * Solicitud para descartar un platillo.
+	 * Elimina el platillo del carrito.
+	 * @param nombre El nombre del platillo a descartar
+	 * @return Nombre de plantilla a redireccionar
+	 */
 	@RequestMapping( value = "/edit/{name}")
-	public String descartar(@PathVariable("name") String nombre) {
+	public String discard(@PathVariable("name") String nombre) {
 		carrito.deleteByName(nombre);
 		return "redirect:/cart/edit";
 	}
 
 	/**
-	* Solicitud para eliminar los platillos descartados del carrito.
-	* Actualiza en la base de datos el carrito actual.
-	*/
+	 * Solicitud para eliminar los platillos descartados del carrito.
+	 * Actualiza en la base de datos el carrito actual.
+	 * @return Nombre de plantilla a redireccionar
+	 */
 	@RequestMapping( value = "/delete")
-	public String eliminar() {
+	public String delete() {
 		try {
 			cartService.update(carrito);
 		} catch ( Exception e) {
@@ -103,14 +107,16 @@ public class CartController {
 	}
 
 	/**
-	* Solicitud para agregar un platillo al carrito.
-	* Obten el platillo de la base de datos, guarda en el carrito
-	* y actualiza el carrito en la base de datos.
-	* Finalmente deririge a la vista del menu
-	* @param f el id del platillo a agregar
-	*/
+	 * Solicitud para agregar un platillo al carrito.
+	 * Obten el platillo de la base de datos, guarda en el carrito
+	 * y actualiza el carrito en la base de datos.
+	 * Finalmente deririge a la vista del menu
+	 * @param id El identificador del platillo a agregar
+	 * @param user Usuario actual
+	 * @return Nombre de plantilla a redireccionar
+	 */
 	@RequestMapping( value = "/add/{id}")
-	public String agregar(@PathVariable("id") int id,
+	public String add(@PathVariable("id") int id,
 	@AuthenticationPrincipal UserWrapper user) {
 		User current = user.getCustomUser();
 		Food p = foodService.getFoodById(id);
@@ -125,11 +131,12 @@ public class CartController {
 	}
 
 	/**
-	* Revisa si el carrito del usuario actual existe
-	* en la base de datos (porque puede que apenas se registro)
-	* y asigna a la variable carrito el valor
-	* de la base de datos
-	*/
+	 * Revisa si el carrito del usuario actual existe
+	 * en la base de datos (porque puede que apenas se registro)
+	 * y asigna a la variable carrito el valor
+	 * de la base de datos
+	 * @param user Usuario dueños de los carritos
+	 */
 	private void check (User user) {
 		// Revisa si el carrito se encuentra en la base de datos
 		carrito = cartService.getCartByEmail(user.getEmail());
@@ -143,32 +150,35 @@ public class CartController {
 		}
 	}
 
+	/**
+	 * Toma los contenidos del carrito actual y crea una orden con ellos
+	 * @param user Usuario actual
+	 */
 	@GetMapping(value = "/order")
-	public String confirmaOrden(Model model,
-	@AuthenticationPrincipal UserWrapper user) {
+	public String confirmOrder(@AuthenticationPrincipal UserWrapper user) {
 		
 		var platillos = carrito.getFoods();
 		var cliente = user.getCustomUser().getClient();
-		var precio = calculaPrecio();
+		var precio = totalPrice();
 		var orden = new Takeout();
 		orden.setFoodItems(platillos);
 		orden.setDeliveryDate(LocalDate.now());
 		orden.setPrice(precio);
 		orden.setClient(cliente);
-		//orden.setRepartidor(repartidor);
 		takeoutService.save(orden);
 		carrito = new Cart();
 		return "redirect:/menu";
 	}
 
-	
-	private double calculaPrecio() {
+	/**
+	 * Calcula el precio total de los contenidos del carrito actual
+	 * @return Precio total
+	 */
+	private double totalPrice() {
 			double total = 0;
 			for (Food f:carrito.getFoods()) {
 					total+=f.getPrice();
 			}
 			return total;
 	}
-	
-
 }

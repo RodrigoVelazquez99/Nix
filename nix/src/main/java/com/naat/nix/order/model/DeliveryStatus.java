@@ -1,29 +1,17 @@
 package com.naat.nix.order.model;
 
 /**
- * Enumeration representing the status of a takeout order.
+ * Posibles estatus de una orden
  * @version 1.0
  */
 public enum DeliveryStatus {
-  /**
-   * Still preparing the order.
-   */
-  PREPARING,
-  /**
-   * Order ready to be taken.
-   */
-  READY,
-  
-  /**
-   * Order in the way.
-   */
-  DELIVERING,
-  
-  /**
-   * Order already delivered.
-   */
-  DELIVERED;
 
+  PREPARING, READY, DELIVERING, DELIVERED;
+
+  /**
+   * Descripción en español de los estatus
+   * @return Cade que describe el estatus
+   */
   public String toString() {
     var s = "";
     switch(this) {

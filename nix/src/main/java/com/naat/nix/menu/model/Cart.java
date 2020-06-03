@@ -12,6 +12,9 @@ import javax.persistence.Table;
 
 import lombok.Data;
 
+/**
+ * Representación del carrito en la base de datos
+ */
 @Data
 @Entity
 @Table(name="Carrito")

@@ -8,20 +8,30 @@ import com.naat.nix.menu.model.Food;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-
+/**
+ * Manipulación de los platillos
+ */
 @Service
 public class FoodService {
 
+  /* DAO para manipular platillos en la base de datos */
   @Autowired
   private FoodRepository repository;
 
-  /* Obtiene todos los platillos */
+  /**
+   * Obtiene todos los platillos disponibles
+   * @return Lista de todos los platillos del menú
+   */
   public ArrayList<Food> getFoods() {
     ArrayList<Food> platillos = (ArrayList<Food>) repository.findAll();
     return platillos;
   }
 
-  /* Obtiene el platillo con el id */
+  /**
+   * Platillo con el identificador dado
+   * @param id Identificador del platillo buscado
+   * @return Platillo con el identificador dado
+   */
   public Food getFoodById(int id) {
     Optional<Food> platillo = repository.findById(id);
     if (platillo.isPresent()) {
@@ -32,9 +42,10 @@ public class FoodService {
 
 
   /**
-  * Guarda el platillo en la base de datos
-  * @param p el platillo que se va a crear
-  */
+   * Guarda el platillo en la base de datos
+   * @param p Platillo que se va a crear
+   * @return Platillo recién creado
+   */
   public Food save(Food p) {
     Food n = repository.save(p);
     return n;
@@ -42,9 +53,9 @@ public class FoodService {
 
 
   /**
-  * Elimina el platillo si se encuentra en la base de datos
-  * @param p el platillo a eliminar
-  */
+   * Elimina el platillo si se encuentra en la base de datos
+   * @param p el platillo a eliminar
+   */
   public void delete(Food p) {
     Optional<Food> platillo = repository.findById(p.getIdFood());
     if (platillo.isPresent()) {
@@ -53,9 +64,10 @@ public class FoodService {
   }
 
   /**
-  * Si el platillo se encuentra en la base de datos, lo actualiza
-  * @param p el platillo que se actualiza
-  */
+   * Si el platillo se encuentra en la base de datos, lo actualiza
+   * @param p Platillo a actualizar
+   * @return Platillo recién actualizado
+   */
   public Food update(Food p) {
     Optional<Food> platillo = repository.findById(p.getIdFood());
     Food s = null;

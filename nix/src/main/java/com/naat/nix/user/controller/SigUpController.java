@@ -15,24 +15,48 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+/**
+ * Manejo de URL para el rigistro de usuarios
+ */
 @Controller
 public class SigUpController {
 
+      /**
+       * Manipulación de usuarios
+       */
       @Autowired
       private UserService userService;
 
+      /**
+       * Revisión de potenciales usuarios
+       */
       @Autowired
       private SecurityService securityService;
 
+      /**
+       * Validar información de usuarios
+       */
       @Autowired
       private UserValidator userValidator;
 
+      /**
+       * Crear formulario vacío para clientes
+       * @param modelo Modelo actual de la vista
+       * @return Nombre de la vista a mostrar
+       */
       @GetMapping("/signup")
       public String registration(Model model) {
           model.addAttribute("clientForm", new ClientForm());
           return "signup";
       }
 
+      /**
+       * Procesar formulario de clientes
+       * Intenta crear nuevo cliente con la información.
+       * @param clientForm Datos del formulario
+       * @param bindingResult Resultados de la validación del formulario
+       * @return Nombre de la vista a mostrar
+       */
       @PostMapping("/signup")
       public String registration(@ModelAttribute @Valid ClientForm clientForm, BindingResult bindingResult) {
           User user = new User();
@@ -55,6 +79,11 @@ public class SigUpController {
           return "redirect:/";
       }
 
+      /**
+       * Crear formulario vacío para registrar repartidores
+       * @param modelo Modelo actual de la vista
+       * @return Nombre de la vista a mostrar
+       */
       @GetMapping("/signup/delivery")
       @Secured("ROLE_ADMIN")
       public String deliveryRegistration(Model model) {
@@ -62,6 +91,13 @@ public class SigUpController {
         return "delivery_signup";
       }
 
+      /**
+       * Procesar formulario de repartidores
+       * Intenta crear nuevo repartidor con la información.
+       * @param user Usuario con datos del formulario
+       * @param bindingResult Resultados de la validación del formulario
+       * @return Nombre de la vista a mostrar
+       */
       @PostMapping("signup/delivery")
       @Secured("ROLE_ADMIN")
       public String deliveryRegistration(@ModelAttribute @Valid User user, BindingResult result) {
