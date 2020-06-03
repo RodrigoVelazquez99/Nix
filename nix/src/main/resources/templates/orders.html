@@ -50,6 +50,43 @@
         </tr>
       </div>
     </div>
+
+    <!-- Modal para confirmar selección -->
+    <div class="container">
+      <!-- Modal -->
+      <div class="modal fade" id="selectOrder" aria-labelledby="selectOrder">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+  
+            <!-- Modal Header -->
+            <div class="modal-header">
+              <h1 class="modal-title"> Seleccionar Orden </h1>
+            </div>
+  
+            <!-- Modal footer -->
+            <div class="modal-footer">
+              <a class="btn btn-secondary" data-dismiss="modal" > Cerrar </a>
+              <a class="btn btn-success" id="selectOrderBtn" href = "/orders/select">
+                Confirmar
+              </a>
+            </div>
+  
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- /Modal para confirmar selección -->
+
+    <!-- Script para redireccionar selección dinámicamente -->
+    <script>
+      $('#selectOrder').on('show.bs.modal', function (event) {
+        let id = $(event.relatedTarget).data('id')
+        document.getElementById("selectOrderBtn").href= "/orders/select/" + id.toString()
+      })
+    </script>
+    <!-- /Script para redireccionar selección dinámicamente -->
+
+  
     <!-- /Vista para el repartidor -->
 
     <!-- Vista para el administrador -->
@@ -85,6 +122,41 @@
 
     </div>
     <!-- /Vista para el administrador-->
+
+    <!-- Modal para confirmar cambio de estatus de órdenes-->
+    <div class="container">
+      <!-- Modal -->
+      <div class="modal fade" id="changeOrderStatus" aria-labelledby="changeOrderStatus">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+  
+            <!-- Modal Header -->
+            <div class="modal-header">
+              <h1 class="modal-title"> Avanzar orden </h1>
+            </div>
+  
+            <!-- Modal footer -->
+            <div class="modal-footer">
+              <a class="btn btn-secondary" data-dismiss="modal" > Cerrar </a>
+              <a class="btn btn-success" id="changeOrderBtn" href = "/orders/update">
+                Confirmar
+              </a>
+            </div>
+  
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- /Modal para confirmar cambio de estatus de órdenes -->
+
+    <!-- Script para redireccionar cambio de estatus dinámicamente -->
+    <script>
+      $('#changeOrderStatus').on('show.bs.modal', function (event) {
+        let id = $(event.relatedTarget).data('id')
+        document.getElementById("changeOrderBtn").href= "/orders/update/" + id.toString()
+      })
+    </script>
+    <!-- /Script para redireccionar cambio de estatus dinámicamente -->
   </body>
 </html>
 
