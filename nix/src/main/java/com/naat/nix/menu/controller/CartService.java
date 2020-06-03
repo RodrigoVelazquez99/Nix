@@ -80,7 +80,7 @@ public class CartService {
     if (carrito.isPresent()) {
       a = carrito.get();
       a.setCartId(c.getCartId());
-      a.setPlatillos(c.getPlatillos());
+      a.setCartFoods(c.getCartFoods());
       a = repository.save(a);
     }
     return a;

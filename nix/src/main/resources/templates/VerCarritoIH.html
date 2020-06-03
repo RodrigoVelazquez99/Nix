@@ -25,14 +25,16 @@
 		  <thead class ="thead-dark">
 		    <tr>
 		      <th scope="col">Platillo</th>
-		      <th scope="col">Precio</th>
+					<th scope="col">Cantidad</th>
+		      <th scope="col">Precio Unitario</th>
 		    </tr>
 		  </thead>
 		  <tbody>
 
 				<tr th:each="platillo : ${carrito}">
-			    <td th:utext="${platillo.nombre}"></td>
-			    <td th:utext="${platillo.precio}"></td>
+			    <td th:utext="${platillo.food.nombre}"></td>
+					<td th:utext="${platillo.amount}">
+			    <td th:utext="${platillo.food.precio}"></td>
 			  </tr>
 
 			</tbody>
@@ -51,6 +53,12 @@
 	<div class = "container pt-3" >
 		<div th:if="${hayElementos}">
 			<a href="/carrito/ordenar" class="btn btn-info" > Ordenar </a>
+		</div>
+	</div>
+
+	<div class = "container pt-3">
+		<div th:if="${hayElementos}">
+			<h6 th:text="Total + ' ' + ${total}"></h6>
 		</div>
 	</div>
 

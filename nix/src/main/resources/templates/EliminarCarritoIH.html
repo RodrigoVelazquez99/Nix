@@ -28,7 +28,7 @@
 					<tr th:each="platillo : ${carrito}" >
 				    <td th:utext="${platillo.nombre}"></td>
 				    <td th:utext="${platillo.precio}"></td>
-						<td> <a th:href="@{'/carrito/editar/' + ${platillo.nombre}}" class="btn btn-danger" role="button"> Eliminar </a> </td>
+						<td> <a th:href="@{'/carrito/editar/' + ${platillo.id}}" class="btn btn-danger" role="button"> Eliminar </a> </td>
 				  </tr>
 			</c:forEach>
 	  </tbody>
