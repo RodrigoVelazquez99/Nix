@@ -36,20 +36,20 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
   @Override
   public void configure(HttpSecurity http) throws Exception {
     http
-       .authorizeRequests()
-          .antMatchers("/resources/**", "/signup").permitAll()
-          .anyRequest().authenticated()
-          .and()
-       .formLogin()
-          .loginPage("/login")
-          .usernameParameter("email")
-          .permitAll()
-          .defaultSuccessUrl("/")
-          .and()
-       .logout()
-          .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-          .permitAll()
-          .logoutSuccessUrl("/login?logout");
+      .authorizeRequests()
+        .antMatchers("/resources/**", "/signup").permitAll()
+        .anyRequest().authenticated()
+        .and()
+      .formLogin()
+        .loginPage("/login")
+        .usernameParameter("email")
+        .permitAll()
+        .defaultSuccessUrl("/")
+        .and()
+      .logout()
+        .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+        .permitAll()
+        .logoutSuccessUrl("/login?logout");
   }
 
   @Bean

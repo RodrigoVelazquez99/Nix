@@ -1,9 +1,6 @@
 package com.naat.nix.user.model;
 
 import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
 
 /**
  * Form for client signup

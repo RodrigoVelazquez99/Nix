@@ -23,47 +23,47 @@ public class Cart {
 	@ManyToMany
 	@JoinTable(
 		name="Agregar",
-		joinColumns={@JoinColumn(name="correo"),
-								 @JoinColumn(name="id_carrito")},
+		joinColumns={@JoinColumn(name="email"),
+								@JoinColumn(name="id_carrito")},
 		inverseJoinColumns=@JoinColumn(name="id_platillo")
 	)
-	private List<Food> platillos;
+	private List<Food> foods;
 
 	public Cart(){		
 	}
 
 	public Cart (CartID cartId) {
-	  	this.cartId = cartId;
-	  	this.platillos = new ArrayList<Food>();
+		this.cartId = cartId;
+		this.foods = new ArrayList<Food>();
   }
 
-  	public void agregar(Food p) {
-	  	this.platillos.add(p);
-  	}
-
-	public void eliminar(Food p){
-	    this.platillos.remove(p);
+	public void add(Food p) {
+		this.foods.add(p);
 	}
 
-	public Food eliminar(String p) {
-		for (int i = 0; i < this.platillos.size(); i++) {
-			Food foo = this.platillos.get(i);
-			String nombre = foo.getNombre();
+	public void delete(Food p){
+		this.foods.remove(p);
+	}
+
+	public Food deleteByName(String p) {
+		for (int i = 0; i < this.foods.size(); i++) {
+			Food foo = this.foods.get(i);
+			String nombre = foo.getName();
 			if (nombre.equals(p)) {
-				return platillos.remove(i);
+				return foods.remove(i);
 			}
 		}
 		return null;
 	}
 
-	public void limpiar() {
-		this.platillos.clear();
+	public void clear() {
+		this.foods.clear();
 	}
 
 	public Food getFood(String nombre) {
-		for (int i = 0; i < platillos.size(); i++) {
-			Food f = platillos.get(i);
-			if (f.getNombre().equals(nombre)) {
+		for (int i = 0; i < foods.size(); i++) {
+			Food f = foods.get(i);
+			if (f.getName().equals(nombre)) {
 				return f;
 			}
 		}

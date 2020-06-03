@@ -16,13 +16,13 @@ public class FoodService {
   private FoodRepository repository;
 
   /* Obtiene todos los platillos */
-  public ArrayList<Food> obtenerPlatillos () {
+  public ArrayList<Food> getFoods() {
     ArrayList<Food> platillos = (ArrayList<Food>) repository.findAll();
     return platillos;
   }
 
   /* Obtiene el platillo con el id */
-  public Food obtenerPlatilloPorId (int id) {
+  public Food getFoodById(int id) {
     Optional<Food> platillo = repository.findById(id);
     if (platillo.isPresent()) {
       return platillo.get();
@@ -35,7 +35,7 @@ public class FoodService {
   * Guarda el platillo en la base de datos
   * @param p el platillo que se va a crear
   */
-  public Food guardar(Food p) {
+  public Food save(Food p) {
     Food n = repository.save(p);
     return n;
   }
@@ -45,10 +45,10 @@ public class FoodService {
   * Elimina el platillo si se encuentra en la base de datos
   * @param p el platillo a eliminar
   */
-  public void eliminar(Food p) {
-    Optional<Food> platillo = repository.findById(p.getIdPlatillo());
+  public void delete(Food p) {
+    Optional<Food> platillo = repository.findById(p.getIdFood());
     if (platillo.isPresent()) {
-      repository.deleteById(p.getIdPlatillo());
+      repository.deleteById(p.getIdFood());
     }
   }
 
@@ -56,16 +56,16 @@ public class FoodService {
   * Si el platillo se encuentra en la base de datos, lo actualiza
   * @param p el platillo que se actualiza
   */
-  public Food actualizar(Food p) {
-    Optional<Food> platillo = repository.findById(p.getIdPlatillo());
+  public Food update(Food p) {
+    Optional<Food> platillo = repository.findById(p.getIdFood());
     Food s = null;
     if (platillo.isPresent()) {
       s = platillo.get();
-      s.setFoto(p.getFoto());
-      s.setPrecio(p.getPrecio());
-      s.setNombre(p.getNombre());
-      s.setCategoria(p.getCategoria());
-      s.setDescripcion(p.getDescripcion());
+      s.setImage(p.getImage());
+      s.setPrice(p.getPrice());
+      s.setName(p.getName());
+      s.setCategory(p.getCategory());
+      s.setDescription(p.getDescription());
       s = repository.save(s);
     }
     return s;
