@@ -14,19 +14,18 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class MenuController {
 
-  	/* El servicio para manejar las operaciones sobre los platillos */
-  	@Autowired
-  	FoodService foodService;
+  /* El servicio para manejar las operaciones sobre los platillos */
+  @Autowired
+  FoodService foodService;
 
-  	/**
-    * Solicitud para ver todos los platillos del menu
-  	**/
-  	@RequestMapping( value = "/menu", method = RequestMethod.GET )
-  	public ModelAndView verCarrito() {
-  		ModelAndView modelAndView = new ModelAndView("menu");
-  		ArrayList<Food> platillos = new ArrayList<Food>(foodService.obtenerPlatillos());
-  		modelAndView.addObject("menu", platillos);
-  		return modelAndView;
-  	}
-
+  /**
+  * Solicitud para ver todos los platillos del menu
+  **/
+  @RequestMapping( value = "/menu", method = RequestMethod.GET )
+  public ModelAndView verCarrito() {
+    ModelAndView modelAndView = new ModelAndView("menu");
+    ArrayList<Food> platillos = new ArrayList<Food>(foodService.getFoods());
+    modelAndView.addObject("menu", platillos);
+    return modelAndView;
+  }
 }

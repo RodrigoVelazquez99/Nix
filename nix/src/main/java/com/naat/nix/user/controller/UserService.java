@@ -1,11 +1,11 @@
 package com.naat.nix.user.controller;
 
+import java.util.List;
+
 import com.naat.nix.user.model.Client;
 import com.naat.nix.user.model.ClientForm;
 import com.naat.nix.user.model.DeliveryMan;
 import com.naat.nix.user.model.User;
-
-import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -35,13 +35,12 @@ public class UserService {
       return userRepository.findByUsername(name);
     }
 
-    public void newClient (User user, ClientForm clientForm) {
+    public Client newClient (User user, ClientForm clientForm) {
       Client client = new Client();
       client.setEmail(user.getEmail());
       client.setUser(user);
       client.setPhone(clientForm.getPhone());
-      client.setAddress(new ArrayList<String>());
-      client.getAddress().add(clientForm.getAddress());
+      client.setAddress(List.of(clientForm.getAddress()));
       user.setClient(client);
       clientRepository.save(client);
       return client;

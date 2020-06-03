@@ -54,7 +54,7 @@
         </li>
 
         <li class="nav-item" sec:authorize="hasRole('CLIENT')">
-          <a class="nav-link" href="/carrito/ver">Carrito</a>
+          <a class="nav-link" href="/cart">Carrito</a>
         </li>
 
         <li class="nav-item dropdown">
@@ -108,8 +108,8 @@
     <p class="card-text" th:text="'Total: $' + ${order.price}"></p>
     <p>Platillos: </p>
     <ul>
-      <li th:each="food : ${order.food_items}"
-        th:text="${food.nombre} + ': ' + ${food.descripcion}"></li>
+      <li th:each="food : ${order.foodItems}"
+        th:text="${food.name} + ': ' + ${food.description}"></li>
     </ul>
   </div>
   <!-- /Cuerpo de la tarjeta de órdenes -->

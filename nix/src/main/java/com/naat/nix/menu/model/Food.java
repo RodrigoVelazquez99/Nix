@@ -25,30 +25,31 @@ public class Food {
 	@Id
 	@GeneratedValue
 	@Column(name="id")
-	private int idPlatillo;
+	private int idFood;
 
 	@Column(name="precio")
-	private int precio;
+	private int price;
 
 	@Column(name="descripcion")
-	private String descripcion;
+	private String description;
 
 	@Column(name="foto")
-	private String foto;
+	private String image;
 
 	@Column(name="nombre")
-	private String nombre;
+	private String name;
 
 	@ManyToOne
 	@JoinColumn(name="categoria")
-	private Category categoria;
+	private Category category;
 
-	@ManyToMany(mappedBy="platillos")
-	private List<Cart> carritos;
+	@ManyToMany(mappedBy="foods")
+	private List<Cart> carts;
 
-	public Food(String nombre, String descripcion, String foto, int precio, Category categoria) {
-		this.nombre = nombre; this.descripcion = descripcion; this.foto = foto;
-		this.precio = precio; this.categoria = categoria;
+	public Food(String name, String description, String image, int price,
+	Category category) {
+		this.name = name; this.description = description; this.image = image;
+		this.price = price; this.category = category;
 	}
 
 }
