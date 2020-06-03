@@ -35,7 +35,7 @@ public class UserService {
       return userRepository.findByUsername(name);
     }
 
-    public void newClient (User user, ClientForm clientForm) {
+    public Client newClient (User user, ClientForm clientForm) {
       Client client = new Client();
       client.setEmail(user.getEmail());
       client.setUser(user);
@@ -46,6 +46,17 @@ public class UserService {
       clientRepository.save(client);
       return client;
     }
+
+    public Client newClient (User user) {
+      Client client = new Client();
+      client.setEmail(user.getEmail());
+      client.setUser(user);
+      client.setAddress(new ArrayList<String>());
+      user.setClient(client);
+      clientRepository.save(client);
+      return client;
+    }
+
 
     public DeliveryMan newDelivery(User user) {
       DeliveryMan deliveryMan = new DeliveryMan();

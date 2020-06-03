@@ -57,7 +57,9 @@ public class CartController {
 		ModelAndView modelAndView = new ModelAndView("VerCarritoIH");
 		check(current);
 		ArrayList<Food> platillos = new ArrayList<Food>(carrito.getPlatillos());
+		boolean hayElementos = (platillos.size() == 0)? false : true;
 		modelAndView.addObject("carrito", platillos);
+		modelAndView.addObject("hayElementos", hayElementos);
 		return modelAndView;
 	}
 
@@ -145,7 +147,7 @@ public class CartController {
 	@GetMapping(value = "/ordenar")
 	public String confirmaOrden(Model model,
 	@AuthenticationPrincipal UserWrapper user) {
-		
+
 		var platillos = carrito.getPlatillos();
 		var cliente = user.getCustomUser().getClient();
 		var precio = calculaPrecio();
@@ -160,7 +162,7 @@ public class CartController {
 		return "redirect:/menu";
 	}
 
-	
+
 	private double calculaPrecio() {
 			double total = 0;
 			for (Food f:carrito.getPlatillos()) {
@@ -168,6 +170,6 @@ public class CartController {
 			}
 			return total;
 	}
-	
+
 
 }

@@ -12,38 +12,47 @@
 	<h1> Carrito de compras </h1>
 	</div>
 
-
-	<div class = "container pt-5">
-	    <a href="/carrito/editar" class="btn btn-info" role="button"> Editar </a>
+	<div th:if="${hayElementos}">
+		<div class = "container pt-5">
+		    <a href="/carrito/editar" class="btn btn-info" role="button"> Editar </a>
+		</div>
 	</div>
 
 
-
 	<div class = "container pt-3">
-	<table class="table table-bordered">
-	  <thead class ="thead-dark">
-	    <tr>
-	      <th scope="col">Platillo</th>
-	      <th scope="col">Precio</th>
-	    </tr>
-	  </thead>
-	  <tbody>
+		<div th:if="${hayElementos}">
+		<table class="table table-bordered">
+		  <thead class ="thead-dark">
+		    <tr>
+		      <th scope="col">Platillo</th>
+		      <th scope="col">Precio</th>
+		    </tr>
+		  </thead>
+		  <tbody>
 
-			<tr th:each="platillo : ${carrito}">
-		    <td th:utext="${platillo.nombre}"></td>
-		    <td th:utext="${platillo.precio}"></td>
-		  </tr>
+				<tr th:each="platillo : ${carrito}">
+			    <td th:utext="${platillo.nombre}"></td>
+			    <td th:utext="${platillo.precio}"></td>
+			  </tr>
 
-		</tbody>
-	</table>
+			</tbody>
+		</table>
+		</div>
+		<div th:unless="${hayElementos}">
+			<h3 style="text-align:center"> Aun no agregas platillos </h3>
+		</div>
 	</div>
 
 
 	<div class = "container pt-3" >
-	    <a href="/menu" class="btn btn-info" > Ver menu </a>
-	    <a href="/carrito/ordenar" class="btn btn-info" > Ordenar </a>
+			<a href="/menu" class="btn btn-info" > Ver menu </a>
 	</div>
 
+	<div class = "container pt-3" >
+		<div th:if="${hayElementos}">
+			<a href="/carrito/ordenar" class="btn btn-info" > Ordenar </a>
+		</div>
+	</div>
 
 </body>
 </html>
