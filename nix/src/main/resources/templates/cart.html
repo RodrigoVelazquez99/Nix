@@ -47,7 +47,7 @@
 
 	<div class = "container pt-3" >
 		<div th:if="${hayElementos}">
-			<a href="/cart/order" class="btn btn-info" > Ordenar </a>
+			<button data-toggle="modal" data-target="#addresSelect" class="btn btn-info" > Ordenar </button>
 		</div>
 	</div>
 
@@ -57,5 +57,37 @@
 		</div>
 	</div>
 
+	<div class="modal fade" tabindex="-1" role="dialog" id="addresSelect">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Escoge una dirección de entrega</h5>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+              <select class="form-control" id="chooseAddresses">
+                <div th:each="address : ${addresses}">
+                <option th:value="${address}" th:text="${address}"></option>
+                </div>
+              </select>
+          </div>
+        </div>
+        <div class="modal-footer">
+            <a type="button" class="btn btn-success" id="guardar" onclick="ordenar()">Guardar</a>
+          <a type="button" class="btn btn-secondary" data-dismiss="modal" >Cancelar</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+	<script th:inline="javascript">
+     function ordenar() {
+       var adrress = $('#chooseAddresses').find("option:selected").val();
+       document.getElementById("guardar").href = "/cart/order/" + adrress,toString();
+     }
+   </script>
+
 </body>
+
+
 </html>

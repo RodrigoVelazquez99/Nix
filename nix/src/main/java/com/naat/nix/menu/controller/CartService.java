@@ -133,7 +133,7 @@ public class CartService {
    * Crea una orden con los contenidos de carrito
    * @param c Carrito con los platillos
    */
-  public void order(Cart c, Client client) {
+  public void order(Cart c, Client client, String address) {
     var cl = clientService.findByEmail (client.getEmail());
     var foods = c.getCartFoods();
 		var price = totalPrice(c);
@@ -143,7 +143,7 @@ public class CartService {
 		order.setPrice(price);
     order.setClient(cl);
     // siempre elegir primera dirección
-		order.setAddress(cl.getAddress().get(0));
+		order.setAddress(address);
 		takeoutService.save(order);
     cartFoodService.addTakeout(foods, order);
     c.clean();

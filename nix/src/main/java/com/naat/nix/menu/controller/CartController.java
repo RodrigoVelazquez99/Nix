@@ -10,6 +10,8 @@ import com.naat.nix.order.controller.TakeoutService;
 import com.naat.nix.order.model.Takeout;
 import com.naat.nix.user.config.UserWrapper;
 import com.naat.nix.user.model.User;
+import com.naat.nix.user.model.Client;
+import com.naat.nix.user.controller.ClientService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -40,6 +42,10 @@ public class CartController {
 	@Autowired
 	CartFoodService cartFoodService;
 
+	/* Servicio para operaciones sobre clientes */
+	@Autowired
+	ClientService clientService;
+
 	/* Referencia al carrito actual */
 	Cart carrito;
 
@@ -55,11 +61,13 @@ public class CartController {
 	@RequestMapping( value = "", method = RequestMethod.GET)
 	public ModelAndView seeCart(@AuthenticationPrincipal UserWrapper user) {
 		User current = user.getCustomUser();
+		ArrayList<String> addresses = clientService.getAddresses(current.getClient());
 		ModelAndView modelAndView = new ModelAndView("cart");
 		check(current);
 		ArrayList<CartFood> platillos = new ArrayList<CartFood>(carrito.getCartFoods());
 		boolean hayElementos = (platillos.size() == 0)? false : true;
 		double total = cartService.totalPrice(carrito);
+		modelAndView.addObject("addresses", addresses);
 		modelAndView.addObject("carrito", platillos);
 		modelAndView.addObject("hayElementos", hayElementos);
 		modelAndView.addObject("total", Double.toString(total));
@@ -166,9 +174,9 @@ public class CartController {
 	 * Toma los contenidos del carrito actual y crea una orden con ellos
 	 * @param user Usuario actual
 	 */
-	@GetMapping(value = "/order")
-	public String confirmOrder(@AuthenticationPrincipal UserWrapper user) {
-		cartService.order(carrito, user.getCustomUser().getClient());
+	@GetMapping(value = "/order/{address}")
+	public String confirmOrder(@PathVariable("address") String address, @AuthenticationPrincipal UserWrapper user) {
+		cartService.order(carrito, user.getCustomUser().getClient(), address);
 		return "redirect:/menu";
 	}
 }
