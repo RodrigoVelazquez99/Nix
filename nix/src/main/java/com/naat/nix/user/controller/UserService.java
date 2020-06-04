@@ -72,6 +72,11 @@ public class UserService {
       return client;
     }
 
+    /**
+    * Crea un cliente a partir e un usuario.
+    * @param user el usuario del cual queremos crear un cliente.
+    * @return el nuevo cliente.
+    */
     public Client newClient (User user) {
       Client client = new Client();
       client.setEmail(user.getEmail());

@@ -31,35 +31,42 @@ import lombok.Data;
 @Table(name="Orden")
 public class Takeout {
 
+  /* El id de la orden */
   @GeneratedValue
   @Id
   private Long id;
 
+  /* La fecha de entrega de la orden */
   @Column(
     columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP",
     name="entrega"
   )
   private LocalDate deliveryDate;
 
+  /* El estado de la orden */
   @Enumerated(EnumType.STRING)
   private DeliveryStatus status = DeliveryStatus.PREPARING;
 
+  /* El precio total de la orden */
   @Column(name="precio")
   private Double price;
 
   /**
-   * Food in the order.
+   * Platillos solicitados en la orden.
    */
   @OneToMany(mappedBy="takeout")
   private List<CartFood> foodItems;
 
+  /* La dirección de entrega */
   @Column(name="domicilio")
   private String address;
 
+  /* El cliente al que le pertenece la orden */
   @ManyToOne
   @JoinColumn(name="cliente")
   private Client client;
 
+  /* El repartidor encargado de la entrega */
   @ManyToOne
   @JoinColumn(name="repartidor")
   private DeliveryMan deliveryMan;

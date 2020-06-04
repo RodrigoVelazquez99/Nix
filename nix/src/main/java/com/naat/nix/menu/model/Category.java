@@ -23,11 +23,13 @@ import lombok.RequiredArgsConstructor;
 @Table(name="Categoria")
 public class Category {
 
+  /* Nombre de la categoria */
   @Id
   @NonNull
   @Column(name="nombre")
   private String category;
 
+  /* Los alimentos que pertenecen a esta categoria */
   @OneToMany(mappedBy="category")
   @Column(name="categoria")
   private List<Food> foods;

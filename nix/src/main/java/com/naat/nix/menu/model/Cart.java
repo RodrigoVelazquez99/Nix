@@ -22,9 +22,14 @@ import lombok.Data;
 @Table(name="Carrito")
 public class Cart {
 
+	/**
+	* Llave compuesta por el correo del cliente y
+	* el identificador del carrito.
+	*/
 	@EmbeddedId
 	private CartID cartId;
 
+	/* Solicitudes de platillos que se han hecho */
 	@OneToMany(mappedBy = "cart")
 	private List<CartFood> cartFoods;
 
@@ -37,6 +42,11 @@ public class Cart {
 	  	this.cartFoods = new ArrayList<CartFood>();
   }
 
+	/**
+	* Revisa si el alimento esta en la lista de platillos solicitados.
+	* @param food el alimento a revisar.
+	* @return true si esta en la lista, false en otro caso.
+	*/
 	public boolean contains (Food food ) {
 		for (CartFood cartFood : cartFoods) {
 			if (cartFood.getFood().equals (food)) {
@@ -46,29 +56,46 @@ public class Cart {
 		return false;
 	}
 
-  public void addFood(Food p, int cantidad) {
+	/**
+	* Agrega la cantidad de platillos de un alimento
+	* que ya se encuentra solicitado.
+	* @param food el alimento solicitado.
+	* @param cantidad la cantidad de articulos del mismo.
+	*/
+  public void addFood(Food food, int cantidad) {
 		for (CartFood cartFood : cartFoods) {
-			if (cartFood.getFood().equals(p)) {
+			if (cartFood.getFood().equals(food)) {
 				cartFood.setAmount(cartFood.getAmount() + cantidad);
 				return;
 			}
 		}
   }
 
-	public void add (CartFood cartFood) {
+	/**
+	* Agrega la solicitud de un platillo.
+	* @param cartFood la solictud a agregar.
+	*/
+	public void addFoodCart (CartFood cartFood) {
 		this.cartFoods.add(cartFood);
 	}
 
 
-	public void removeFood(Food p){
+	/**
+	* Remueve la solicitud de platillo de un alimento.
+	* @param food el alimento del cual queremos borrar su solicitud.
+	*/
+	public void removeFood(Food food){
 		for (CartFood cartFood : cartFoods) {
-			if (cartFood.getFood().equals (p)) {
+			if (cartFood.getFood().equals (food)) {
 				this.cartFoods.remove (cartFood);
 				return;
 			}
 		}
 	}
 
+	/**
+	* Remueve las solicitudes de platillos del carrito.
+	*/
 	public void clean () {
 		this.cartFoods.clear();
 	}

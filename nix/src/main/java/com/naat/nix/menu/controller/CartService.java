@@ -1,6 +1,5 @@
 package com.naat.nix.menu.controller;
 
-import java.sql.SQLIntegrityConstraintViolationException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Optional;
@@ -10,8 +9,8 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import com.naat.nix.menu.model.Cart;
-import com.naat.nix.menu.model.CartFood;
 import com.naat.nix.menu.controller.CartFoodService;
+import com.naat.nix.menu.model.CartFood;
 import com.naat.nix.menu.model.CartID;
 import com.naat.nix.menu.model.Food;
 import com.naat.nix.order.controller.TakeoutService;
@@ -36,6 +35,7 @@ public class CartService {
   @Autowired
   private CartRepository repository;
 
+  /* Manejo de los platillos solicitados */
   @Autowired
   private CartFoodService cartFoodService;
 
@@ -43,6 +43,7 @@ public class CartService {
 	@Autowired
 	TakeoutService takeoutService;
 
+  /* Manejo de clientes */
   @Autowired
   ClientService clientService;
 
@@ -69,7 +70,7 @@ public class CartService {
   }
 
   /**
-   * Obtiene el carrito por el corree del usuario
+   * Obtiene el carrito por el correo del usuario
    * @param correo_usuario Correo del usuario
    * @return Carrito del usuario con el correo proporcionado
    */
@@ -106,7 +107,7 @@ public class CartService {
   }
 
   /**
-  * Si el carrito se encuentra en la base de datos, lo actualiza
+  * Si el carrito se encuentra en la base de datos, lo actualiza.
   * @param c el carrito que se actualiza
   */
   public void update(Cart c)  {
@@ -132,6 +133,8 @@ public class CartService {
   /**
    * Crea una orden con los contenidos de carrito
    * @param c Carrito con los platillos
+   * @param client el cliente que solicitó la orden
+   * @param address la dirección de entrega
    */
   public void order(Cart c, Client client, String address) {
     var cl = clientService.findByEmail (client.getEmail());
@@ -142,7 +145,6 @@ public class CartService {
 		order.setDeliveryDate(LocalDate.now());
 		order.setPrice(price);
     order.setClient(cl);
-    // siempre elegir primera dirección
 		order.setAddress(address);
 		takeoutService.save(order);
     cartFoodService.addTakeout(foods, order);

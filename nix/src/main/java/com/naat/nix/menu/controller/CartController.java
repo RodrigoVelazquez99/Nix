@@ -6,7 +6,6 @@ import com.naat.nix.menu.model.Cart;
 import com.naat.nix.menu.model.CartID;
 import com.naat.nix.menu.model.Food;
 import com.naat.nix.menu.model.CartFood;
-import com.naat.nix.order.controller.TakeoutService;
 import com.naat.nix.order.model.Takeout;
 import com.naat.nix.user.config.UserWrapper;
 import com.naat.nix.user.model.User;
@@ -54,7 +53,7 @@ public class CartController {
 	 * Solicitud para ver el carrito.
 	 * Obtiene el carrito de la base de datos, lo referencia
 	 * a la variable 'carrito' y carga sus platillos.
-	 * en la vista VerCarritoIH.html.
+	 * en la vista cart.html.
 	 * @param user Usuario activo
 	 * @return Vista con atributos
 	 */
@@ -77,7 +76,7 @@ public class CartController {
 
 	/**
 	 * Solicitud para editar el carrito.
-	 * Carga los platillos del carrito en la vista EliminarCarritoIH
+	 * Carga los platillos del carrito en la vista cart_delete.html
 	 * @return Vista con atributos
 	 */
 	@RequestMapping( value = "/edit", method = RequestMethod.GET)
@@ -95,10 +94,11 @@ public class CartController {
 	/**
 	* Solicitud para descartar un platillo.
 	* Elimina el platillo del carrito.
-	* @param nombre el nombre del platillo a descartar
+	* @param idFood el id del platillo a descartar.
+	* @return la redirección para volver a editar el carrito.
 	*/
 	@RequestMapping( value = "/edit/{idFood}")
-	public String descartar(@PathVariable("idFood") int idFood) {
+	public String removeFood (@PathVariable("idFood") int idFood) {
 		Food d = foodService.getFoodById (idFood);
 		carrito.removeFood (d);
 		return "redirect:/cart/edit";
@@ -107,7 +107,7 @@ public class CartController {
 	/**
 	 * Solicitud para eliminar los platillos descartados del carrito.
 	 * Actualiza en la base de datos el carrito actual.
-	 * @return Nombre de plantilla a redireccionar
+	 * @return la redirección para ver el carrito.
 	 */
 	@RequestMapping( value = "/delete")
 	public String delete() {
@@ -121,11 +121,14 @@ public class CartController {
 	* Solicitud para agregar un platillo al carrito.
 	* Obten el platillo de la base de datos, guarda en el carrito
 	* y actualiza el carrito en la base de datos.
-	* Finalmente deririge a la vista del menu
-	* @param f el id del platillo a agregar
+	* Finalmente deririge a la vista del menu.
+	* @param idFood el id del platillo a agregar.
+	* @param cantidad la cantidad de platillos del mismo a agregar.
+	* @param user el usuario activo.
+	* @return la redirección para ver el carrito.
 	*/
 	@RequestMapping( value = "/add/{idFood}/{cantidad}")
-	public String agregar(@PathVariable("idFood") int idFood,
+	public String addFood(@PathVariable("idFood") int idFood,
 	 											@PathVariable("cantidad") int cantidad, @AuthenticationPrincipal UserWrapper user) {
 		User current = user.getCustomUser();
 		Food p = foodService.getFoodById(idFood);
@@ -140,13 +143,12 @@ public class CartController {
 			c.setFood (p);
 			c.setCart (carrito);
 			c.setAmount (cantidad);
-			carrito.add (c);
+			carrito.addFoodCart (c);
 			cartFoodService.save (c);
 		}
 		try {
 		cartService.update (carrito);
 		} catch ( Exception e) {}
-		// Simplemente mostramos el carrito sin cambios
 		return "redirect:/cart";
 	}
 
@@ -154,8 +156,8 @@ public class CartController {
 	 * Revisa si el carrito del usuario actual existe
 	 * en la base de datos (porque puede que apenas se registro)
 	 * y asigna a la variable carrito el valor
-	 * de la base de datos
-	 * @param user Usuario dueños de los carritos
+	 * de la base de datos.
+	 * @param user el usuario activo.
 	 */
 	private void check (User user) {
 		// Revisa si el carrito se encuentra en la base de datos
@@ -173,6 +175,8 @@ public class CartController {
 	/**
 	 * Toma los contenidos del carrito actual y crea una orden con ellos
 	 * @param user Usuario actual
+	 * @param address la dirección donde se entregara la orden.
+	 * @return la redirección al menú.
 	 */
 	@GetMapping(value = "/order/{address}")
 	public String confirmOrder(@PathVariable("address") String address, @AuthenticationPrincipal UserWrapper user) {

@@ -26,27 +26,34 @@ import lombok.NoArgsConstructor;
 @Table(name="Platillo")
 public class Food {
 
+	/* El id */
 	@Id
 	@GeneratedValue
 	@Column(name="id")
 	private int idFood;
 
+	/* El precio */
 	@Column(name="precio")
 	private int price;
 
+	/* La descripcion del platillo */
 	@Column(name="descripcion")
 	private String description;
 
+	/* El nombre del archivo */
 	@Column(name="foto")
 	private String image;
 
+	/* El nombre del platillo */
 	@Column(name="nombre")
 	private String name;
 
+	/* La categoria a la que pertenece */
 	@ManyToOne
 	@JoinColumn(name="categoria")
 	private Category category;
 
+	/* Las solicitudes de platillos a los que pertenece */
 	@OneToMany(mappedBy = "food")
 	private List<CartFood> cartFoods;
 

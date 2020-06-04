@@ -31,22 +31,26 @@ import lombok.Data;
 public class Client implements Serializable {
 
   private static final long serialVersionUID = 1L;
-  
+  /* El correo del cliente */
   @Id
   @Column(name = "correo")
   private String email;
 
+  /* La referencia al usuario */
   @OneToOne(cascade = CascadeType.ALL)
   @PrimaryKeyJoinColumn
   @NotFound(action=NotFoundAction.IGNORE)
   private User user;
 
+  /* El telefono del cliente */
   @Column(name="telefono")
   private String phone;
 
+  /* La calificación que recibe el negocio */
   @Column(name="calificacion")
   private int score;
 
+  /* Las direcciones del cliente */
   @ElementCollection
   @CollectionTable(
     name = "Cliente_Direccion",
@@ -54,6 +58,7 @@ public class Client implements Serializable {
   )
   private List<String> address;
 
+  /* Las ordenes que ha hecho */
   @OneToMany(mappedBy = "client")
   private List<Takeout> orders;
-} 
+}

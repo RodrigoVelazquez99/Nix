@@ -15,10 +15,12 @@ public class CartID implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	/* El id del carrito */
 	@GeneratedValue
     @Column(name="id_carrito")
     int idCarrito;
 
+		/* El correo del cliente al que pertenece */
     @Column(name="correo")
     String email;
 
