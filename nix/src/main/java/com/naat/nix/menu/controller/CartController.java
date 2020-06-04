@@ -118,21 +118,22 @@ public class CartController {
 	* Finalmente deririge a la vista del menu
 	* @param f el id del platillo a agregar
 	*/
-	@RequestMapping( value = "/agregar/{id_platillo}")
-	public String agregar(@PathVariable("id_platillo") int id_platillo, @AuthenticationPrincipal UserWrapper user) {
+	@RequestMapping( value = "/agregar/{id_platillo}/{cantidad}")
+	public String agregar(@PathVariable("id_platillo") int id_platillo,
+	 											@PathVariable("cantidad") int cantidad, @AuthenticationPrincipal UserWrapper user) {
 		User current = user.getCustomUser();
 		Food p = foodService.obtenerPlatilloPorId(id_platillo);
 		check(current);
 		// Ya se agrego al menos un elemento de este platillo
 		if (carrito.contiene (p)) {
-			// Agrega uno mas a la cantidad actual
-			carrito.sumar(p);
+			// Agrega la cantidad de platillos de este alimento
+			carrito.sumar(p, cantidad);
 		} else {
 			// Crea uno e insertalo en el carrito
 			CartFood c = new CartFood ();
 			c.setFood (p);
 			c.setCart (carrito);
-			c.setAmount (1);
+			c.setAmount (cantidad);
 			carrito.agregar (c);
 			cartFoodService.guardar (c);
 		}

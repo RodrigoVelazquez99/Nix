@@ -43,10 +43,10 @@ public class Cart {
 		return false;
 	}
 
-  public void sumar(Food p) {
+  public void sumar(Food p, int cantidad) {
 		for (CartFood cartFood : cartFoods) {
 			if (cartFood.getFood().equals(p)) {
-				cartFood.setAmount(cartFood.getAmount() + 1);
+				cartFood.setAmount(cartFood.getAmount() + cantidad);
 				return;
 			}
 		}
