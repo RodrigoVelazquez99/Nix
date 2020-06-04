@@ -107,9 +107,11 @@ public class SigUpController {
           return "delivery_signup";
         }
 
+        String raw_pass = user.getPassword();
+
         userService.saveUser(user);
 
-        userService.newDelivery(user);
+        userService.newDelivery(user, raw_pass);
 
         return "redirect:/";
       }
