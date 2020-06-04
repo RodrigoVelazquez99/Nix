@@ -8,17 +8,27 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
+/**
+ * Validar formulario de registro
+ */
 @Component
 public class UserValidator implements Validator {
 
+    /* Manipulación de usuarios */
     @Autowired
     private UserService userService;
 
+    /**
+     * Revisar si la clase dada es la de usuario
+     */
     @Override
     public boolean supports(Class<?> aClass) {
         return User.class.equals(aClass);
     }
 
+    /**
+     * Revisa si el objeto dado es un usuario no registrado
+     */
     @Override
     public void validate (Object o, Errors errors) {
         User user = (User) o;

@@ -13,17 +13,24 @@ import com.naat.nix.user.model.DeliveryMan;
 import com.naat.nix.user.model.User;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
 
 /**
- * Service to manage takeout information.
+ * Servicio para manipular y obtener información de órdenes
  */
 @Service
 public class TakeoutService {
 
+  /* DAO de las órdenes */
   @Autowired
   private TakeoutRepository takeoutDao;
 
+  /**
+   * Obtiene las órdenes de un usuario
+   * @param principal Usuario actual
+   * @return Diccionario con listas de órdenes clasificadas por estatus
+   */
   public Map<String, Iterable<Takeout>> getOrders(UserWrapper principal) {
     User user = principal.getCustomUser();
 
@@ -46,6 +53,12 @@ public class TakeoutService {
     return orders;
   }
 
+  /**
+   * Obtiene las órdenes de un cliente
+   * @param principal Usuario actual (un cliente)
+   * @return Diccionario con listas de órdenes divididas en actuales y pasadas
+   */
+  @Secured("ROLE_CLIENT")
   public HashMap<String, Iterable<Takeout>> getClientOrders(Client client) {
     var orders = classifyOrders(
       takeoutDao.findByClientEmail(client.getEmail()),
@@ -58,6 +71,12 @@ public class TakeoutService {
     return classifiedOrders;
   }
 
+  /**
+   * Obtiene las órdenes de un repartidor
+   * @param principal Usuario actual (un repartidor)
+   * @return Diccionario con listas de órdenes divididas en actuales y pasadas
+   */
+  @Secured("ROLE_DELIVERYMAN")
   public HashMap<String, Iterable<Takeout>> getDeliveryManOrders(
   DeliveryMan man) {
     var orders = classifyOrders(
@@ -71,6 +90,10 @@ public class TakeoutService {
     return classifiedOrders;
   }
 
+  /**
+   * Obtiene las órdenes por estatus
+   * @return Diccionario con listas de órdenes clasificadas por estatus
+   */
   public HashMap<String, Iterable<Takeout>> getOrdersByStatus() {
     var classifiedOrders = new HashMap<String, Iterable<Takeout>>();
 
@@ -83,6 +106,12 @@ public class TakeoutService {
     return classifiedOrders;
   }
 
+  /**
+   * Clasifica órdenes en dos dependiendo si tiene un estatus dado o no
+   * @param orders Órdenes a clasificar
+   * @param status Estaus dado para clasificar órdenes
+   * @return Lista con dos listas: órdenes con y sin el estatus dado
+   */
   private List<Iterable<Takeout>> classifyOrders(Iterable<Takeout> orders,
   DeliveryStatus status) {
 
@@ -105,6 +134,13 @@ public class TakeoutService {
     );
   }
   
+  /**
+   * Avanza el estatus de una orden
+   * @param principal Usuario actual (administrador o repartidor)
+   * @param takeoutId Identificador de la orden a actualizar
+   * @throws Exception Si la orden no está en la base de datos
+   */
+  @Secured({"ROLE_DELIVERYMAN", "ROLE_ADMIN"})
   public void updateStatusOrder(UserWrapper principal, Long takeoutId) throws Exception {
     User user = principal.getCustomUser();
     Takeout takeout = takeoutDao.findById(takeoutId).orElseThrow(
@@ -134,6 +170,13 @@ public class TakeoutService {
     takeoutDao.save(takeout);
   }
 
+  /**
+   * Asigna una orden a un repartidor
+   * @param principal Usuario actual (un repartidor)
+   * @param takeoutId Identificador de la orden a seleccionar
+   * @throws Exception Si la orden no está en la base de datos o si ya está seleccionada
+   */
+  @Secured("ROLE_DELIVERYMAN")
   public void selectOrder(UserWrapper principal, Long takeoutId) throws Exception {
     User user = principal.getCustomUser();
     Takeout takeout = takeoutDao.findById(takeoutId).orElseThrow(
@@ -153,6 +196,10 @@ public class TakeoutService {
     }
   }
 
+  /**
+   * Guarda una orden en la base de datos
+   * @param t Orden a guardar
+   */
   public void save(Takeout t) {
     takeoutDao.save(t);
   }

@@ -12,18 +12,33 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+/**
+ * Usuarios iniciales para demo del sistema
+ */
 @Component
 public class UserInitialization {
 
+  /**
+   * Encriptador para constraseñas
+   */
   @Autowired
   private PasswordEncoder encoder;
 
+  /**
+   * DAO para administradores
+   */
   @Autowired
   private AdminRepository adminDao;
 
+  /**
+   * Manipulación de usuarios
+   */
   @Autowired
   private UserService userService;
 
+  /**
+   * Creando varios usuarios iniciales de todo tipo
+   */
   @PostConstruct
   public void addUsers() {
 

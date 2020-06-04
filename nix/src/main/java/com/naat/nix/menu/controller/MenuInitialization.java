@@ -10,15 +10,23 @@ import com.naat.nix.menu.model.Food;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+/**
+ * Menú demo
+ */
 @Component
 public class MenuInitialization {
 
+  /* DAO para manejar categorias */
   @Autowired
   private CategoryRepository categoryDao;
 
+  /* DAO para manejar platillos */
   @Autowired
   private FoodRepository foodDao;
 
+  /**
+   * Creando entradas de un menú demo
+   */
   @PostConstruct
   public void addMenu() {
     // Algunas categorías

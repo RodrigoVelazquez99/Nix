@@ -15,6 +15,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * Representación de un platillo en la base de datos
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

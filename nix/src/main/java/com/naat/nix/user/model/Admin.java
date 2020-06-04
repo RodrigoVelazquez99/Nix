@@ -15,6 +15,9 @@ import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
+/**
+ * Representación de administrador en la base de datos
+ */
 @Data
 @NoArgsConstructor
 @RequiredArgsConstructor
