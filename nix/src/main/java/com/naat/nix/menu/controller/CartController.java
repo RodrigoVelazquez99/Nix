@@ -1,13 +1,10 @@
 package com.naat.nix.menu.controller;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 
 import com.naat.nix.menu.model.Cart;
 import com.naat.nix.menu.model.CartID;
 import com.naat.nix.menu.model.Food;
-import com.naat.nix.order.controller.TakeoutService;
-import com.naat.nix.order.model.Takeout;
 import com.naat.nix.user.config.UserWrapper;
 import com.naat.nix.user.model.User;
 
@@ -37,8 +34,8 @@ public class CartController {
 	FoodService foodService;
 
 	/* Manejo de órdenes */
-	@Autowired
-	TakeoutService takeoutService;
+	//@Autowired
+	//TakeoutService takeoutService;
 
 	/* Referencia al carrito actual */
 	Cart carrito;
@@ -157,28 +154,8 @@ public class CartController {
 	@GetMapping(value = "/order")
 	public String confirmOrder(@AuthenticationPrincipal UserWrapper user) {
 		
-		var platillos = carrito.getFoods();
-		var cliente = user.getCustomUser().getClient();
-		var precio = totalPrice();
-		var orden = new Takeout();
-		orden.setFoodItems(platillos);
-		orden.setDeliveryDate(LocalDate.now());
-		orden.setPrice(precio);
-		orden.setClient(cliente);
-		takeoutService.save(orden);
+		cartService.order(carrito, user.getCustomUser().getClient());
 		carrito = new Cart();
 		return "redirect:/menu";
-	}
-
-	/**
-	 * Calcula el precio total de los contenidos del carrito actual
-	 * @return Precio total
-	 */
-	private double totalPrice() {
-			double total = 0;
-			for (Food f:carrito.getFoods()) {
-					total+=f.getPrice();
-			}
-			return total;
 	}
 }

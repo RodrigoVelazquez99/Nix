@@ -45,6 +45,9 @@ public class Takeout {
   @Column(name="precio")
   private Double price;
 
+  @Column(name="domicilio")
+  private String address;
+
   @ManyToMany
   @JoinTable(
     name="takeout_contains_food",
