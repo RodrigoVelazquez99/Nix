@@ -45,20 +45,15 @@
 		</div>
 	</div>
 
-
-	<div class = "container pt-3" >
-			<a href="/menu" class="btn btn-info" > Ver menu </a>
-	</div>
-
 	<div class = "container pt-3" >
 		<div th:if="${hayElementos}">
 			<a href="/carrito/ordenar" class="btn btn-info" > Ordenar </a>
 		</div>
 	</div>
 
-	<div class = "container pt-3">
+	<div class = "container pt-3 offset-lg-8 ">
 		<div th:if="${hayElementos}">
-			<h6 th:text="Total + ' ' + ${total}"></h6>
+			<h2 th:text="'Total: $' + ${total}"></h2>
 		</div>
 	</div>
 
