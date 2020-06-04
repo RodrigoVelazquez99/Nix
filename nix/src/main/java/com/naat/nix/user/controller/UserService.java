@@ -6,6 +6,7 @@ import com.naat.nix.user.model.Client;
 import com.naat.nix.user.model.ClientForm;
 import com.naat.nix.user.model.DeliveryMan;
 import com.naat.nix.user.model.User;
+import com.naat.nix.user.util.EmailService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -33,6 +34,9 @@ public class UserService {
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
+    /* Servicio para mandar correos */
+    @Autowired
+    private EmailService emailService;
 
     /**
      * Obtener un usuario usando su correo
@@ -75,12 +79,15 @@ public class UserService {
      * @param user Usuario
      * @return Repartidor nuevo
      */
-    public DeliveryMan newDelivery(User user) {
+    public DeliveryMan newDelivery(User user, String raw_pass) {
       DeliveryMan deliveryMan = new DeliveryMan();
       deliveryMan.setEmail(user.getEmail());
       deliveryMan.setUser(user);
       user.setDeliveryMan(deliveryMan);
       deliveryRepository.save(deliveryMan);
+
+      emailService.sendRegistryConfirmation(deliveryMan, raw_pass);
+
       return deliveryMan;
     }
 

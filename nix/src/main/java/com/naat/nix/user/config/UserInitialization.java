@@ -69,12 +69,12 @@ public class UserInitialization {
 
     // Repartidores
     var deliveryUser1 = new User("adrian@correo.com", encoder.encode("1q2w3e4r"));
-    userService.newDelivery(deliveryUser1);
+    userService.newDelivery(deliveryUser1, "1q2w3e4r");
 
     var deliveryUser2 = new User("eduardo@correo.com", encoder.encode("r4e3w2q1"));
-    userService.newDelivery(deliveryUser2);
+    userService.newDelivery(deliveryUser2, "r4e3w2q1");
 
     var deliveryUser3 = new User("jessica@correo.com", encoder.encode("asdfghjk"));
-    userService.newDelivery(deliveryUser3);
+    userService.newDelivery(deliveryUser3, "asdfghjk");
   }
 }
