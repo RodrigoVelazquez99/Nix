@@ -171,15 +171,14 @@ public class CartController {
 		var cliente = user.getCustomUser().getClient();
 		var precio = calculaPrecio();
 		var orden = new Takeout();
-		// Pendiente !!!!!!!!!!!!!!!!!!!!!!!1
-		// Hacer un parser
-		//orden.setFood_items(platillos);
+		orden.setFood_items(platillos);
 		orden.setDeliveryDate(LocalDate.now());
 		orden.setPrice(precio);
 		orden.setClient(cliente);
-		//orden.setRepartidor(repartidor);
 		takeoutService.save(orden);
-		carrito = new Cart();
+		cartFoodService.agregaOrden(platillos, orden);
+		carrito.limpiar ();
+		cartService.guardar (carrito);
 		return "redirect:/menu";
 	}
 

@@ -44,11 +44,7 @@ public class Food {
 	@ManyToOne
 	@JoinColumn(name="categoria")
 	private Category categoria;
-/*
-	@ManyToMany(mappedBy="platillos")
-	private List<Cart> carritos;
-*/
-
+	
 	@OneToMany(mappedBy = "food")
 	private List<CartFood> cartFoods;
 

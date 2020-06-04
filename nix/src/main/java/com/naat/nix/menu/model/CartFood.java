@@ -14,6 +14,7 @@ import javax.persistence.Table;
 
 import com.naat.nix.menu.model.Food;
 import com.naat.nix.menu.model.Cart;
+import com.naat.nix.order.model.Takeout;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -42,6 +43,10 @@ public class CartFood {
 
     @Column(name = "amount")
     private int amount;
+
+    @ManyToOne
+    @JoinColumn( name="takeout")
+    private Takeout takeout;
 
     @Override
     public boolean equals (Object obj) {

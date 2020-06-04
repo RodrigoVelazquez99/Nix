@@ -6,11 +6,14 @@ import java.util.Optional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import com.naat.nix.order.model.Takeout;
 import com.naat.nix.menu.model.Cart;
 import com.naat.nix.menu.model.CartFood;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class CartFoodService {
@@ -25,6 +28,14 @@ public class CartFoodService {
   public void eliminar (CartFood cartFood)  {
     if (repository.existsById(cartFood.getIdCartFood())) {
       repository.delete (cartFood);
+    }
+  }
+
+  public void agregaOrden (List<CartFood> cartFoods, Takeout takeout) {
+    for (CartFood cartFood : cartFoods) {
+      cartFood.setTakeout (takeout);
+      cartFood.setCart (null);
+      repository.save (cartFood);
     }
   }
 

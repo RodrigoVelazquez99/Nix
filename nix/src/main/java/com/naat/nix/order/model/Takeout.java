@@ -13,8 +13,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 import com.naat.nix.menu.model.Food;
+import com.naat.nix.menu.model.CartFood;
 import com.naat.nix.user.model.Client;
 import com.naat.nix.user.model.DeliveryMan;
 
@@ -54,13 +56,8 @@ public class Takeout {
   /**
    * Food in the order.
    */
-  @ManyToMany
-  @JoinTable(
-    name="takeout_contains_food",
-    joinColumns = @JoinColumn(name="takeout_id"),
-    inverseJoinColumns = @JoinColumn(name="food_id")
-  )
-  private List<Food> food_items;
+  @OneToMany(mappedBy="takeout")
+  private List<CartFood> food_items;
 
   /**
    * Person who bought the order.
