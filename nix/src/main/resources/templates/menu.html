@@ -16,7 +16,7 @@
     <tr th:each="food : ${menu}">
 
     <div class="card" style="padding: 2rem; min-width: 300px;">
-      <img class="card-img-top" th:src="@{food.image}" alt="Imagen" >
+      <img class="card-img-top" th:src="@{/img/{image}(image=${food.image})}" alt="Imagen" >
         <div class="card-body">
           <h5 class="card-title" th:text="${food.name}"></h5>
           <p class="card-text" th:utext="'$' + ${food.price}"></p>
@@ -81,8 +81,8 @@ $('#agregarCarrito').on('show.bs.modal', function (event) {
   document.getElementById("verPlatillo").href= "/cart/add/" + id.toString()
   var modal = $(this)
   modal.find('.modal-title').text(nombre)
-  modal.find('.modal-descripcion').text("Descripcion: " + descripcion)
-  modal.find('.modal-precio').text("Precio: " + precio)
+  modal.find('.modal-descripcion').text(descripcion)
+  modal.find('.modal-precio').text("Precio: $" + precio)
   modal.find('.modal-categoria').text(categoria)
 })
 </script>

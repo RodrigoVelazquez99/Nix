@@ -8,6 +8,9 @@ import lombok.Getter;
 import lombok.Setter;
 
 
+/**
+ * Implementación de usuario de Spring que envuelva a usuarios de la aplicación
+ */
 public class UserWrapper extends User {
   private static final long serialVersionUID = 1L;
 

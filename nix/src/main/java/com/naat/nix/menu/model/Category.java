@@ -13,6 +13,9 @@ import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
+/**
+ * Representación de una categoría de comida en la base de datos
+ */
 @Data
 @NoArgsConstructor
 @RequiredArgsConstructor

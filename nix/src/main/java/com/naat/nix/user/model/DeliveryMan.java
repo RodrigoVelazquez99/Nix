@@ -19,6 +19,9 @@ import org.hibernate.annotations.NotFoundAction;
 
 import lombok.Data;
 
+/**
+ * Representación de repartidores en la base de datos
+ */
 @Data
 @Entity
 @Table(name = "Repartidor")

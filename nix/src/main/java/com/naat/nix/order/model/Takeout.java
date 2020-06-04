@@ -24,38 +24,26 @@ import com.naat.nix.user.model.DeliveryMan;
 import lombok.Data;
 
 /**
- * Class representing a takeout food order.
- * @version 1.0
+ * Representación de una órden de comida para la base de datos
  */
 @Data
 @Entity
 @Table(name="Orden")
 public class Takeout {
-  /**
-   * Generated key column.
-   */
+
   @GeneratedValue
   @Id
   private Long id;
 
-  /**
-   * Order's date. Assuming a order is fullfillied in one day.
-   */
   @Column(
     columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP",
     name="entrega"
   )
   private LocalDate deliveryDate;
 
-  /**
-   * Order status.
-   */
   @Enumerated(EnumType.STRING)
   private DeliveryStatus status = DeliveryStatus.PREPARING;
 
-  /**
-   * Precio total de los alimentos
-   */
   @Column(name="precio")
   private Double price;
 
@@ -65,16 +53,13 @@ public class Takeout {
   @OneToMany(mappedBy="takeout")
   private List<CartFood> foodItems;
 
-  /**
-   * Person who bought the order.
-   */
+  @Column(name="domicilio")
+  private String address;
+
   @ManyToOne
   @JoinColumn(name="cliente")
   private Client client;
 
-  /**
-   * Person in charge of the deliverying.
-   */
   @ManyToOne
   @JoinColumn(name="repartidor")
   private DeliveryMan deliveryMan;

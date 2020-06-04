@@ -6,7 +6,9 @@ import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import lombok.Data;
 
-/* Representa la llave primaria compuesta del objeto Cart */
+/**
+ * Representa la llave primaria compuesta del objeto carrito
+ */
 @Data
 @Embeddable
 public class CartID implements Serializable {

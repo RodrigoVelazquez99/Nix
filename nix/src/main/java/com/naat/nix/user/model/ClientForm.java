@@ -3,7 +3,7 @@ package com.naat.nix.user.model;
 import lombok.Data;
 
 /**
- * Form for client signup
+ * Guardar información de formulario de registro de cliente
  */
 @Data
 public class ClientForm {
