@@ -29,15 +29,18 @@ public class DeliveryMan implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
+  /* El correo del repartidor */
   @Id
   @Column(name = "correo")
   private String email;
 
+  /* La referencia al usuario */
   @OneToOne(cascade = CascadeType.ALL)
   @PrimaryKeyJoinColumn
   @NotFound(action=NotFoundAction.IGNORE)
   private User user;
 
+  /* Las ordenes que tiene que repartir */
   @OneToMany(mappedBy = "deliveryMan")
   private List<Takeout> orders;
-} 
+}

@@ -6,8 +6,10 @@ import java.util.List;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
+import javax.persistence.CascadeType;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import lombok.Data;
@@ -20,57 +22,82 @@ import lombok.Data;
 @Table(name="Carrito")
 public class Cart {
 
+	/**
+	* Llave compuesta por el correo del cliente y
+	* el identificador del carrito.
+	*/
 	@EmbeddedId
 	private CartID cartId;
 
-	@ManyToMany
-	@JoinTable(
-		name="Agregar",
-		joinColumns={@JoinColumn(name="email"),
-								@JoinColumn(name="id_carrito")},
-		inverseJoinColumns=@JoinColumn(name="id_platillo")
-	)
-	private List<Food> foods;
+	/* Solicitudes de platillos que se han hecho */
+	@OneToMany(mappedBy = "cart")
+	private List<CartFood> cartFoods;
 
-	public Cart(){		
+
+	public Cart(){
 	}
 
 	public Cart (CartID cartId) {
-		this.cartId = cartId;
-		this.foods = new ArrayList<Food>();
+	  	this.cartId = cartId;
+	  	this.cartFoods = new ArrayList<CartFood>();
   }
 
-	public void add(Food p) {
-		this.foods.add(p);
-	}
-
-	public void delete(Food p){
-		this.foods.remove(p);
-	}
-
-	public Food deleteByName(String p) {
-		for (int i = 0; i < this.foods.size(); i++) {
-			Food foo = this.foods.get(i);
-			String nombre = foo.getName();
-			if (nombre.equals(p)) {
-				return foods.remove(i);
+	/**
+	* Revisa si el alimento esta en la lista de platillos solicitados.
+	* @param food el alimento a revisar.
+	* @return true si esta en la lista, false en otro caso.
+	*/
+	public boolean contains (Food food ) {
+		for (CartFood cartFood : cartFoods) {
+			if (cartFood.getFood().equals (food)) {
+				return true;
 			}
 		}
-		return null;
+		return false;
 	}
 
-	public void clear() {
-		this.foods.clear();
-	}
-
-	public Food getFood(String nombre) {
-		for (int i = 0; i < foods.size(); i++) {
-			Food f = foods.get(i);
-			if (f.getName().equals(nombre)) {
-				return f;
+	/**
+	* Agrega la cantidad de platillos de un alimento
+	* que ya se encuentra solicitado.
+	* @param food el alimento solicitado.
+	* @param cantidad la cantidad de articulos del mismo.
+	*/
+  public void addFood(Food food, int cantidad) {
+		for (CartFood cartFood : cartFoods) {
+			if (cartFood.getFood().equals(food)) {
+				cartFood.setAmount(cartFood.getAmount() + cantidad);
+				return;
 			}
 		}
-		return null;
+  }
+
+	/**
+	* Agrega la solicitud de un platillo.
+	* @param cartFood la solictud a agregar.
+	*/
+	public void addFoodCart (CartFood cartFood) {
+		this.cartFoods.add(cartFood);
+	}
+
+
+	/**
+	* Remueve la solicitud de platillo de un alimento.
+	* @param food el alimento del cual queremos borrar su solicitud.
+	*/
+	public void removeFood(Food food){
+		for (CartFood cartFood : cartFoods) {
+			if (cartFood.getFood().equals (food)) {
+				this.cartFoods.remove (cartFood);
+				return;
+			}
+		}
+	}
+
+	/**
+	* Remueve las solicitudes de platillos del carrito.
+	*/
+	public void clean () {
+		this.cartFoods.clear();
 	}
 
 }

@@ -20,7 +20,7 @@
         <div class="card-body">
           <h5 class="card-title" th:text="${food.name}"></h5>
           <p class="card-text" th:utext="'$' + ${food.price}"></p>
-          <button class="btn btn-primary stretched-link" data-toggle="modal"
+          <button id ="verMas" class="btn btn-primary stretched-link" data-toggle="modal"
                   data-target="#agregarCarrito"
                   th:attr="data-nombre=${food.name},
                   data-categoria=${food.category.category},
@@ -53,6 +53,7 @@
             <h6 class="modal-categoria"> Categoría </h6>
             <h6 class="modal-descripcion"> Descripcion </h6>
             <h6 class="modal-precio"> Precio </h6>
+						<label>Cantidad: </label> <input class="form-control" id="amount" value = "1"/>
           </div>
 
           <!-- Modal footer -->
@@ -85,5 +86,21 @@ $('#agregarCarrito').on('show.bs.modal', function (event) {
   modal.find('.modal-categoria').text(categoria)
 })
 </script>
+
+<script type="text/javascript">
+		$('a#verPlatillo').click(function(){
+			var amount = document.getElementById("amount").value;
+			document.getElementById("verPlatillo").href += "/" + amount.toString();
+		})
+</script>
+
+<script>
+$('#amount').on('change blur',function(){
+	if($(this).val().trim().length === 0 || $(this).val() <= 0){
+		$(this).val(1);
+	}
+})
+</script>
+
 
 </html>

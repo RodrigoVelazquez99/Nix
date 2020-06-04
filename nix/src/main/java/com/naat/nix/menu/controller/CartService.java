@@ -1,6 +1,5 @@
 package com.naat.nix.menu.controller;
 
-import java.sql.SQLIntegrityConstraintViolationException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Optional;
@@ -10,11 +9,14 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import com.naat.nix.menu.model.Cart;
+import com.naat.nix.menu.controller.CartFoodService;
+import com.naat.nix.menu.model.CartFood;
 import com.naat.nix.menu.model.CartID;
 import com.naat.nix.menu.model.Food;
 import com.naat.nix.order.controller.TakeoutService;
 import com.naat.nix.order.model.Takeout;
 import com.naat.nix.user.model.Client;
+import com.naat.nix.user.controller.ClientService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,9 +35,17 @@ public class CartService {
   @Autowired
   private CartRepository repository;
 
+  /* Manejo de los platillos solicitados */
+  @Autowired
+  private CartFoodService cartFoodService;
+
   /* Manejo de órdenes */
 	@Autowired
 	TakeoutService takeoutService;
+
+  /* Manejo de clientes */
+  @Autowired
+  ClientService clientService;
 
   /**
    * Obtiene todos los carritos existentes
@@ -60,7 +70,7 @@ public class CartService {
   }
 
   /**
-   * Obtiene el carrito por el corree del usuario
+   * Obtiene el carrito por el correo del usuario
    * @param correo_usuario Correo del usuario
    * @return Carrito del usuario con el correo proporcionado
    */
@@ -97,48 +107,59 @@ public class CartService {
   }
 
   /**
-   * Si el carrito se encuentra en la base de datos, lo actualiza
-   * @param c El carrito que se actualiza
-   * @throws SQLIntegrityConstraintViolationException
-   * @return Carrito recien actualizado
-   */
-  public Cart update(Cart c) throws SQLIntegrityConstraintViolationException {
+  * Si el carrito se encuentra en la base de datos, lo actualiza.
+  * @param c el carrito que se actualiza
+  */
+  public void update(Cart c)  {
     Optional<Cart> carrito = repository.findById(c.getCartId());
     Cart a = null;
     if (carrito.isPresent()) {
       a = carrito.get();
-      a.setCartId(c.getCartId());
-      a.setFoods(c.getFoods());
-      a = repository.save(a);
+
+      for (CartFood acf : a.getCartFoods()) {
+        cartFoodService.remove (acf);
+      }
+
+      for (CartFood cf : c.getCartFoods()) {
+        cartFoodService.save (cf);
+      }
+
+      a.setCartId (c.getCartId());
+      a.setCartFoods(c.getCartFoods());
+      repository.save(a);
     }
-    return a;
   }
 
   /**
    * Crea una orden con los contenidos de carrito
    * @param c Carrito con los platillos
+   * @param client el cliente que solicitó la orden
+   * @param address la dirección de entrega
    */
-  public void order(Cart c, Client client) {
-    var foods = c.getFoods();
+  public void order(Cart c, Client client, String address) {
+    var cl = clientService.findByEmail (client.getEmail());
+    var foods = c.getCartFoods();
 		var price = totalPrice(c);
 		var order = new Takeout();
 		order.setFoodItems(foods);
 		order.setDeliveryDate(LocalDate.now());
 		order.setPrice(price);
-    order.setClient(client);
-    // siempre elegir primera dirección
-		//order.setAddress(client.getAddress().get(0));
+    order.setClient(cl);
+		order.setAddress(address);
 		takeoutService.save(order);
+    cartFoodService.addTakeout(foods, order);
+    c.clean();
+    save (c);
   }
 
   /**
 	 * Calcula el precio total de los contenidos del carrito actual
 	 * @return Precio total
 	 */
-	private double totalPrice(Cart c) {
+	public double totalPrice(Cart c) {
     double total = 0;
-    for (Food f : c.getFoods()) {
-        total+=f.getPrice();
+    for (CartFood f : c.getCartFoods()) {
+        total += f.getFood().getPrice() * f.getAmount();
     }
     return total;
 }

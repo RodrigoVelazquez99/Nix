@@ -15,10 +15,10 @@
 
   <!-- JQuery JS -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-  
+
   <!-- Popper JS -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-  
+
   <!-- Bootstrap -->
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 
@@ -37,14 +37,14 @@
         <input class="form-control mr-sm-2" type="text" placeholder="Ingresa tu busqueda" width= 100>
         <button class="btn btn-success" type="submit">Buscar</button>
       </form>
-      
+
       <ul class="nav nav-pills">
 
         <div class="nav-item" sec:authorize="hasRole('CLIENT')">
           <a class="nav-link" href="/menu">Menú</a>
         </div>
 
-        
+
         <div class="nav-item" sec:authorize="hasRole('ADMIN')">
           <a class="nav-link" href="/signup/delivery">Registrar repartidor</a>
         </div>
@@ -109,8 +109,8 @@
     <p class="card-text" th:text="'Total: $' + ${order.price}"></p>
     <p>Platillos: </p>
     <ul>
-      <li th:each="food : ${order.foodItems}"
-        th:text="${food.name} + ': ' + ${food.description}"></li>
+      <li th:each="cartFood : ${order.foodItems}"
+        th:text="${cartFood.food.name} + ': ' + ${cartFood.food.description} + '. Cantidad: ' + ${cartFood.amount} "></li>
     </ul>
   </div>
   <!-- /Cuerpo de la tarjeta de órdenes -->

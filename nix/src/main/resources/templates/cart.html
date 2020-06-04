@@ -12,38 +12,82 @@
 	<h1> Carrito de compras </h1>
 	</div>
 
-
-	<div class = "container pt-5">
-	    <a href="/cart/edit" class="btn btn-info" role="button"> Editar </a>
+	<div th:if="${hayElementos}">
+		<div class = "container pt-5">
+		    <a href="/cart/edit" class="btn btn-info" role="button"> Editar </a>
+		</div>
 	</div>
-
 
 
 	<div class = "container pt-3">
-	<table class="table table-bordered">
-	  <thead class ="thead-dark">
-	    <tr>
-	      <th scope="col">Platillo</th>
-	      <th scope="col">Precio</th>
-	    </tr>
-	  </thead>
-	  <tbody>
+		<div th:if="${hayElementos}">
+		<table class="table table-bordered">
+		  <thead class ="thead-dark">
+		    <tr>
+		      <th scope="col">Platillo</th>
+					<th scope="col">Cantidad</th>
+		      <th scope="col">Precio Unitario</th>
+		    </tr>
+		  </thead>
+		  <tbody>
 
-			<tr th:each="food : ${carrito}">
-		    <td th:utext="${food.name}"></td>
-		    <td th:utext="${food.price}"></td>
-		  </tr>
+				<tr th:each="cartFood : ${carrito}">
+			    <td th:utext="${cartFood.food.name}"></td>
+					<td th:utext="${cartFood.amount}"></td>
+			    <td th:utext="${cartFood.food.price}"></td>
+			  </tr>
 
-		</tbody>
-	</table>
+			</tbody>
+		</table>
+		</div>
+		<div th:unless="${hayElementos}">
+			<h3 style="text-align:center"> Aun no agregas platillos </h3>
+		</div>
 	</div>
-
 
 	<div class = "container pt-3" >
-	    <a href="/menu" class="btn btn-info" > Ver menu </a>
-	    <a href="/cart/order" class="btn btn-info" > Ordenar </a>
+		<div th:if="${hayElementos}">
+			<button data-toggle="modal" data-target="#addresSelect" class="btn btn-info" > Ordenar </button>
+		</div>
 	</div>
 
+	<div class = "container pt-3 offset-lg-8 ">
+		<div th:if="${hayElementos}">
+			<h2 th:text="'Total: $' + ${total}"></h2>
+		</div>
+	</div>
+
+	<div class="modal fade" tabindex="-1" role="dialog" id="addresSelect">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Escoge una dirección de entrega</h5>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+              <select class="form-control" id="chooseAddresses">
+                <div th:each="address : ${addresses}">
+                <option th:value="${address}" th:text="${address}"></option>
+                </div>
+              </select>
+          </div>
+        </div>
+        <div class="modal-footer">
+					<a type="button" class="btn btn-secondary" data-dismiss="modal" >Cancelar</a>
+          <a type="button" class="btn btn-success" id="guardar" onclick="ordenar()">Ordenar</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+	<script th:inline="javascript">
+     function ordenar() {
+       var adrress = $('#chooseAddresses').find("option:selected").val();
+       document.getElementById("guardar").href = "/cart/order/" + adrress,toString();
+     }
+   </script>
 
 </body>
+
+
 </html>

@@ -24,26 +24,32 @@ import lombok.RequiredArgsConstructor;
 @Table(name = "Usuario")
 public class User {
 
+  /* El correo del usuario */
   @Id
   @NonNull
   @Column(name = "correo")
   private String email;
 
+  /* El nombre del usuario */
   @Column(name = "nombre")
   private String username;
 
+  /* El password del usuario */
   @NonNull
   @Column(name = "contraseña")
   private String password;
 
+  /* La referencia al admin, si es admin */
   @OneToOne(mappedBy = "user")
   @NotFound(action=NotFoundAction.IGNORE)
   private Admin admin;
 
+  /* La referencia al cliente, si es cliente */
   @OneToOne(mappedBy = "user")
   @NotFound(action=NotFoundAction.IGNORE)
   private Client client;
 
+  /* La referencia al repartidor, si es repartidor */
   @OneToOne(mappedBy = "user")
   @NotFound(action=NotFoundAction.IGNORE)
   private DeliveryMan deliveryMan;

@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+
 /**
  * Manipulacion de usuarios
  */
@@ -69,6 +71,22 @@ public class UserService {
       clientRepository.save(client);
       return client;
     }
+
+    /**
+    * Crea un cliente a partir e un usuario.
+    * @param user el usuario del cual queremos crear un cliente.
+    * @return el nuevo cliente.
+    */
+    public Client newClient (User user) {
+      Client client = new Client();
+      client.setEmail(user.getEmail());
+      client.setUser(user);
+      client.setAddress(new ArrayList<String>());
+      user.setClient(client);
+      clientRepository.save(client);
+      return client;
+    }
+
 
     /**
      * Crea y guarda un repartidor nuevo usando un usuario

@@ -24,9 +24,11 @@ import lombok.RequiredArgsConstructor;
 @Entity
 @Table(name = "Administrador")
 public class Admin {
+  /* El correo del administrador */
   @Id
   private String email;
 
+  /* La referencia al usuario */
   @OneToOne(cascade = CascadeType.ALL)
   @NonNull
   @NotFound(action=NotFoundAction.IGNORE)
