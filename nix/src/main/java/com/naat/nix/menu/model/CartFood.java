@@ -30,11 +30,11 @@ public class CartFood {
     @GeneratedValue
     private int idCartFood;
 
-    @ManyToOne(cascade= CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name="food_id")
     private Food food;
 
-    @ManyToOne(cascade= CascadeType.ALL)
+    @ManyToOne
     @JoinColumns ({
     @JoinColumn(name="email"),
     @JoinColumn(name="cart_id")})

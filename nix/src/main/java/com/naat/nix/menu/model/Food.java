@@ -49,12 +49,21 @@ public class Food {
 	private List<Cart> carritos;
 */
 
-	@OneToMany(mappedBy = "food", cascade= CascadeType.ALL)
+	@OneToMany(mappedBy = "food")
 	private List<CartFood> cartFoods;
 
 	public Food(String nombre, String descripcion, String foto, int precio, Category categoria) {
 		this.nombre = nombre; this.descripcion = descripcion; this.foto = foto;
 		this.precio = precio; this.categoria = categoria;
+	}
+
+	@Override
+	public boolean equals (Object obj) {
+		Food f = (Food) obj;
+		if (f.getNombre().equals(this.nombre)) {
+			return true;
+		}
+		return false;
 	}
 
 }

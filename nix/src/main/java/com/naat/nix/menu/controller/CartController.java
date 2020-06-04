@@ -80,8 +80,10 @@ public class CartController {
 		ModelAndView modelAndView = new ModelAndView("EliminarCarritoIH");
 		ArrayList<CartFood> platillos = new ArrayList<CartFood>(carrito.getCartFoods());
 		modelAndView.addObject("carrito", platillos);
+		boolean hayElementos = (platillos.size() == 0)? false : true;
 		// Las url del popup
 		modelAndView.addObject("aceptar", "/carrito/eliminar");
+		modelAndView.addObject("hayElementos", hayElementos);
 		return modelAndView;
 	}
 
@@ -105,10 +107,7 @@ public class CartController {
 	public String eliminar() {
 		try {
 			cartService.actualizar(carrito);
-		} catch ( Exception e) {
-			/* Llamada a la pagina de error del sistema */
-			return "redirect:/error";
-		}
+		} catch ( Exception e) {}
 		return "redirect:/carrito/ver";
 	}
 
@@ -138,9 +137,8 @@ public class CartController {
 			cartFoodService.guardar (c);
 		}
 		try {
-			cartService.actualizar(carrito);
-		} catch(Exception e) {
-		}
+		cartService.actualizar(carrito);
+		} catch ( Exception e) {}
 		// Simplemente mostramos el carrito sin cambios
 		return "redirect:/carrito/ver";
 	}

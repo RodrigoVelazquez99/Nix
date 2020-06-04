@@ -21,18 +21,8 @@ public class Cart {
 
 	@EmbeddedId
 	private CartID cartId;
-/*
-	@ManyToMany
-	@JoinTable(
-		name="Agregar",
-		joinColumns={@JoinColumn(name="correo"),
-								 @JoinColumn(name="id_carrito")},
-		inverseJoinColumns=@JoinColumn(name="id_platillo")
-	)
-	private List<Food> platillos;
-*/
 
-	@OneToMany(mappedBy = "cart", cascade= CascadeType.ALL)
+	@OneToMany(mappedBy = "cart")
 	private List<CartFood> cartFoods;
 
 
@@ -75,19 +65,6 @@ public class Cart {
 			}
 		}
 	}
-
-/*
-	public Food eliminar(String p) {
-		for (int i = 0; i < this.platillos.size(); i++) {
-
-			Food foo = this.platillos.get(i);
-			String nombre = foo.getNombre();
-			if (nombre.equals(p)) {
-				return platillos.remove(i);
-			}
-		}
-		return null;
-	}*/
 
 	public void limpiar() {
 		this.cartFoods.clear();

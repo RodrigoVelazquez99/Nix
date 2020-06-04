@@ -15,24 +15,31 @@
 
 
 	<div class = "container pt-5">
-	<table class="table table-bordered">
-	  <thead class ="thead-dark">
-	    <tr>
-	      <th scope="col">Platillo</th>
-	      <th scope="col">Precio</th>
-	      <th scope="col" style="width: 10%">Eliminar</th>
-	    </tr>
-	  </thead>
-	  <tbody>
-			<c:forEach var="platillo" items="${carrito}">
-					<tr th:each="platillo : ${carrito}" >
-				    <td th:utext="${platillo.nombre}"></td>
-				    <td th:utext="${platillo.precio}"></td>
-						<td> <a th:href="@{'/carrito/editar/' + ${platillo.id}}" class="btn btn-danger" role="button"> Eliminar </a> </td>
-				  </tr>
-			</c:forEach>
-	  </tbody>
-	</table>
+		<div th:if="${hayElementos}">
+			<table class="table table-bordered">
+			  <thead class ="thead-dark">
+			    <tr>
+			      <th scope="col">Platillo</th>
+						<th scope="col">Cantidad</th>
+			      <th scope="col">Precio Unitario</th>
+			      <th scope="col" style="width: 10%">Eliminar</th>
+			    </tr>
+			  </thead>
+			  <tbody>
+					<c:forEach var="platillo" items="${carrito}">
+							<tr th:each="platillo : ${carrito}" >
+						    <td th:utext="${platillo.food.nombre}"></td>
+								<td th:utext="${platillo.amount}"></td>
+						    <td th:utext="${platillo.food.precio}"></td>
+								<td> <a th:href="@{'/carrito/editar/' + ${platillo.food.idPlatillo}}" class="btn btn-danger" role="button"> Eliminar </a> </td>
+						  </tr>
+					</c:forEach>
+			  </tbody>
+			</table>
+	</div>
+		<div th:unless="${hayElementos}">
+			<h3 style="text-align:center"> Aun no agregas platillos </h3>
+		</div>
 	</div>
 
 

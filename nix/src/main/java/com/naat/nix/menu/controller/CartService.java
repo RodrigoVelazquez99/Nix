@@ -9,6 +9,8 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import com.naat.nix.menu.model.Cart;
+import com.naat.nix.menu.model.CartFood;
+import com.naat.nix.menu.controller.CartFoodService;
 import com.naat.nix.menu.model.CartID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,9 @@ public class CartService {
 
   @Autowired
   private CartRepository repository;
+
+  @Autowired
+  private CartFoodService cartFoodService;
 
   /* Obtiene todos los carritos */
   public ArrayList<Cart> obtenerCarritos (){
@@ -74,16 +79,24 @@ public class CartService {
   * Si el carrito se encuentra en la base de datos, lo actualiza
   * @param c el carrito que se actualiza
   */
-  public Cart actualizar (Cart c) throws SQLIntegrityConstraintViolationException {
+  public void actualizar (Cart c)  {
     Optional<Cart> carrito = repository.findById(c.getCartId());
     Cart a = null;
     if (carrito.isPresent()) {
       a = carrito.get();
-      a.setCartId(c.getCartId());
+
+      for (CartFood acf : a.getCartFoods()) {
+        cartFoodService.eliminar (acf);
+      }
+
+      for (CartFood cf : c.getCartFoods()) {
+        cartFoodService.guardar (cf);
+      }
+
+      a.setCartId (c.getCartId());
       a.setCartFoods(c.getCartFoods());
-      a = repository.save(a);
+      repository.save(a);
     }
-    return a;
   }
 
 }

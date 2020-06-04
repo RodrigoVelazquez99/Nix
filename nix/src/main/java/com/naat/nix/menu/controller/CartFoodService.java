@@ -22,4 +22,10 @@ public class CartFoodService {
     repository.save (cartFood);
   }
 
+  public void eliminar (CartFood cartFood)  {
+    if (repository.existsById(cartFood.getIdCartFood())) {
+      repository.delete (cartFood);
+    }
+  }
+
 }

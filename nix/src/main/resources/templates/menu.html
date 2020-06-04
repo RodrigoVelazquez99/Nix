@@ -22,7 +22,7 @@
           <p class="card-text" th:utext="${platillo.descripcion}"></p>
           <p class="card-text" th:utext="${platillo.categoria.categoria}"></p>
           <p class="card-text" th:utext="'$' + ${platillo.precio}"></p>
-          <button class="btn btn-primary stretched-link" data-toggle="modal"
+          <button id ="verMas" class="btn btn-primary stretched-link" data-toggle="modal"
                   data-target="#agregarCarrito"
                   th:attr="data-nombre=${platillo.nombre},
                   data-descripcion=${platillo.descripcion},
@@ -53,6 +53,7 @@
           <div class="modal-body">
             <h6 class="modal-descripcion"> Descripcion </h6>
             <h6 class="modal-precio"> Precio </h6>
+						<input id="amount" value = "1"/>
           </div>
 
           <!-- Modal footer -->
@@ -76,12 +77,28 @@ $('#agregarCarrito').on('show.bs.modal', function (event) {
   var id = button.data('id')
   var descripcion = button.data('descripcion')
   var precio = button.data('precio')
-  document.getElementById("verPlatillo").href= "/carrito/agregar/" + id.toString()
+  document.getElementById("verPlatillo").href= "/carrito/agregar/" + id.toString();
   var modal = $(this)
   modal.find('.modal-title').text(nombre)
   modal.find('.modal-descripcion').text("Descripcion: " + descripcion)
   modal.find('.modal-precio').text("Precio: " + precio)
 })
 </script>
+
+<script type="text/javascript">
+		$('a#verPlatillo').click(function(){
+			var amount = document.getElementById("amount").value;
+			document.getElementById("verPlatillo").href += "/" + amount.toString();
+		})
+</script>
+
+<script>
+$('#amount').on('change blur',function(){
+	if($(this).val().trim().length === 0){
+		$(this).val(1);
+	}
+})
+</script>
+
 
 </html>
