@@ -14,6 +14,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 import com.naat.nix.menu.model.Food;
 import com.naat.nix.menu.model.CartFood;
@@ -28,6 +29,7 @@ import lombok.Data;
  */
 @Data
 @Entity
+@Table(name="Orden")
 public class Takeout {
   /**
    * Generated key column.
@@ -39,7 +41,10 @@ public class Takeout {
   /**
    * Order's date. Assuming a order is fullfillied in one day.
    */
-  @Column(columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+  @Column(
+    columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP",
+    name="entrega"
+  )
   private LocalDate deliveryDate;
 
   /**
@@ -51,25 +56,26 @@ public class Takeout {
   /**
    * Precio total de los alimentos
    */
+  @Column(name="precio")
   private Double price;
 
   /**
    * Food in the order.
    */
   @OneToMany(mappedBy="takeout")
-  private List<CartFood> food_items;
+  private List<CartFood> foodItems;
 
   /**
    * Person who bought the order.
    */
   @ManyToOne
-  @JoinColumn(name="client_id")
+  @JoinColumn(name="cliente")
   private Client client;
 
   /**
    * Person in charge of the deliverying.
    */
   @ManyToOne
-  @JoinColumn(name="delivery_man_id")
+  @JoinColumn(name="repartidor")
   private DeliveryMan deliveryMan;
 }

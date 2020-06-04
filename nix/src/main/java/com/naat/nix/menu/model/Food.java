@@ -7,7 +7,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.CascadeType;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -27,36 +26,37 @@ public class Food {
 	@Id
 	@GeneratedValue
 	@Column(name="id")
-	private int idPlatillo;
+	private int idFood;
 
 	@Column(name="precio")
-	private int precio;
+	private int price;
 
 	@Column(name="descripcion")
-	private String descripcion;
+	private String description;
 
 	@Column(name="foto")
-	private String foto;
+	private String image;
 
 	@Column(name="nombre")
-	private String nombre;
+	private String name;
 
 	@ManyToOne
 	@JoinColumn(name="categoria")
-	private Category categoria;
-	
+	private Category category;
+
 	@OneToMany(mappedBy = "food")
 	private List<CartFood> cartFoods;
 
-	public Food(String nombre, String descripcion, String foto, int precio, Category categoria) {
-		this.nombre = nombre; this.descripcion = descripcion; this.foto = foto;
-		this.precio = precio; this.categoria = categoria;
+	public Food(String name, String description, String image, int price,
+	Category category) {
+		this.name = name; this.description = description; this.image = image;
+		this.price = price; this.category = category;
 	}
 
 	@Override
 	public boolean equals (Object obj) {
 		Food f = (Food) obj;
-		if (f.getNombre().equals(this.nombre)) {
+		if (f.getName().equals(this.name)) {
 			return true;
 		}
 		return false;

@@ -26,12 +26,12 @@
 			    </tr>
 			  </thead>
 			  <tbody>
-					<c:forEach var="platillo" items="${carrito}">
-							<tr th:each="platillo : ${carrito}" >
-						    <td th:utext="${platillo.food.nombre}"></td>
-								<td th:utext="${platillo.amount}"></td>
-						    <td th:utext="${platillo.food.precio}"></td>
-								<td> <a th:href="@{'/carrito/editar/' + ${platillo.food.idPlatillo}}" class="btn btn-danger" role="button"> Eliminar </a> </td>
+					<c:forEach var="cartFood" items="${carrito}">
+							<tr th:each="cartFood : ${carrito}" >
+						    <td th:utext="${cartFood.food.name}"></td>
+								<td th:utext="${cartFood.amount}"></td>
+						    <td th:utext="${cartFood.food.price}"></td>
+								<td> <a th:href="@{'/cart/edit/' + ${cartFood.food.idFood}}" class="btn btn-danger" role="button"> Eliminar </a> </td>
 						  </tr>
 					</c:forEach>
 			  </tbody>
@@ -44,7 +44,7 @@
 
 
 	<div class = "container pt-3">
-	    <a href="/carrito/ver" class="btn btn-info" role="button"> Cancelar</a>
+	    <a href="/cart" class="btn btn-info" role="button"> Cancelar</a>
   		<button type="button" class="btn btn-info" data-toggle="modal" data-target="#confirmar">
   			Guardar cambios
   		</button>

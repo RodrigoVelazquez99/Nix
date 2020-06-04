@@ -14,7 +14,7 @@
 
 	<div th:if="${hayElementos}">
 		<div class = "container pt-5">
-		    <a href="/carrito/editar" class="btn btn-info" role="button"> Editar </a>
+		    <a href="/cart/edit" class="btn btn-info" role="button"> Editar </a>
 		</div>
 	</div>
 
@@ -31,10 +31,10 @@
 		  </thead>
 		  <tbody>
 
-				<tr th:each="platillo : ${carrito}">
-			    <td th:utext="${platillo.food.nombre}"></td>
-					<td th:utext="${platillo.amount}"></td>
-			    <td th:utext="${platillo.food.precio}"></td>
+				<tr th:each="cartFood : ${carrito}">
+			    <td th:utext="${cartFood.food.name}"></td>
+					<td th:utext="${cartFood.amount}"></td>
+			    <td th:utext="${cartFood.food.price}"></td>
 			  </tr>
 
 			</tbody>
@@ -47,7 +47,7 @@
 
 	<div class = "container pt-3" >
 		<div th:if="${hayElementos}">
-			<a href="/carrito/ordenar" class="btn btn-info" > Ordenar </a>
+			<a href="/cart/order" class="btn btn-info" > Ordenar </a>
 		</div>
 	</div>
 

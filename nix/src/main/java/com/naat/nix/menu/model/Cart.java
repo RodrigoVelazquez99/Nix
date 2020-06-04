@@ -34,7 +34,7 @@ public class Cart {
 	  	this.cartFoods = new ArrayList<CartFood>();
   }
 
-	public boolean contiene (Food food ) {
+	public boolean contains (Food food ) {
 		for (CartFood cartFood : cartFoods) {
 			if (cartFood.getFood().equals (food)) {
 				return true;
@@ -43,7 +43,7 @@ public class Cart {
 		return false;
 	}
 
-  public void sumar(Food p, int cantidad) {
+  public void addFood(Food p, int cantidad) {
 		for (CartFood cartFood : cartFoods) {
 			if (cartFood.getFood().equals(p)) {
 				cartFood.setAmount(cartFood.getAmount() + cantidad);
@@ -52,12 +52,12 @@ public class Cart {
 		}
   }
 
-	public void agregar (CartFood cartFood) {
+	public void add (CartFood cartFood) {
 		this.cartFoods.add(cartFood);
 	}
 
 
-	public void eliminar(Food p){
+	public void removeFood(Food p){
 		for (CartFood cartFood : cartFoods) {
 			if (cartFood.getFood().equals (p)) {
 				this.cartFoods.remove (cartFood);
@@ -66,7 +66,7 @@ public class Cart {
 		}
 	}
 
-	public void limpiar() {
+	public void clean () {
 		this.cartFoods.clear();
 	}
 

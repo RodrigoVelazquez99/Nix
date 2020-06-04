@@ -29,13 +29,13 @@ public class CartService {
   private CartFoodService cartFoodService;
 
   /* Obtiene todos los carritos */
-  public ArrayList<Cart> obtenerCarritos (){
+  public ArrayList<Cart> getCarts(){
     ArrayList<Cart> carritos = (ArrayList<Cart>) repository.findAll();
     return carritos;
   }
 
   /* Obtiene el carrito por el id */
-  public Cart obtenerCarritoId (CartID id) {
+  public Cart getCartById(CartID id) {
     Optional<Cart> cart = repository.findById(id);
     if (cart.isPresent()) {
       return cart.get();
@@ -44,8 +44,8 @@ public class CartService {
   }
 
   /* Obtiene el carrito por el correo de usuario */
-  public Cart obtenerCarritoCorreo (String correo_usuario) {
-    Query query = entityManager.createQuery("FROM Cart c WHERE c.cartId.correo =: correo", Cart.class);
+  public Cart getCartByEmail(String correo_usuario) {
+    Query query = entityManager.createQuery("FROM Cart c WHERE c.cartId.email =: correo", Cart.class);
     query.setParameter("correo", correo_usuario);
     ArrayList<Cart> carts = (ArrayList<Cart>) query.getResultList();
     if (carts.size() == 0) {
@@ -58,7 +58,7 @@ public class CartService {
   * Guarda el carrito en la base de datos
   * @param c el carrito a guardar
   */
-  public Cart guardar (Cart c) {
+  public Cart save(Cart c) {
     Cart n = repository.save(c);
     return n;
   }
@@ -68,7 +68,7 @@ public class CartService {
   * @param c el carrito a elimnar
   */
 
-  public void eliminar (Cart c) {
+  public void delete(Cart c) {
     Optional<Cart> carrito = repository.findById(c.getCartId());
     if (carrito.isPresent()) {
       repository.deleteById(c.getCartId());
@@ -79,18 +79,18 @@ public class CartService {
   * Si el carrito se encuentra en la base de datos, lo actualiza
   * @param c el carrito que se actualiza
   */
-  public void actualizar (Cart c)  {
+  public void update(Cart c)  {
     Optional<Cart> carrito = repository.findById(c.getCartId());
     Cart a = null;
     if (carrito.isPresent()) {
       a = carrito.get();
 
       for (CartFood acf : a.getCartFoods()) {
-        cartFoodService.eliminar (acf);
+        cartFoodService.remove (acf);
       }
 
       for (CartFood cf : c.getCartFoods()) {
-        cartFoodService.guardar (cf);
+        cartFoodService.save (cf);
       }
 
       a.setCartId (c.getCartId());

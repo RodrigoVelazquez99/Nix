@@ -27,7 +27,7 @@ import org.springframework.web.servlet.ModelAndView;
 * Controlador encargado de la lectura, manipulacion de platillos del carrito
 */
 @Controller
-@RequestMapping(value = "/carrito")
+@RequestMapping(value = "/cart")
 public class CartController {
 
 	/* El servicio para manejar las operaciones sobre el carrito */
@@ -56,10 +56,10 @@ public class CartController {
 	* a la variable 'carrito' y carga sus platillos.
 	* en la vista VerCarritoIH.html.
 	**/
-	@RequestMapping( value = "/ver", method = RequestMethod.GET)
+	@RequestMapping( value = "", method = RequestMethod.GET)
 	public ModelAndView verCarrito(@AuthenticationPrincipal UserWrapper user) {
 		User current = user.getCustomUser();
-		ModelAndView modelAndView = new ModelAndView("VerCarritoIH");
+		ModelAndView modelAndView = new ModelAndView("cart");
 		check(current);
 		ArrayList<CartFood> platillos = new ArrayList<CartFood>(carrito.getCartFoods());
 		boolean hayElementos = (platillos.size() == 0)? false : true;
@@ -75,14 +75,14 @@ public class CartController {
 	* Solicitud para editar el carrito.
 	* Carga los platillos del carrito en la vista EliminarCarritoIH
 	*/
-	@RequestMapping( value = "/editar", method = RequestMethod.GET)
+	@RequestMapping( value = "/edit", method = RequestMethod.GET)
 	public ModelAndView editarCarrito() {
-		ModelAndView modelAndView = new ModelAndView("EliminarCarritoIH");
+		ModelAndView modelAndView = new ModelAndView("cart_delete");
 		ArrayList<CartFood> platillos = new ArrayList<CartFood>(carrito.getCartFoods());
 		modelAndView.addObject("carrito", platillos);
 		boolean hayElementos = (platillos.size() == 0)? false : true;
 		// Las url del popup
-		modelAndView.addObject("aceptar", "/carrito/eliminar");
+		modelAndView.addObject("aceptar", "/cart/delete");
 		modelAndView.addObject("hayElementos", hayElementos);
 		return modelAndView;
 	}
@@ -92,23 +92,23 @@ public class CartController {
 	* Elimina el platillo del carrito.
 	* @param nombre el nombre del platillo a descartar
 	*/
-	@RequestMapping( value = "/editar/{idPlatillo}")
-	public String descartar(@PathVariable("idPlatillo") int idPlatillo) {
-		Food d = foodService.obtenerPlatilloPorId (idPlatillo);
-		carrito.eliminar(d);
-		return "redirect:/carrito/editar";
+	@RequestMapping( value = "/edit/{idFood}")
+	public String descartar(@PathVariable("idFood") int idFood) {
+		Food d = foodService.getFoodById (idFood);
+		carrito.removeFood (d);
+		return "redirect:/cart/edit";
 	}
 
 	/**
 	* Solicitud para eliminar los platillos descartados del carrito.
 	* Actualiza en la base de datos el carrito actual.
 	*/
-	@RequestMapping( value = "/eliminar")
+	@RequestMapping( value = "/delete")
 	public String eliminar() {
 		try {
-			cartService.actualizar(carrito);
+			cartService.update(carrito);
 		} catch ( Exception e) {}
-		return "redirect:/carrito/ver";
+		return "redirect:/cart";
 	}
 
 	/**
@@ -118,30 +118,30 @@ public class CartController {
 	* Finalmente deririge a la vista del menu
 	* @param f el id del platillo a agregar
 	*/
-	@RequestMapping( value = "/agregar/{id_platillo}/{cantidad}")
-	public String agregar(@PathVariable("id_platillo") int id_platillo,
+	@RequestMapping( value = "/add/{idFood}/{cantidad}")
+	public String agregar(@PathVariable("idFood") int idFood,
 	 											@PathVariable("cantidad") int cantidad, @AuthenticationPrincipal UserWrapper user) {
 		User current = user.getCustomUser();
-		Food p = foodService.obtenerPlatilloPorId(id_platillo);
+		Food p = foodService.getFoodById(idFood);
 		check(current);
 		// Ya se agrego al menos un elemento de este platillo
-		if (carrito.contiene (p)) {
+		if (carrito.contains (p)) {
 			// Agrega la cantidad de platillos de este alimento
-			carrito.sumar(p, cantidad);
+			carrito.addFood (p, cantidad);
 		} else {
 			// Crea uno e insertalo en el carrito
 			CartFood c = new CartFood ();
 			c.setFood (p);
 			c.setCart (carrito);
 			c.setAmount (cantidad);
-			carrito.agregar (c);
-			cartFoodService.guardar (c);
+			carrito.add (c);
+			cartFoodService.save (c);
 		}
 		try {
-		cartService.actualizar(carrito);
+		cartService.update (carrito);
 		} catch ( Exception e) {}
 		// Simplemente mostramos el carrito sin cambios
-		return "redirect:/carrito/ver";
+		return "redirect:/cart";
 	}
 
 	/**
@@ -152,18 +152,18 @@ public class CartController {
 	*/
 	private void check (User user) {
 		// Revisa si el carrito se encuentra en la base de datos
-		carrito = cartService.obtenerCarritoCorreo(user.getEmail());
+		carrito = cartService.getCartByEmail(user.getEmail());
 		// El usuario apenas se registro
 		if (carrito == null) {
 			// Le asignamos un id
-			ArrayList<Cart> c = (ArrayList<Cart>) cartService.obtenerCarritos();
+			ArrayList<Cart> c = (ArrayList<Cart>) cartService.getCarts();
 			int id = (c.size() == 0) ? 1 : c.size() + 1;
 			carrito = new Cart (new CartID (id, user.getEmail()));
-			carrito = cartService.guardar(carrito);
+			carrito = cartService.save(carrito);
 		}
 	}
 
-	@GetMapping(value = "/ordenar")
+	@GetMapping(value = "/order")
 	public String confirmaOrden(Model model,
 	@AuthenticationPrincipal UserWrapper user) {
 
@@ -171,14 +171,14 @@ public class CartController {
 		var cliente = user.getCustomUser().getClient();
 		var precio = calculaPrecio();
 		var orden = new Takeout();
-		orden.setFood_items(platillos);
+		orden.setFoodItems(platillos);
 		orden.setDeliveryDate(LocalDate.now());
 		orden.setPrice(precio);
 		orden.setClient(cliente);
 		takeoutService.save(orden);
-		cartFoodService.agregaOrden(platillos, orden);
-		carrito.limpiar ();
-		cartService.guardar (carrito);
+		cartFoodService.addTakeout(platillos, orden);
+		carrito.clean ();
+		cartService.save (carrito);
 		return "redirect:/menu";
 	}
 
@@ -186,7 +186,7 @@ public class CartController {
 	private double calculaPrecio() {
 			double total = 0;
 			for (CartFood f : carrito.getCartFoods()) {
-					total += f.getFood().getPrecio() * f.getAmount();
+					total += f.getFood().getPrice() * f.getAmount();
 			}
 			return total;
 	}

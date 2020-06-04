@@ -18,14 +18,14 @@ public class CartID implements Serializable {
     int idCarrito;
 
     @Column(name="correo")
-    String correo;
+    String email;
 
     public CartID() {
     }
 
-    public CartID (int idCarrito, String correo) {
-      this.idCarrito = idCarrito;
-      this.correo = correo;
+    public CartID (int id, String email) {
+      this.idCarrito = id;
+      this.email = email;
     }
 
 }

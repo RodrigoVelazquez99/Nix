@@ -1,12 +1,11 @@
 package com.naat.nix.user.config;
 
-import java.util.List;
-
 import javax.annotation.PostConstruct;
 
 import com.naat.nix.user.controller.AdminRepository;
 import com.naat.nix.user.controller.UserService;
 import com.naat.nix.user.model.Admin;
+import com.naat.nix.user.model.ClientForm;
 import com.naat.nix.user.model.User;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,17 +34,23 @@ public class UserInitialization {
     adminDao.save(admin);
 
     // Cliente
+    var titoForm = new ClientForm();
+    titoForm.setUsername("Tito");
+    titoForm.setPhone("5589675432"); 
+    titoForm.setAddress("Av. Paz, 15, Los Pinos, Ciudad de México");
+
     var clientTitoUser = new User("tito@correo.com", encoder.encode("12345678"));
-    clientTitoUser.setUsername("Tito");
-    var clientTito = userService.newClient(clientTitoUser);
-    clientTito.setPhone("5589675432"); clientTito.setScore(0);
-    clientTito.setAddress(List.of("Av. Paz, 15, Los Pinos, Ciudad de México"));
+    var clientTito = userService.newClient(clientTitoUser, titoForm);
+    clientTito.setScore(0);
+
+    var mariaForm = new ClientForm();
+    mariaForm.setUsername("Maria");
+    mariaForm.setPhone("5543546789");
+    mariaForm.setAddress("Árbol, 64, Jardín, Ciudad de México");
 
     var clientMariaUser = new User("maria@correo.com", encoder.encode("qwertui"));
-    clientMariaUser.setUsername("Maria");
-    var clientMaria = userService.newClient(clientMariaUser);
-    clientMaria.setPhone("5543546789"); clientTito.setScore(0);
-    clientTito.setAddress(List.of("Árbol, 64, Jardín, Ciudad de México"));
+    var clientMaria = userService.newClient(clientMariaUser, mariaForm);
+    clientMaria.setScore(0);
 
     // Repartidores
     var deliveryUser1 = new User("adrian@correo.com", encoder.encode("1q2w3e4r"));

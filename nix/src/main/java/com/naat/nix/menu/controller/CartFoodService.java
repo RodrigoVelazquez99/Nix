@@ -21,17 +21,17 @@ public class CartFoodService {
   @Autowired
   private CartFoodRepository repository;
 
-  public void guardar (CartFood cartFood) {
+  public void save (CartFood cartFood) {
     repository.save (cartFood);
   }
 
-  public void eliminar (CartFood cartFood)  {
+  public void remove (CartFood cartFood)  {
     if (repository.existsById(cartFood.getIdCartFood())) {
       repository.delete (cartFood);
     }
   }
 
-  public void agregaOrden (List<CartFood> cartFoods, Takeout takeout) {
+  public void addTakeout (List<CartFood> cartFoods, Takeout takeout) {
     for (CartFood cartFood : cartFoods) {
       cartFood.setTakeout (takeout);
       cartFood.setCart (null);

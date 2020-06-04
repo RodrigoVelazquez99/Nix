@@ -23,8 +23,9 @@ public class Category {
   @Id
   @NonNull
   @Column(name="nombre")
-  private String categoria;
+  private String category;
 
-  @OneToMany(mappedBy="categoria")
+  @OneToMany(mappedBy="category")
+  @Column(name="categoria")
   private List<Food> foods;
 }
