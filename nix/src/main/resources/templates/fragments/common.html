@@ -105,12 +105,12 @@
   <div class="card-body" th:fragment="ordercard_body">
     <h5 class="card-title" th:text="${order.status}"></h5>
     <p class="card-text" th:text="'Fecha de entrega: ' + ${order.deliveryDate}"></p>
-    <p class="card-text" th:text="'Domicilio de entrega: ' + ${order.client.address.get(0)}"></p>
+    <p class="card-text" th:text="'Domicilio de entrega: ' + ${order.address}"></p>
     <p class="card-text" th:text="'Total: $' + ${order.price}"></p>
     <p>Platillos: </p>
     <ul>
       <li th:each="cartFood : ${order.foodItems}"
-        th:text="${cartFood.food.name} + ': ' + ${cartFood.food.description} + '. Cantidad: ' + ${cartFood.amount} "></li>
+        th:text="${cartFood.food.name} + ': ' + ${cartFood.amount}"></li>
     </ul>
   </div>
   <!-- /Cuerpo de la tarjeta de órdenes -->
