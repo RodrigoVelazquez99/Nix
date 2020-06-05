@@ -10,34 +10,39 @@
 
 	<h1 style="padding: 2rem"> Calificar Negocio</h1>
 
-	<td>
-		<span
-			th:if="${current_score != null}"
-			th:text="'Crees que el servicio es ' + ${current_score}"
-		>
-		</span>
-		<span th:unless="${current_score != null}">
-			No has calificado
-		</span>
-	</td>
-	<h2 style="padding: 2rem">¿Estas listo para calificarnos?</h2>
+	<div th:if="${can_review}">
+		<td>
+			<span
+				th:if="${current_score != null}"
+				th:text="'Crees que el servicio es ' + ${current_score}"
+			>
+			</span>
+			<span th:unless="${current_score != null}">
+				No has calificado
+			</span>
+		</td>
+		<h2 style="padding: 2rem">¿Estas listo para calificarnos?</h2>
+	
+		<form action="#" th:action="@{/review}" th:object="${review}" method="post">
+	
+			<div th:each="pos_score: ${scores}">
+				<input
+					type="radio"
+					name="reviewScore"
+					th:field="*{score}"
+					th:value="${pos_score.name()}"
+				/>
+				<label th:text="${pos_score}"></label>
+			</div>
+	
+			<button class="btn btn-lg btn-primary btn-block" type="submit">Calificar</button>
+	
+		</form>	
+	</div>
 
-	<form action="#" th:action="@{/review}" th:object="${review}" method="post">
-
-		<div th:each="pos_score: ${scores}">
-			<input
-				type="radio"
-				name="reviewScore"
-				th:field="*{score}"
-				th:value="${pos_score.name()}"
-			/>
-			<label th:text="${pos_score}"></label>
-		</div>
-
-		<button class="btn btn-lg btn-primary btn-block" type="submit">Calificar</button>
-
-	</form>
-
+	<div th:unless="${can_review}">
+		<h2>Aún no ha recibido ningún pedido</h2>
+	</div>
 </div>
 </body>
 </html>
