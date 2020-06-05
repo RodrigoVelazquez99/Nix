@@ -7,7 +7,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -62,14 +61,4 @@ public class Food {
 		this.name = name; this.description = description; this.image = image;
 		this.price = price; this.category = category;
 	}
-
-	@Override
-	public boolean equals (Object obj) {
-		Food f = (Food) obj;
-		if (f.getName().equals(this.name)) {
-			return true;
-		}
-		return false;
-	}
-
 }

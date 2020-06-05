@@ -10,13 +10,10 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import com.naat.nix.menu.model.Food;
 import com.naat.nix.menu.model.CartFood;
 import com.naat.nix.user.model.Client;
 import com.naat.nix.user.model.DeliveryMan;

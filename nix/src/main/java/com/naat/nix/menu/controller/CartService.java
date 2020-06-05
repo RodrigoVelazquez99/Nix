@@ -9,14 +9,12 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import com.naat.nix.menu.model.Cart;
-import com.naat.nix.menu.controller.CartFoodService;
 import com.naat.nix.menu.model.CartFood;
 import com.naat.nix.menu.model.CartID;
-import com.naat.nix.menu.model.Food;
 import com.naat.nix.order.controller.TakeoutService;
 import com.naat.nix.order.model.Takeout;
-import com.naat.nix.user.model.Client;
 import com.naat.nix.user.controller.ClientService;
+import com.naat.nix.user.model.Client;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

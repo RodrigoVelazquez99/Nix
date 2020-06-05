@@ -1,19 +1,14 @@
 package com.naat.nix.menu.model;
 
-import java.util.List;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.CascadeType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import com.naat.nix.menu.model.Food;
-import com.naat.nix.menu.model.Cart;
 import com.naat.nix.order.model.Takeout;
 
 import lombok.AllArgsConstructor;
@@ -55,14 +50,4 @@ public class CartFood {
     @ManyToOne
     @JoinColumn( name="takeout")
     private Takeout takeout;
-
-    @Override
-    public boolean equals (Object obj) {
-      CartFood c = (CartFood) obj;
-      if (this.food.equals (c.getFood())
-         && this.cart.getCartId().equals(c.getCart().getCartId())) {
-           return true;
-      }
-      return false;
-    }
 }

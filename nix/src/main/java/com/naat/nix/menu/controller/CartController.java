@@ -3,14 +3,12 @@ package com.naat.nix.menu.controller;
 import java.util.ArrayList;
 
 import com.naat.nix.menu.model.Cart;
+import com.naat.nix.menu.model.CartFood;
 import com.naat.nix.menu.model.CartID;
 import com.naat.nix.menu.model.Food;
-import com.naat.nix.menu.model.CartFood;
-import com.naat.nix.order.model.Takeout;
 import com.naat.nix.user.config.UserWrapper;
-import com.naat.nix.user.model.User;
-import com.naat.nix.user.model.Client;
 import com.naat.nix.user.controller.ClientService;
+import com.naat.nix.user.model.User;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;

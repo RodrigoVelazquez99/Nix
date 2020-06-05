@@ -1,19 +1,12 @@
 package com.naat.nix.menu.controller;
 
-import java.util.ArrayList;
-import java.util.Optional;
+import java.util.List;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-
-import com.naat.nix.order.model.Takeout;
-import com.naat.nix.menu.model.Cart;
 import com.naat.nix.menu.model.CartFood;
+import com.naat.nix.order.model.Takeout;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 /* Servicio para el manejo de los platillos que se solicitaron */
 @Service
