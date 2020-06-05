@@ -8,7 +8,9 @@ Sitio web para órdenes de comida.
 
 ## Requerimientos
 
-En su versión de desarrollo, sólo requiere [_JDK11+_][jdk].
+Requiere [_JDK11+_][jdk].
+
+### Base de datos
 
 Para la versión de producción, además de _JDK11+_, requiere tener una instancia de [_MySQL_][mysql] corriendo, con una base de datos vacía.
 
@@ -35,6 +37,27 @@ Se requieren de tres variables.
 * `SPRING_USERNAME`: usuario de la base de datos.
 
 * `SPRING_PASS`: contraseña del usuario de la base de datos.
+
+## Servicio _SMTP_
+
+Se usa el servidor gratuito de _Gmail_.
+
+En necesario introcudir las credenciales en el archivo `application.properties`.
+
+## Clonar
+
+La imágenes no están guardadas en el repostorio directamente. Se usa
+[Git Large File Storage][lfs] para esto.
+
+Así que se tienen que descargar de forma independiente.
+
+```console
+[host@user]$ git clone https://github.com/naat-IS-20/Nix/
+...
+[host@user]$ cd nix
+[host@user nix]$ git lfs pull
+...
+```
 
 ## Correr
 
@@ -102,3 +125,4 @@ $ java -jar build/libs/nix-0.0.1-SNAPSHOT.jar
 
 [jdk]: https://naat-is-20.github.io/tools/jdk/
 [mysql]: https://naat-is-20.github.io/tools/mysql/
+[lfs]: https://git-lfs.github.com/
