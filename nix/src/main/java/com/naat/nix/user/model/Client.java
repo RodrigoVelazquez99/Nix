@@ -48,7 +48,7 @@ public class Client implements Serializable {
 
   /* La calificación que recibe el negocio */
   @Column(name="calificacion")
-  private int score;
+  private Long score;
 
   /* Las direcciones del cliente */
   @ElementCollection

@@ -56,7 +56,7 @@ public class UserInitialization {
 
     var clientTitoUser = new User("tito@correo.com", encoder.encode("12345678"));
     var clientTito = userService.newClient(clientTitoUser, titoForm);
-    clientTito.setScore(0);
+    clientTito.setScore(Long.valueOf(0));
 
     var mariaForm = new ClientForm();
     mariaForm.setUsername("Maria");
@@ -65,7 +65,7 @@ public class UserInitialization {
 
     var clientMariaUser = new User("maria@correo.com", encoder.encode("qwertui"));
     var clientMaria = userService.newClient(clientMariaUser, mariaForm);
-    clientMaria.setScore(0);
+    clientMaria.setScore(Long.valueOf(0));
 
     // Repartidores
     var deliveryUser1 = new User("adrian@correo.com", encoder.encode("1q2w3e4r"));
