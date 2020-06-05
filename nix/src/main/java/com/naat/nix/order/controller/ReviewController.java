@@ -37,6 +37,7 @@ public class ReviewController {
     m.addAttribute("current_score", reviewService.getScoreEnum(user));
     m.addAttribute("review", new Review());
     m.addAttribute("scores", ScoreValue.values());
+    m.addAttribute("can_review", reviewService.canReview(user));
     return "reviews";
   }
   /**

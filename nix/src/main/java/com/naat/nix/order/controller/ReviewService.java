@@ -15,6 +15,9 @@ public class ReviewService {
     @Autowired
     private ClientRepository clientRepository;
 
+    @Autowired
+    private TakeoutService takeoutService;
+
     /**
      * Método que asigna la calificación
      * @param principal que es el usuario actual
@@ -40,5 +43,10 @@ public class ReviewService {
      */
     public ScoreValue getScoreEnum(UserWrapper principal) {
         return ScoreValue.valueOf(getScore(principal));
+    }
+
+    public Boolean canReview(UserWrapper principal) {
+        return takeoutService.getOrders(principal).
+            get("client_past_orders").iterator().hasNext();
     }
 }
