@@ -50,7 +50,9 @@ public class ReviewController {
   @Secured("ROLE_CLIENT")
   public String review(Model m, @AuthenticationPrincipal UserWrapper user,
   @Valid Review review) {
-    reviewService.setScore(user, review.getScore().getValue());
+    if(review.getScore() != null) {
+      reviewService.setScore(user, review.getScore().getValue());
+    }
     return "redirect:/review";
   }
 }
