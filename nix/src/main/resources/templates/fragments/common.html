@@ -26,7 +26,7 @@
 
 <body>
   <!-- Barra de navegacion  -->
-	<nav class="navbar bg-dark" th:fragment= "navbar">
+	<nav class="navbar bg-dark navbar-fixed-top" th:fragment= "navbar">
 
     <a class="navbar-brand" href="/">Nix</a>
 
@@ -41,9 +41,8 @@
       <ul class="nav nav-pills">
 
         <div class="nav-item" sec:authorize="hasRole('CLIENT')">
-          <a class="nav-link" href="/menu">Menú</a>
+          <a class="nav-link" href="/menu/all">Menú</a>
         </div>
-
 
         <div class="nav-item" sec:authorize="hasRole('ADMIN')">
           <a class="nav-link" href="/signup/delivery">Registrar repartidor</a>
@@ -72,6 +71,24 @@
       </ul>
     </div>
 	</nav>
+
+  <!-- Barra que muestra las categorias -->
+  <nav class="navbar" id="sidebar" th:fragment="vertical-navbar">
+      <div class = "sidebar-header">
+        <h4> Categorías </h4>
+      </div>
+
+      <ul class="nav nav-pills flex-column">
+        <li class="nav-item">
+          <a class="nav-link" href="/menu/all"> Todas las categorías </a>
+        </li>
+        <tr th:each="category : ${categories}">
+          <li class="nav-item">
+            <a class="nav-link" th:href="@{'/menu/' + ${category.category}}" th:text="${category.category}">  </a>
+          </li>
+        </tr>
+      </ul>
+  </nav>
 
 
   <!-- Popup para confirmar alguna accion

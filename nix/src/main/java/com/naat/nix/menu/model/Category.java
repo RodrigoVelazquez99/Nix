@@ -8,7 +8,9 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +18,9 @@ import lombok.RequiredArgsConstructor;
 /**
  * Representación de una categoría de comida en la base de datos
  */
-@Data
+@Getter
+@Setter
+@ToString
 @NoArgsConstructor
 @RequiredArgsConstructor
 @Entity
@@ -33,4 +37,13 @@ public class Category {
   @OneToMany(mappedBy="category")
   @Column(name="categoria")
   private List<Food> foods;
+
+  @Override
+  public boolean equals (Object obj) {
+    Category other = (Category) obj;
+    if (this.category.equals (other.getCategory())) {
+      return true;
+    }
+    return false;
+  }
 }

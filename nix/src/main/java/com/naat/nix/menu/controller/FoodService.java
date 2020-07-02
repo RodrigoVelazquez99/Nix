@@ -4,6 +4,11 @@ import java.util.ArrayList;
 import java.util.Optional;
 
 import com.naat.nix.menu.model.Food;
+import com.naat.nix.menu.model.Category;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,9 +19,17 @@ import org.springframework.stereotype.Service;
 @Service
 public class FoodService {
 
+  /* Manejador de entidades para crear consultas en SQL puro */
+  @PersistenceContext
+  EntityManager entityManager;
+
   /* DAO para manipular platillos en la base de datos */
   @Autowired
   private FoodRepository repository;
+
+  /* DAO para manipular las categorias */
+  @Autowired
+  private CategoryRepository categoryRepository;
 
   /**
    * Obtiene todos los platillos disponibles
@@ -26,6 +39,27 @@ public class FoodService {
     ArrayList<Food> platillos = (ArrayList<Food>) repository.findAll();
     return platillos;
   }
+
+  /**
+  * Obtiene los platillos por categoria
+  * @param category la categoria de la cual queremos encontrar los platillos.
+  * @return los platillos que pertenecen a la categoria.
+  */
+  public ArrayList<Food> getFoodsByCategory (String category) {
+    Optional<Category> op = categoryRepository.findById (category);
+    Category ct = null;
+    if (op.isPresent()) {
+      ct = op.get();
+    }
+    Query query = entityManager.createQuery ("FROM Food f WHERE f.category =: category", Food.class);
+    query.setParameter("category", ct);
+    ArrayList<Food> foods = (ArrayList<Food>) query.getResultList();
+    if (foods.size() == 0) {
+      return new ArrayList<Food>();
+    }
+    return foods;
+  }
+
 
   /**
    * Platillo con el identificador dado

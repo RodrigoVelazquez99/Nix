@@ -8,34 +8,56 @@
 <body>
 
 	<!-- Barra de navegacion  -->
+	<div class="sticky-top">
 	<div th:insert="fragments/common :: navbar"></div>
+	</div>
+	<div class="row">
 
-  <h3 style="padding: 2rem;">Menú</h3>
-  <div class="card-deck" style="overflow: scroll; padding: 1rem;">
+	<!-- Barra lateral de categorias -->
+	<div class="col-2 pt-2">
 
-    <tr th:each="food : ${menu}">
-
-    <div class="card" style="padding: 2rem; min-width: 300px;">
-      <img class="card-img-top" th:src="@{/img/{image}(image=${food.image})}" alt="Imagen" >
-        <div class="card-body">
-          <h5 class="card-title" th:text="${food.name}"></h5>
-          <p class="card-text" th:utext="'$' + ${food.price}"></p>
-          <button id ="verMas" class="btn btn-primary stretched-link" data-toggle="modal"
-                  data-target="#agregarCarrito"
-                  th:attr="data-nombre=${food.name},
-                  data-categoria=${food.category.category},
-                  data-descripcion=${food.description},
-                  data-id=${food.idFood},
-                  data-precio=${food.price},
-                  data-foto=${food.image}">Ver mas</button>
-        </div>
-    </div>
-
-    </tr>
-
-  </div>
+		<div class="sticky-top" style="top: 65px;" >
+			<div th:insert="fragments/common :: vertical-navbar"></div>
+		</div>
+	</div>
 
 
+	<div class="col pt-2">
+		<h3 style="padding: 2rem;" th:text="${actual}"></h3>
+
+		<div th:if="${hayPlatillos}">
+
+			<div class="card-deck" style="overflow: scroll; padding: 1rem;">
+
+			   <tr th:each="food : ${menu}">
+
+			    <div class="card" style="padding: 2rem; min-width: 300px;">
+			      <img class="card-img-top" th:src="@{/img/{image}(image=${food.image})}" alt="Imagen" >
+			        <div class="card-body">
+			          <h5 class="card-title" th:text="${food.name}"></h5>
+			          <p class="card-text" th:utext="'$' + ${food.price}"></p>
+			          <button id ="verMas" class="btn btn-primary stretched-link" data-toggle="modal"
+			                  data-target="#agregarCarrito"
+			                  th:attr="data-nombre=${food.name},
+			                  data-categoria=${food.category.category},
+			                  data-descripcion=${food.description},
+			                  data-id=${food.idFood},
+			                  data-precio=${food.price},
+			                  data-foto=${food.image}">Ver mas</button>
+			        </div>
+			    </div>
+
+			    </tr>
+
+			  </div>
+			</div>
+
+			<div th:unless="${hayPlatillos}">
+				<h3 style="text-align:center"> No se encuentran platillos en esta categoria </h3>
+			</div>
+
+		</div>
+	</div>
 
   <div class="container">
     <!-- Modal -->

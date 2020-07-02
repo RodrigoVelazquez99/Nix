@@ -42,7 +42,7 @@ public class LogInController {
         String email = user.getCustomUser().getEmail();
         model.addAttribute("currentUsername", email);
         if(user.getCustomUser().getClient() != null) {
-          return "redirect:/menu";
+          return "redirect:/menu/all";
         }
         return "redirect:/orders";
     }
