@@ -25,4 +25,12 @@ public class CategoryService {
     return categories;
   }
 
+  /**
+  * Guarda la nueva categoria.
+  * @param category la nueva categoria. 
+  */
+  public void save (Category category) {
+    repository.save (category);
+  }
+
 }

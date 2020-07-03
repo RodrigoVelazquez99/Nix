@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+
+  <head th:replace="fragments/common::head"></head>
+
+  <body>
+    <!-- Barra de busqueda -->
+    <header th:insert="fragments/common::navbar"></header>
+
+    <div class="container pt-5 offset-lg-5">
+      <button class="btn btn-info" role="button" data-toggle="modal" data-target="#crearCategoria"> Crear categoría </button>
+    </div>
+
+    <!-- Popup para crear una categoria -->
+    <div class="modal fade" tabindex="-1" role="dialog" id="crearCategoria">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Escribe el nombre de la nueva categoria </h5>
+          </div>
+          <div class="modal-body">
+              <form th:action="@{/categories}" th:object="${category}" method="POST">
+                <div class="form-group">
+                  <input type="text" path="category" class="form-control" placeholder="Ingresa el nombre de la categoría"
+                    autofocus="true" th:field="*{category}" title="Ingresa el nombre de la categoría" required></input>
+                </div>
+                <div class="modal-footer">
+                  <button type="submit" class="btn btn-primary">Crear</button>
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal" >Cancelar</button>
+                </div>
+              </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </body>
+</html>

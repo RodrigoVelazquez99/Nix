@@ -40,6 +40,10 @@
 
       <ul class="nav nav-pills">
 
+        <div class="nav-item" sec:authorize="hasRole('ADMIN')">
+          <a class="nav-link" href="/categories">Administrar Categorias</a>
+        </div>
+
         <div class="nav-item" sec:authorize="hasRole('CLIENT')">
           <a class="nav-link" href="/menu/all">Menú</a>
         </div>
