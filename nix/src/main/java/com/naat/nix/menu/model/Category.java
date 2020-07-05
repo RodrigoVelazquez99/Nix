@@ -2,6 +2,7 @@ package com.naat.nix.menu.model;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -34,7 +35,7 @@ public class Category {
   private String category;
 
   /* Los alimentos que pertenecen a esta categoria */
-  @OneToMany(mappedBy="category")
+  @OneToMany(mappedBy="category", cascade = CascadeType.ALL)
   @Column(name="categoria")
   private List<Food> foods;
 

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.naat.nix.menu.model.Food;
 import com.naat.nix.menu.model.Category;
+import com.naat.nix.menu.model.CategoryForm;
 
 import com.naat.nix.user.config.UserWrapper;
 
@@ -39,6 +40,10 @@ public class CategoryController {
   @GetMapping("")
   public String getCategories (Model model) {
     model.addAttribute ("category", new Category());
+    ArrayList<Category> categories = categoryService.getCategories();
+    model.addAttribute ("categories", categories);
+    boolean hayCategorias = (categories.size() == 0)? false : true;
+    model.addAttribute ("hayCategorias", hayCategorias);
     return "categories";
   }
 
@@ -52,5 +57,40 @@ public class CategoryController {
     categoryService.save (category);
     return "redirect:/categories";
   }
+
+  /**
+  * Se quiere observar la página para editar las categorias.
+  */
+  @GetMapping("/edit")
+  public ModelAndView editCategories() {
+    ModelAndView modelAndView = new ModelAndView ("categories_edit");
+    ArrayList<Category> categories = categoryService.getCategories();
+    modelAndView.addObject ("categories", categories);
+    boolean hayCategorias = (categories.size() == 0)? false : true;
+    modelAndView.addObject ("hayCategorias", hayCategorias);
+    modelAndView.addObject ("categoryForm", new CategoryForm());
+    return modelAndView;
+  }
+
+  /**
+  * Se guarda la edición de la categoría.
+  */
+  @PostMapping("/edit")
+  public String saveCategory (@ModelAttribute CategoryForm categoryForm) {
+    categoryService.update (categoryForm);
+    return "redirect:/categories/edit";
+  }
+
+  /**
+  * Elimina la categoria identificada con un nombre.
+  * @param name el nombre de la categoria a eliminar.
+  * @return redirige a la página para editar categorias.
+  */
+  @GetMapping("edit/{name}")
+  public String deleteCategory (@PathVariable("name") String name ) {
+    categoryService.delete (name);
+    return "redirect:/categories/edit";
+  }
+
 
 }

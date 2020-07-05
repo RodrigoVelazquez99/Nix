@@ -2,14 +2,24 @@
 
 <html xmlns:th="http://www.thymeleaf.org">
 
-  <head th:replace="fragments/common::head"></head>
+  <head th:replace="fragments/common::head">
+    <title>Categorías</title>
+  </head>
 
   <body>
     <!-- Barra de busqueda -->
     <header th:insert="fragments/common::navbar"></header>
 
+    <!-- Boton para crear una categoria mostrando un Popup-->
     <div class="container pt-5 offset-lg-5">
       <button class="btn btn-info" role="button" data-toggle="modal" data-target="#crearCategoria"> Crear categoría </button>
+    </div>
+
+    <!-- Boton para editar categorias -->
+    <div th:if="${hayCategorias}">
+      <div class="container pt-5 offset-lg-5">
+        <a class="btn btn-success" role="button" href="categories/edit"> Editar categorias </a>
+      </div>
     </div>
 
     <!-- Popup para crear una categoria -->
@@ -33,6 +43,27 @@
           </div>
         </div>
       </div>
+    </div>
+
+    <!-- Mostramos las categorias -->
+    <div th:if="${hayCategorias}">
+      <div class="container pt-3">
+        <table class="table table-bordered">
+    		  <thead class ="thead-dark">
+    		    <tr>
+    		      <th scope="col">Nombre</th>
+    		    </tr>
+    		  </thead>
+    		  <tbody>
+    				<tr th:each="category : ${categories}">
+    			    <td th:utext="${category.category}"></td>
+    			  </tr>
+    			</tbody>
+    		</table>
+      </div>
+    </div>
+    <div th:unless="${hayCategorias}">
+      <h3 style="text-align:center">Aun no hay categorias</h3>
     </div>
 
   </body>
