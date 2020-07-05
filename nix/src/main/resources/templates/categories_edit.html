@@ -25,7 +25,7 @@
             <tr th:each="category : ${categories}">
               <td th:utext="${category.category}"></td>
               <td><button id="botonEliminar" class="btn btn-danger" role="button"
-                th:attr="data-value=${category.category}">Eliminar</button></td>
+                th:attr="data-value=${category.category}" data-toggle="modal" data-target="#eliminarCategoria">Eliminar</button></td>
               <td><button id="botonEditar" class="btn btn-info" role="button"
                   th:attr="data-value=${category.category}" data-toggle="modal" data-target="#editarCategoria">Editar</button></td>
             </tr>
@@ -63,8 +63,43 @@
       </div>
     </div>
 
+    <!-- Popup para eliminar una categoria -->
+    <div class="modal fade" id="eliminarCategoria">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <!-- Modal Header -->
+          <div class="modal-header">
+            <h4 class="modal-title-center"> Confirmación</h4>
+          </div>
+
+          <!-- Modal body -->
+          <div class="modal-body">
+            <h1  class= "text-center"></h1>¿Deseas continuar?
+          </div>
+
+          <!-- Modal footer -->
+          <div class="modal-footer">
+            <a class="btn btn-secondary" data-dismiss="modal" > Cancelar </a>
+            <a type="button" id ="aceptar_eliminar" class="btn btn-danger" > Aceptar</a>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+
   </body>
 
+  <!-- Obtiene el nombre de la categoria a eliminar -->
+  <script>
+  $('#eliminarCategoria').on('show.bs.modal', function (event) {
+      var boton = $(event.relatedTarget);
+      var nombre = boton.data('value');
+      document.getElementById('aceptar_eliminar').href = "/categories/edit/delete/" + nombre.toString();
+  })
+  </script>
+
+  <!-- Inserta el nombre de la categoria actual en las entradas del popup -->
   <script>
   $('#editarCategoria').on('show.bs.modal', function (event) {
     var button = $(event.relatedTarget);

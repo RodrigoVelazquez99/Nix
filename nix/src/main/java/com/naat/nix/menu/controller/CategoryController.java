@@ -86,7 +86,7 @@ public class CategoryController {
   * @param name el nombre de la categoria a eliminar.
   * @return redirige a la página para editar categorias.
   */
-  @GetMapping("edit/{name}")
+  @GetMapping("edit/delete/{name}")
   public String deleteCategory (@PathVariable("name") String name ) {
     categoryService.delete (name);
     return "redirect:/categories/edit";
