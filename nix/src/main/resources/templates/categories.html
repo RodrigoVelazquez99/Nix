@@ -33,7 +33,7 @@
               <form th:action="@{/categories}" th:object="${category}" method="POST">
 
                 <div th:if="${#fields.hasErrors('category')}">
-                  <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                  <div id="alert-error" class="alert alert-danger alert-dismissible fade show" role="alert">
                     <p id="error" th:errors="*{category}"> </p>
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                       <span aria-hidden="true">&times;</span>
@@ -78,11 +78,21 @@
 
   </body>
 
+
+  <!-- Cuando se cierra el popup tambien se debe cerrar el mensaje de error si existe -->
+  <script>
+  $('#crearCategoria').on('hidden.bs.modal', function (event) {
+    var alert = document.getElementById('alert-error');
+    if (typeof alert != 'undefined') {
+      $('#alert-error').alert("close");
+    }
+  })
+  </script>
+
   <!-- Si ocurrio un error, muestra el popup con la alerta del mensaje -->
   <script>
   $(document).ready(function(){
-    var error = document.getElementById('error').innerHTML;
-    if (error != "") {
+    if (document.getElementById('error').innerHTML != null) {
       $("#crearCategoria").modal();
     }
   });

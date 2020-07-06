@@ -7,6 +7,7 @@ import com.naat.nix.menu.model.Food;
 import com.naat.nix.menu.model.Category;
 import com.naat.nix.menu.model.CategoryForm;
 import com.naat.nix.validator.CategoryValidator;
+import com.naat.nix.validator.CategoryFormValidator;
 
 import com.naat.nix.user.config.UserWrapper;
 
@@ -39,6 +40,10 @@ public class CategoryController {
   /* Validar las categorias */
   @Autowired
   private CategoryValidator categoryValidator;
+
+  /* Validar las plantillas para categorias */
+  @Autowired
+  private CategoryFormValidator categoryFormValidator;
 
   /**
   * Crear una categoria nueva.
@@ -94,7 +99,17 @@ public class CategoryController {
   * Se guarda la edición de la categoría.
   */
   @PostMapping("/edit")
-  public String saveCategory (@ModelAttribute CategoryForm categoryForm) {
+  public String saveCategory (Model model, @ModelAttribute @Valid CategoryForm categoryForm, BindingResult bindingResult) {
+    /* Validamos si la plantilla es válida */
+    categoryFormValidator.validate(categoryForm, bindingResult);
+    if (bindingResult.hasErrors()) {
+      /* Si no es unica la nueva categoría, regresa la misma página y con un mensaje indicando el error */
+      ArrayList<Category> categories = categoryService.getCategories();
+      model.addAttribute ("categories", categories);
+      boolean hayCategorias = (categories.size() == 0)? false : true;
+      model.addAttribute ("hayCategorias", hayCategorias);
+      return "categories_edit";
+    }
     categoryService.update (categoryForm);
     return "redirect:/categories/edit";
   }

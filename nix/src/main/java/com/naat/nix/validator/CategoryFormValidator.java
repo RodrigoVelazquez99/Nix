@@ -1,6 +1,7 @@
 package com.naat.nix.validator;
 
 import com.naat.nix.menu.controller.CategoryService;
+import com.naat.nix.menu.model.CategoryForm;
 import com.naat.nix.menu.model.Category;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,10 +10,10 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
 /**
- * Validar categorias.
+ * Validar plantillas para editar categorias.
  */
 @Component
-public class CategoryValidator implements Validator {
+public class CategoryFormValidator implements Validator {
 
     /* Manipulación de categorias */
     @Autowired
@@ -23,18 +24,19 @@ public class CategoryValidator implements Validator {
      */
     @Override
     public boolean supports(Class<?> aClass) {
-        return Category.class.equals(aClass);
+        return CategoryForm.class.equals(aClass);
     }
 
     /**
-     * Revisa si el objeto dado es una categoria valida.
+     * Revisa si el objeto dado es una plantilla válida, una plantilla
+     * es válida si el nuevo nombre no pertenece a otra categoría.
      */
     @Override
     public void validate (Object o, Errors errors) {
-        Category category = (Category) o;
-        Category other = categoryService.getCategory(category.getCategory());
-        if (other != null) {
-          errors.rejectValue("category", "Duplicate.category.name");
+        CategoryForm categoryForm = (CategoryForm) o;
+        Category other = categoryService.getCategory(categoryForm.getNewCategory());
+        if (other != null && !categoryForm.getNewCategory().equals (categoryForm.getOldCategory())) {
+          errors.rejectValue("newCategory", "Duplicate.categoryForm.name");
         }
     }
 }
