@@ -10,16 +10,22 @@
     <!-- Barra de busqueda -->
     <header th:insert="fragments/common::navbar"></header>
 
-    <!-- Boton para crear una categoria mostrando un Popup-->
-    <div class="container pt-5 offset-lg-5">
-      <button class="btn btn-info" role="button" data-toggle="modal" data-target="#crearCategoria"> Crear categoría </button>
+    <div class="row justify-content-lg-center">
+    <div class="column">
+      <!-- Boton para crear una categoria mostrando un Popup-->
+      <div class="container pt-5">
+        <button class="btn btn-info" role="button" data-toggle="modal" data-target="#crearCategoria"> Crear categoría </button>
+      </div>
     </div>
 
-    <!-- Boton para editar categorias -->
-    <div th:if="${hayCategorias}">
-      <div class="container pt-5 offset-lg-5">
-        <a class="btn btn-success" role="button" href="categories/edit"> Editar categorias </a>
+    <div class="column">
+      <!-- Boton para editar categorias -->
+      <div th:if="${hayCategorias}">
+        <div class="container pt-5 offset-lg-5">
+          <a class="btn btn-success" role="button" href="categories/edit"> Editar categorias </a>
+        </div>
       </div>
+    </div>
     </div>
 
     <!-- Popup para crear una categoria -->
@@ -46,7 +52,7 @@
                     autofocus="true" th:field="*{category}" title="Ingresa el nombre de la categoría" required></input>
                 </div>
                 <div class="modal-footer">
-                  <button type="submit" class="btn btn-primary">Crear</button>
+                  <button type="submit" class="btn btn-success">Crear</button>
                   <button type="button" class="btn btn-secondary" data-dismiss="modal" >Cancelar</button>
                 </div>
               </form>
@@ -54,6 +60,7 @@
         </div>
       </div>
     </div>
+
 
     <!-- Mostramos las categorias -->
     <div th:if="${hayCategorias}">
