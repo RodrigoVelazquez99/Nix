@@ -41,6 +41,16 @@ public class FoodService {
   }
 
   /**
+  * Obtiene un platillo por su nombre.
+  * @param name Nombre del platillo a buscar.
+  * @return el platillo si se encontró.
+  */
+  public Food getFood (String name) {
+    ArrayList<Food> foods = (ArrayList<Food>) repository.findByName(name);
+    return foods.get(0);
+  }
+
+  /**
   * Obtiene los platillos por categoria
   * @param category la categoria de la cual queremos encontrar los platillos.
   * @return los platillos que pertenecen a la categoria.

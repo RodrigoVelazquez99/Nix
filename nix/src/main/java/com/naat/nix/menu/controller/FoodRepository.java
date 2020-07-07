@@ -14,4 +14,5 @@ import java.util.List;
 @Repository
 public interface FoodRepository extends CrudRepository<Food, Integer>{
   List<Food> findByCategory (Category category);
+  List<Food> findByName (String name);
 }
