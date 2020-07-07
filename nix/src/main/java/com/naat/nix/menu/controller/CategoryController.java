@@ -54,6 +54,7 @@ public class CategoryController {
   public String getCategories (Model model) {
     model.addAttribute ("category", new Category());
     ArrayList<Category> categories = categoryService.getCategories();
+    categories.remove(new Category ("Sin categoría"));
     model.addAttribute ("categories", categories);
     boolean hayCategorias = (categories.size() == 0)? false : true;
     model.addAttribute ("hayCategorias", hayCategorias);
@@ -72,6 +73,7 @@ public class CategoryController {
     if (bindingResult.hasErrors()) {
       /* Si no es unica regresa la misma página y con un mensaje indicando el error */
       ArrayList<Category> categories = categoryService.getCategories();
+      categories.remove(new Category ("Sin categoría"));
       model.addAttribute ("categories", categories);
       boolean hayCategorias = (categories.size() == 0)? false : true;
       model.addAttribute ("hayCategorias", hayCategorias);
@@ -88,6 +90,7 @@ public class CategoryController {
   public ModelAndView editCategories() {
     ModelAndView modelAndView = new ModelAndView ("categories_edit");
     ArrayList<Category> categories = categoryService.getCategories();
+    categories.remove(new Category ("Sin categoría"));
     modelAndView.addObject ("categories", categories);
     boolean hayCategorias = (categories.size() == 0)? false : true;
     modelAndView.addObject ("hayCategorias", hayCategorias);
@@ -105,6 +108,7 @@ public class CategoryController {
     if (bindingResult.hasErrors()) {
       /* Si no es unica la nueva categoría, regresa la misma página y con un mensaje indicando el error */
       ArrayList<Category> categories = categoryService.getCategories();
+      categories.remove(new Category ("Sin categoría"));
       model.addAttribute ("categories", categories);
       boolean hayCategorias = (categories.size() == 0)? false : true;
       model.addAttribute ("hayCategorias", hayCategorias);

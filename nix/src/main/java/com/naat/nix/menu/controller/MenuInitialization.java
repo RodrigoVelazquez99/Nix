@@ -35,6 +35,8 @@ public class MenuInitialization {
     var entradas = new Category("Entradas"); categoryDao.save(entradas);
     var guarniciones = new Category("Guarniciones"); categoryDao.save(guarniciones);
     var bebidas = new Category("Bebidas"); categoryDao.save(bebidas);
+    // Categoria por defecto, cuando no se clasifica algún platillo o se elimina una categoria.
+    var defaultCategory = new Category("Sin categoría"); categoryDao.save(defaultCategory);
 
     // Algunos platillos
     // Aperitivos

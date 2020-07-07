@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.Optional;
 
 import com.naat.nix.menu.model.Category;
+import com.naat.nix.menu.model.Food;
 import com.naat.nix.menu.model.CategoryForm;
+import com.naat.nix.menu.controller.FoodService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,6 +18,10 @@ public class CategoryService {
   /* DAO para las operaciones sobre categorias */
   @Autowired
   CategoryRepository repository;
+
+  /* DAO para las operaciones sobre plaitllos */
+  @Autowired
+  FoodService foodService;
 
   /**
   * Obtiene todas las categorias existentes.
@@ -55,7 +61,6 @@ public class CategoryService {
     if (categoryForm.getNewCategory().equals (categoryForm.getOldCategory())) {
       return;
     }
-    System.out.println ("\n CAMBIANDO DE : " + categoryForm.getOldCategory() + " A : "+ categoryForm.getNewCategory() + " \n");
     Category old = getCategory (categoryForm.getOldCategory ());
     repository.delete (old);
     Category nw = new Category();
@@ -64,11 +69,19 @@ public class CategoryService {
   }
 
   /**
-  * Elimina una categoria dado su nombre.
+  * Elimina una categoria dado su nombre y a todos los platillos
+  * que pertenecen a esa categoria clasificalos en la categoria por defecto "Sin categoria".
   * @param name el nombre de la categoria a eliminar.
   */
   public void delete (String name) {
     Category d = getCategory (name);
+    Category defaultCategory = getCategory ("Sin categoría");
+    ArrayList<Food> foods = new ArrayList<Food> (d.getFoods());
+    for (Food food : foods) {
+      food.setCategory (defaultCategory);
+      foodService.update(food);
+    }
+    d.setFoods(new ArrayList<Food>());
     repository.delete (d);
   }
 
