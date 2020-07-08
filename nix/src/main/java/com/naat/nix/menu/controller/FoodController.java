@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import javax.validation.Valid;
 
 import com.naat.nix.menu.model.Food;
+import com.naat.nix.menu.model.FoodForm;
 import com.naat.nix.menu.controller.FoodService;
 import com.naat.nix.validator.FoodValidator;
 import com.naat.nix.validator.FoodFormValidator;

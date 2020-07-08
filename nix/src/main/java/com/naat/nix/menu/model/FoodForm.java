@@ -10,6 +10,9 @@ import lombok.Data;
 @Data
 public class FoodForm {
 
+  /* El id del platillo */
+  private int id;
+
   /* El nuevo precio */
   private int newPrice;
 

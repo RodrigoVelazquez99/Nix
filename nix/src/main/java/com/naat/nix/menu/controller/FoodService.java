@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Optional;
 
 import com.naat.nix.menu.model.Food;
+import com.naat.nix.menu.model.FoodForm;
 import com.naat.nix.menu.model.Category;
 
 import javax.persistence.EntityManager;
@@ -46,8 +47,8 @@ public class FoodService {
   * @return el platillo si se encontró.
   */
   public Food getFood (String name) {
-    ArrayList<Food> foods = (ArrayList<Food>) repository.findByName(name);
-    return foods.get(0);
+    Food food =  repository.findByName(name);
+    return food;
   }
 
   /**
@@ -108,6 +109,15 @@ public class FoodService {
   }
 
   /**
+  * Elimina el platillo de auerdo a su nombre.
+  * @param name el nombre del platillo a eliminar.
+  */
+  public void delete (String name) {
+    Food platillo = repository.findByName(name);
+    repository.deleteById(platillo.getIdFood());
+  }
+
+  /**
    * Si el platillo se encuentra en la base de datos, lo actualiza
    * @param p Platillo a actualizar
    * @return Platillo recién actualizado
@@ -125,6 +135,24 @@ public class FoodService {
       s = repository.save(s);
     }
     return s;
+  }
+
+  /**
+  * Actualiza el platillo deacuerdo a la plantilla para editar.
+  * @param foodForm la plantilla con los datos nuevos del platillo.
+  */
+  public void update (FoodForm foodForm) {
+    Optional<Food> food = repository.findById(foodForm.getId());
+    Food s = null;
+    if (food.isPresent()) {
+      s = food.get();
+      s.setImage(foodForm.getNewImage());
+      s.setPrice(foodForm.getNewPrice());
+      s.setName(foodForm.getNewName());
+      s.setCategory(foodForm.getNewCategory());
+      s.setDescription(foodForm.getNewDescription());
+      repository.save (s);
+    }
   }
 
 }
