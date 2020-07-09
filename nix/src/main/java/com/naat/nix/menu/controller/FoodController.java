@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import javax.validation.Valid;
 
 import com.naat.nix.menu.model.Food;
+import com.naat.nix.menu.model.Category;
 import com.naat.nix.menu.model.FoodForm;
 import com.naat.nix.menu.controller.FoodService;
+import com.naat.nix.menu.controller.CategoryService;
 import com.naat.nix.validator.FoodValidator;
 import com.naat.nix.validator.FoodFormValidator;
 
@@ -35,6 +37,10 @@ public class FoodController {
   @Autowired
   private FoodService foodService;
 
+  /* El servicio con las operaciones sobre categorias */
+  @Autowired
+  private CategoryService categoryService;
+
   /* El validador de platillos */
   @Autowired
   private FoodValidator foodValidator;
@@ -55,6 +61,10 @@ public class FoodController {
     model.addAttribute ("foods", foods);
     boolean hayPlatillos = (foods.size() == 0)? false : true;
     model.addAttribute ("hayPlatillos", hayPlatillos);
+    ArrayList<Category> categories = categoryService.getCategories();
+    model.addAttribute ("categories", categories);
+    boolean hayCategorias = (categories.size() == 0)? false : true;
+    model.addAttribute ("hayCategorias", hayCategorias);
     return "foods";
   }
 
@@ -74,6 +84,10 @@ public class FoodController {
       model.addAttribute ("foods", foods);
       boolean hayPlatillos = (foods.size() == 0)? false : true;
       model.addAttribute ("hayPlatillos", hayPlatillos);
+      ArrayList<Category> categories = categoryService.getCategories();
+      model.addAttribute ("categories", categories);
+      boolean hayCategorias = (categories.size() == 0)? false : true;
+      model.addAttribute ("hayCategorias", hayCategorias);
       return "foods";
     }
     foodService.save (food);
@@ -92,6 +106,8 @@ public class FoodController {
     boolean hayPlatillos = (foods.size() == 0)? false : true;
     modelAndView.addObject ("hayPlatillos", hayPlatillos);
     modelAndView.addObject ("food", new FoodForm());
+    ArrayList<Category> categories = categoryService.getCategories();
+    modelAndView.addObject ("categories", categories);
     return modelAndView;
   }
 
@@ -111,6 +127,8 @@ public class FoodController {
       model.addAttribute ("foods", foods);
       boolean hayPlatillos = (foods.size() == 0)? false : true;
       model.addAttribute ("hayPlatillos", hayPlatillos);
+      ArrayList<Category> categories = categoryService.getCategories();
+      model.addAttribute ("categories", categories);
       return "foods_edit";
     }
     foodService.update (foodForm);

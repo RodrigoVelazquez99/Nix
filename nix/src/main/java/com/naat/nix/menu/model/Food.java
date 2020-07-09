@@ -69,6 +69,9 @@ public class Food {
 
 	@Override
 	public boolean equals (Object obj) {
+		if (! (obj instanceof Food)) {
+			return false;
+		}
 		Food f = (Food) obj;
 		if (f.getName().equals(this.name)) {
 			return true;

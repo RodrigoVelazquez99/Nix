@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+
+  <head th:replace="fragments/common::head">
+    <title>Platillos</title>
+  </head>
+
+  <body>
+    <!-- Barra de busqueda -->
+    <header th:insert="fragments/common::navbar"></header>
+
+    <div class="row justify-content-lg-center">
+    <div class="column">
+      <!-- Boton para crear un platillo mostrando un Popup-->
+      <div class="container pt-5">
+        <button class="btn btn-info" role="button" data-toggle="modal" data-target="#crearPlatillo"> Crear platillo </button>
+      </div>
+    </div>
+
+    <div class="column">
+      <!-- Boton para editar platillos -->
+      <div th:if="${hayPlatillos}">
+        <div class="container pt-5 offset-lg-5">
+          <a class="btn btn-success" role="button" href="foods/edit"> Editar platillos </a>
+        </div>
+      </div>
+    </div>
+    </div>
+
+    <!-- Popup para crear una categoria -->
+    <div class="modal fade" tabindex="-1" role="dialog" id="crearPlatillo">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Ingresa los datos del nuevo platillo </h5>
+          </div>
+          <div class="modal-body">
+              <form th:action="@{/foods}" th:object="${food}" method="POST">
+
+                <div th:if="${#fields.hasErrors('name')}">
+                  <div id="alert-error" class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <p id="error" th:errors="*{name}"> </p>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <input type="text" path="name" class="form-control" placeholder="Ingresa el nombre del platillo"
+                    autofocus="true" th:field="*{name}" title="Ingresa el nombre del platillo" required></input>
+                </div>
+
+                <div class="form-group">
+                  <input type="number" min="1" path="price" class="form-control" placeholder="Ingresa el precio"
+                    autofocus="true" th:field="*{price}" title="Ingresa el precio" value="1" required></input>
+                </div>
+
+                <div class="form-group">
+                  <textarea type="text" path="description" class="form-control" placeholder="Ingresa la descripcion"
+                    autofocus="true" th:field="*{description}" title="Ingresa la descripcion" required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <select class="form-control" th:field="*{category}" >
+                      <div th:each="ct : ${categories}">
+                        <option th:value="${ct}" th:text="${ct.category}"></option>
+                      </div>
+                    </select>
+                </div>
+
+                <div th:if="${hayCategorias}">
+                  <div class="modal-footer">
+                    <button type="submit" class="btn btn-success">Crear</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" >Cancelar</button>
+                  </div>
+                </div>
+                <div th:unless="${hayCategorias}">
+                  <p> No existen categorias aún </p>
+                  <a class="btn btn-success" role="button" href="/categories"> Administrar categorias </a>
+                </div>
+
+              </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- Mostramos los platillos -->
+    <div th:if="${hayPlatillos}">
+      <div class="container pt-3">
+        <table class="table table-bordered">
+    		  <thead class ="thead-dark">
+    		    <tr>
+    		      <th scope="col">Nombre</th>
+              <th scope="col">Precio</th>
+              <th scope="col">Descripción</th>
+              <th scope="col">Categoría</th>
+    		    </tr>
+    		  </thead>
+    		  <tbody>
+    				<tr th:each="food : ${foods}">
+    			    <td th:utext="${food.name}"></td>
+              <td th:utext="${food.price}"></td>
+              <td th:utext="${food.description}"></td>
+              <td th:utext="${food.category.category}"></td>
+    			  </tr>
+    			</tbody>
+    		</table>
+      </div>
+    </div>
+    <div th:unless="${hayPlatillos}">
+      <h3 style="text-align:center">Aun no hay platillos</h3>
+    </div>
+
+  </body>
+
+  <!-- Cuando se cierra el popup tambien se debe cerrar el mensaje de error si existe -->
+  <script>
+  $('#crearPlatillo').on('hidden.bs.modal', function (event) {
+    var alert = document.getElementById('alert-error');
+    if (typeof alert != 'undefined') {
+      $('#alert-error').alert("close");
+    }
+  })
+  </script>
+
+  <!-- Si ocurrio un error, muestra el popup con la alerta del mensaje -->
+  <script>
+  $(document).ready(function(){
+    if (document.getElementById('error').innerHTML != null) {
+      $("#crearPlatillo").modal();
+    }
+  });
+  </script>
+
+</html>

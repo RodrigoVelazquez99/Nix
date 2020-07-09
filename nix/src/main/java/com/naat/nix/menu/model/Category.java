@@ -21,7 +21,6 @@ import lombok.RequiredArgsConstructor;
  */
 @Getter
 @Setter
-@ToString
 @NoArgsConstructor
 @RequiredArgsConstructor
 @Entity
@@ -41,10 +40,19 @@ public class Category {
 
   @Override
   public boolean equals (Object obj) {
+    if (! (obj instanceof Category)) {
+      return false;
+    }
     Category other = (Category) obj;
     if (this.category.equals (other.getCategory())) {
       return true;
     }
     return false;
   }
+
+  @Override
+  public String toString() {
+    return this.category;
+  }
+
 }
