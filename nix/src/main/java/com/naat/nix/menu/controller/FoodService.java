@@ -142,16 +142,14 @@ public class FoodService {
   * @param foodForm la plantilla con los datos nuevos del platillo.
   */
   public void update (FoodForm foodForm) {
-    Optional<Food> food = repository.findById(foodForm.getId());
-    Food s = null;
-    if (food.isPresent()) {
-      s = food.get();
-      s.setImage(foodForm.getNewImage());
-      s.setPrice(foodForm.getNewPrice());
-      s.setName(foodForm.getNewName());
-      s.setCategory(foodForm.getNewCategory());
-      s.setDescription(foodForm.getNewDescription());
-      repository.save (s);
+    Food food = repository.findByName(foodForm.getOldName());
+    if (food != null) {
+      food.setImage(foodForm.getNewImage());
+      food.setPrice(foodForm.getNewPrice());
+      food.setName(foodForm.getNewName());
+      food.setCategory(foodForm.getNewCategory());
+      food.setDescription(foodForm.getNewDescription());
+      repository.save (food);
     }
   }
 

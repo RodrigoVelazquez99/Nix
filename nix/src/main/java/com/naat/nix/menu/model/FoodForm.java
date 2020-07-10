@@ -10,9 +10,6 @@ import lombok.Data;
 @Data
 public class FoodForm {
 
-  /* El id del platillo */
-  private int id;
-
   /* El nuevo precio */
   private int newPrice;
 
@@ -28,20 +25,7 @@ public class FoodForm {
   /* La nueva categoria a la que pertenece */
   private Category newCategory;
 
-  /* El precio anterior */
-  private int oldPrice;
-
-  /* La descripcion anterior */
-  private String oldDescription;
-
-  /* La imagen anterior */
-  private String oldImage;
-
   /* El nombre anterior */
   private String oldName;
-
-  /* La categoria a la que pertenecia */
-  private Category oldCategory;
-
 
 }

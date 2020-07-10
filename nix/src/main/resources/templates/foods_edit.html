@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+
+  <head th:replace="fragments/common::head">
+    <title>Platillos</title>
+  </head>
+
+  <body>
+    <!-- Barra de busqueda -->
+    <header th:insert="fragments/common::navbar"></header>
+
+    <!-- Mostramos los platillos -->
+    <div th:if="${hayPlatillos}">
+      <div class="container pt-3">
+        <table class="table table-bordered">
+          <thead class ="thead-dark">
+            <tr>
+              <th scope="col">Nombre</th>
+              <th scope="col">Precio</th>
+              <th scope="col">Descripción</th>
+              <th scope="col">Categoría</th>
+              <th scope="col">Eliminar</th>
+              <th scope="col">Editar</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr th:each="food : ${foods}">
+              <td th:utext="${food.name}"></td>
+              <td th:utext="${food.price}"></td>
+              <td th:utext="${food.description}"></td>
+              <td th:utext="${food.category.category}"></td>
+              <td><button id="botonEliminar" class="btn btn-danger" role="button"
+                th:attr="data-name=${food.name}" data-toggle="modal" data-target="#eliminarPlatillo">Eliminar</button></td>
+              <td><button id="botonEditar" class="btn btn-info" role="button"
+                  th:attr="data-name=${food.name},
+                           data-price=${food.price},
+                           data-description=${food.description},
+                           data-category=${food.category}" data-toggle="modal" data-target="#editarPlatillo">Editar</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div th:unless="${hayPlatillos}">
+      <h3 style="text-align:center">Aun no hay platillos</h3>
+    </div>
+
+    <!-- Popup para editar un platillo -->
+    <div class="modal fade" tabindex="-1" role="dialog" id="editarPlatillo">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Escribe los nuevos datos</h5>
+          </div>
+          <div class="modal-body">
+              <form th:action="@{/foods/edit}" th:object="${foodForm}" method="POST">
+
+                <div th:if="${#fields.hasErrors('newName')}">
+                  <div id = "alert-error" class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <p id="error" th:errors="*{newName}"> </p>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <input id="inputNewName" type="text" path="newName"
+                  class="form-control" th:field="*{newName}" required></input>
+                </div>
+
+                <div class="form-group">
+                  <input id="inputOldName" type="hidden" path="oldName"
+                  class="form-control" th:field="*{oldName}"></input>
+                </div>
+
+                <div class="form-group">
+                  <input id="inputNewPrice" type="number" min="1" value="1" path="newPrice"
+                  class="form-control" th:field="*{newPrice}" required></input>
+                </div>
+
+                <div class="form-group">
+                  <textarea id="inputNewDescription" type="text" path="newDescription"
+                  class="form-control" th:field="*{newDescription}" required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <select id="inputNewCategory" class="form-control" th:field="*{newCategory}">
+                      <div th:each="ct : ${categories}">
+                        <option th:value="${ct}" th:text="${ct.category}"></option>
+                      </div>
+                    </select>
+                </div>
+
+                <div class="modal-footer">
+                  <button type="submit" class="btn btn-primary">Guardar</button>
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal" >Cancelar</button>
+                </div>
+
+              </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Popup para eliminar una categoria -->
+    <div class="modal fade" id="eliminarPlatillo">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <!-- Modal Header -->
+          <div class="modal-header">
+            <h4 class="modal-title-center"> Confirmación</h4>
+          </div>
+
+          <!-- Modal body -->
+          <div class="modal-body">
+            <h1  class= "text-center"></h1>¿Deseas continuar?
+          </div>
+
+          <!-- Modal footer -->
+          <div class="modal-footer">
+            <a type="button" id ="aceptar_eliminar" class="btn btn-danger" > Aceptar</a>
+            <a class="btn btn-secondary" data-dismiss="modal" > Cancelar </a>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+
+  </body>
+
+  <!-- Obtiene el nombre del platillo a eliminar -->
+  <script>
+  $('#eliminarPlatillo').on('show.bs.modal', function (event) {
+      var boton = $(event.relatedTarget);
+      var nombre = boton.data('name');
+      document.getElementById('aceptar_eliminar').href = "/foods/edit/delete/" + nombre.toString();
+  })
+  </script>
+
+  <!-- Inserta el nombre del platillo actual en las entradas del popup -->
+  <script>
+  $('#editarPlatillo').on('show.bs.modal', function (event) {
+    var button = $(event.relatedTarget);
+    var name = button.data('name');
+    var price = button.data('price');
+    var description = button.data('description');
+    var category = button.data('category');
+    if (typeof name != 'undefined') {
+      document.getElementById("inputNewName").value = name.toString();
+      document.getElementById("inputOldName").value = name.toString();
+      document.getElementById("inputNewPrice").value = price;
+      document.getElementById("inputNewDescription").value = description.toString();
+      document.getElementById("inputNewCategory").value = category;
+    }
+  })
+  </script>
+
+  <!-- Cuando se cierra el popup tambien se debe cerrar el mensaje de error si existe -->
+  <script>
+  $('#editarPlatillo').on('hidden.bs.modal', function (event) {
+    var alert = document.getElementById('alert-error');
+    if (typeof alert != 'undefined') {
+      $('#alert-error').alert("close");
+    }
+  })
+  </script>
+
+  <!-- Si ocurrio un error, muestra el popup con la alerta del mensaje -->
+  <script>
+  $(document).ready(function(){
+    var error = document.getElementById('error').innerHTML;
+    if (error != null) {
+      $("#editarPlatillo").modal();
+    }
+  });
+  </script>
+
+</html>

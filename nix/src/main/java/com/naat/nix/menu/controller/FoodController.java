@@ -105,7 +105,7 @@ public class FoodController {
     modelAndView.addObject ("foods", foods);
     boolean hayPlatillos = (foods.size() == 0)? false : true;
     modelAndView.addObject ("hayPlatillos", hayPlatillos);
-    modelAndView.addObject ("food", new FoodForm());
+    modelAndView.addObject ("foodForm", new FoodForm());
     ArrayList<Category> categories = categoryService.getCategories();
     modelAndView.addObject ("categories", categories);
     return modelAndView;
