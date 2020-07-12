@@ -5,7 +5,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
 class NixApplicationTests {
-  @Test
+  /*@Test
   void contextLoads() {
-  }
+  }*/
 }

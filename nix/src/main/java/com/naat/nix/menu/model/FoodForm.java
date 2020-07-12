@@ -1,5 +1,7 @@
 package com.naat.nix.menu.model;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +19,7 @@ public class FoodForm {
   private String newDescription;
 
   /* El nuevo nombre de la imagen */
-  private String newImage;
+  private MultipartFile newImage;
 
   /* El nuevo nombre */
   private String newName;

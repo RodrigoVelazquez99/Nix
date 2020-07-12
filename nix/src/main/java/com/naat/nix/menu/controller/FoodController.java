@@ -8,7 +8,6 @@ import com.naat.nix.menu.model.Category;
 import com.naat.nix.menu.model.FoodForm;
 import com.naat.nix.menu.controller.FoodService;
 import com.naat.nix.menu.controller.CategoryService;
-import com.naat.nix.validator.FoodValidator;
 import com.naat.nix.validator.FoodFormValidator;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +24,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
-
+import org.springframework.validation.FieldError;
+import org.springframework.validation.ObjectError;
 /**
  * Controlador encargado de la manipulacion de platillos por parte del administrador.
  */
@@ -41,11 +41,7 @@ public class FoodController {
   @Autowired
   private CategoryService categoryService;
 
-  /* El validador de platillos */
-  @Autowired
-  private FoodValidator foodValidator;
-
-  /* El validador para la plantilla para editar platillos */
+  /* El validador para crear y editar platillos */
   @Autowired
   private FoodFormValidator foodFormValidator;
 
@@ -56,7 +52,7 @@ public class FoodController {
   */
   @GetMapping("")
   public String getFoods (Model model) {
-    model.addAttribute ("food", new Food());
+    model.addAttribute ("foodForm", new FoodForm());
     ArrayList<Food> foods = foodService.getFoods();
     model.addAttribute ("foods", foods);
     boolean hayPlatillos = (foods.size() == 0)? false : true;
@@ -75,9 +71,9 @@ public class FoodController {
   * @param bindingResult los errores que puede tener.
   */
   @PostMapping("")
-  public String newFood (Model model, @ModelAttribute @Valid Food food, BindingResult bindingResult) {
+  public String newFood (Model model, @ModelAttribute @Valid FoodForm food, BindingResult bindingResult) {
     /* Validamos si el platillo es único */
-    foodValidator.validate (food, bindingResult);
+    foodFormValidator.validate (food, bindingResult);
     if (bindingResult.hasErrors ()) {
       /* Si no es única regresa la misma página y con un mensaje de error */
       ArrayList<Food> foods = foodService.getFoods();

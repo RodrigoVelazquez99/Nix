@@ -10,7 +10,7 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
 /**
- * Validar plantillas para editar platillos.
+ * Validar plantillas para editar y crear platillos.
  */
 @Component
 public class FoodFormValidator implements Validator {

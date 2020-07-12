@@ -36,11 +36,11 @@
             <h5 class="modal-title">Ingresa los datos del nuevo platillo </h5>
           </div>
           <div class="modal-body">
-              <form th:action="@{/foods}" th:object="${food}" method="POST">
+              <form th:action="@{/foods}" th:object="${foodForm}" method="POST" enctype="multipart/form-data">
 
-                <div th:if="${#fields.hasErrors('name')}">
+                <div th:if="${#fields.hasErrors('newName')}">
                   <div id="alert-error" class="alert alert-danger alert-dismissible fade show" role="alert">
-                    <p id="error" th:errors="*{name}"> </p>
+                    <p id="error" th:errors="*{newName}"> </p>
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                       <span aria-hidden="true">&times;</span>
                     </button>
@@ -48,26 +48,35 @@
                 </div>
 
                 <div class="form-group">
-                  <input type="text" path="name" class="form-control" placeholder="Ingresa el nombre del platillo"
-                    autofocus="true" th:field="*{name}" title="Ingresa el nombre del platillo" required></input>
+                  <input type="text" path="newName" class="form-control" placeholder="Ingresa el nombre del platillo"
+                    autofocus="true" th:field="*{newName}" title="Ingresa el nombre del platillo" required></input>
                 </div>
 
                 <div class="form-group">
-                  <input type="number" min="1" path="price" class="form-control" placeholder="Ingresa el precio"
-                    autofocus="true" th:field="*{price}" title="Ingresa el precio" value="1" required></input>
+                  <input type="hidden" path="oldName"
+                  class="form-control" th:field="*{oldName}"></input>
                 </div>
 
                 <div class="form-group">
-                  <textarea type="text" path="description" class="form-control" placeholder="Ingresa la descripcion"
-                    autofocus="true" th:field="*{description}" title="Ingresa la descripcion" required></textarea>
+                  <input type="number" min="1" path="newPrice" class="form-control" placeholder="Ingresa el precio"
+                    autofocus="true" th:field="*{newPrice}" title="Ingresa el precio" value="1" required></input>
                 </div>
 
                 <div class="form-group">
-                    <select class="form-control" th:field="*{category}" >
+                  <textarea type="text" path="newDescription" class="form-control" placeholder="Ingresa la descripcion"
+                    autofocus="true" th:field="*{newDescription}" title="Ingresa la descripcion" required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <select class="form-control" th:field="*{newCategory}" >
                       <div th:each="ct : ${categories}">
                         <option th:value="${ct}" th:text="${ct.category}"></option>
                       </div>
                     </select>
+                </div>
+
+                <div class="form-group">
+                  <input type="file" class="pt-2" name="newImage" th:field="*{newImage}" accept="image/*" required/> <br></br>
                 </div>
 
                 <div th:if="${hayCategorias}">

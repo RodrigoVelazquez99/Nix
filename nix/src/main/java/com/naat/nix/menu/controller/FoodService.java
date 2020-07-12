@@ -6,6 +6,7 @@ import java.util.Optional;
 import com.naat.nix.menu.model.Food;
 import com.naat.nix.menu.model.FoodForm;
 import com.naat.nix.menu.model.Category;
+import com.naat.nix.user.util.FileService;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -31,6 +32,10 @@ public class FoodService {
   /* DAO para manipular las categorias */
   @Autowired
   private CategoryRepository categoryRepository;
+
+  /* Manipulación de archivos */
+  @Autowired
+  private FileService fileService;
 
   /**
    * Obtiene todos los platillos disponibles
@@ -71,6 +76,15 @@ public class FoodService {
     return foods;
   }
 
+  /**
+  * Obtiene el platillo que tenga como imagen la pasada a la función.
+  * @param image la imagen de la cual queremos obtener su platillo.
+  * @return el platillo que tiene esa imagen o null en otro caso.
+  */
+  public Food getFoodByImage (String image) {
+    Food food = repository.findByImage(image);
+    return food;
+  }
 
   /**
    * Platillo con el identificador dado
@@ -96,6 +110,19 @@ public class FoodService {
     return n;
   }
 
+  /**
+  * Guarda el nuevo platillo desde la plantilla.
+  * @param foodForm la plantilla del nuevo platillo.
+  */
+  public void save (FoodForm foodForm) {
+    Food n = new Food ();
+    n.setName (foodForm.getNewName());
+    n.setPrice (foodForm.getNewPrice());
+    n.setCategory (foodForm.getNewCategory());
+    n.setDescription (foodForm.getNewDescription());
+    n.setImage (fileService.uploadFile(foodForm.getNewImage()));
+    repository.save(n);
+  }
 
   /**
    * Elimina el platillo si se encuentra en la base de datos
@@ -144,7 +171,8 @@ public class FoodService {
   public void update (FoodForm foodForm) {
     Food food = repository.findByName(foodForm.getOldName());
     if (food != null) {
-      food.setImage(foodForm.getNewImage());
+      fileService.removeFile (food.getImage());
+      food.setImage(fileService.uploadFile(foodForm.getNewImage()));
       food.setPrice(foodForm.getNewPrice());
       food.setName(foodForm.getNewName());
       food.setCategory(foodForm.getNewCategory());

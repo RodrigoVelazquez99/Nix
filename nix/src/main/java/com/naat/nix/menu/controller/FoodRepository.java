@@ -15,4 +15,5 @@ import java.util.List;
 public interface FoodRepository extends CrudRepository<Food, Integer>{
   List<Food> findByCategory (Category category);
   Food findByName (String name);
+  Food findByImage (String image);
 }
