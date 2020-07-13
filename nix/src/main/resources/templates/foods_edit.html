@@ -20,6 +20,7 @@
               <th scope="col">Precio</th>
               <th scope="col">Descripción</th>
               <th scope="col">Categoría</th>
+              <th scope="col">Imagen</th>
               <th scope="col">Eliminar</th>
               <th scope="col">Editar</th>
             </tr>
@@ -30,6 +31,9 @@
               <td th:utext="${food.price}"></td>
               <td th:utext="${food.description}"></td>
               <td th:utext="${food.category.category}"></td>
+              <td >
+                <img th:src="@{http://localhost:8080/{image}(image=${food.image})}" style="width:100px;height:100px;" alt="Imagen">
+              </td>
               <td><button id="botonEliminar" class="btn btn-danger" role="button"
                 th:attr="data-name=${food.name}" data-toggle="modal" data-target="#eliminarPlatillo">Eliminar</button></td>
               <td><button id="botonEditar" class="btn btn-info" role="button"

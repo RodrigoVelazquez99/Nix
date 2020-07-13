@@ -107,6 +107,7 @@
               <th scope="col">Precio</th>
               <th scope="col">Descripción</th>
               <th scope="col">Categoría</th>
+              <th scope="col">Imagen</th>
     		    </tr>
     		  </thead>
     		  <tbody>
@@ -115,6 +116,9 @@
               <td th:utext="${food.price}"></td>
               <td th:utext="${food.description}"></td>
               <td th:utext="${food.category.category}"></td>
+              <td >
+                <img th:src="@{http://localhost:8080/{image}(image=${food.image})}" style="width:100px;height:100px;" alt="Imagen">
+              </td>
     			  </tr>
     			</tbody>
     		</table>
