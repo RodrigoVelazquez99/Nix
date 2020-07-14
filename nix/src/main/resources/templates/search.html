@@ -1,0 +1,118 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html xmlns:th="http://www.thymeleaf.org" >
+
+<head th:replace="fragments/common::head"></head>
+
+<body>
+
+	<!-- Barra de navegacion  -->
+	<div class="sticky-top">
+	<div th:insert="fragments/common :: navbar"></div>
+	</div>
+	<div class="row">
+
+	<!-- Barra lateral de categorias -->
+	<div class="col-2 pt-2">
+
+		<div class="sticky-top" style="top: 65px;" >
+			<div th:insert="fragments/common :: vertical-navbar"></div>
+		</div>
+	</div>
+
+
+	<div class="col pt-2">
+		<h3 style="padding: 2rem;" th:text="${actual}"></h3>
+
+		<div th:if="${hayPlatillos}">
+
+			<div class="card-deck" style="overflow: scroll; padding: 1rem;">
+
+			   <tr th:each="food : ${menu}">
+
+			    <div class="card" style="padding: 2rem; min-width: 300px;">
+			      <img class="card-img-top" th:src="@{http://localhost:8080/{image}(image=${food.image})}" alt="Imagen" >
+			        <div class="card-body">
+			          <h5 class="card-title" th:text="${food.name}"></h5>
+			          <p class="card-text" th:utext="'$' + ${food.price}"></p>
+			          <button id ="verMas" class="btn btn-primary stretched-link" data-toggle="modal"
+			                  data-target="#agregarCarrito"
+			                  th:attr="data-nombre=${food.name},
+			                  data-categoria=${food.category.category},
+			                  data-descripcion=${food.description},
+			                  data-id=${food.idFood},
+			                  data-precio=${food.price},
+			                  data-foto=${food.image}">Ver mas</button>
+			        </div>
+			    </div>
+
+			    </tr>
+
+			  </div>
+			</div>
+
+			<div th:unless="${hayPlatillos}">
+				<h3 style="text-align:center"> No coinciden platillos con la busqueda </h3>
+			</div>
+
+		</div>
+	</div>
+
+  <div class="container">
+    <!-- Modal -->
+    <div class="modal fade" id="agregarCarrito" aria-labelledby="agregarCarrito">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+
+          <!-- Modal Header -->
+          <div class="modal-header">
+            <h1 class="modal-title"> Platillo </h1>
+          </div>
+
+          <!-- Modal body -->
+          <div class="modal-body">
+            <h6 class="modal-categoria"> Categoría </h6>
+            <h6 class="modal-descripcion"> Descripcion </h6>
+            <h6 class="modal-precio"> Precio </h6>
+            <label>Cantidad: </label>
+            <input type="number" min="1" class="form-control" id="amount" value = "1"/>
+          </div>
+
+          <!-- Modal footer -->
+          <div class="modal-footer">
+            <a class="btn btn-secondary" data-dismiss="modal" > Cerrar </a>
+            <a class="btn btn-success" id="verPlatillo" href = "/cart/add"> Agregar al carrito </a>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</body>
+
+<script>
+$('#agregarCarrito').on('show.bs.modal', function (event) {
+  var button = $(event.relatedTarget)
+  var nombre = button.data('nombre')
+  var id = button.data('id')
+  let categoria = button.data('categoria')
+  var descripcion = button.data('descripcion')
+  var precio = button.data('precio')
+  document.getElementById("verPlatillo").href= "/cart/add/" + id.toString()
+  var modal = $(this)
+  modal.find('.modal-title').text(nombre)
+  modal.find('.modal-descripcion').text(descripcion)
+  modal.find('.modal-precio').text("Precio: $" + precio)
+  modal.find('.modal-categoria').text(categoria)
+})
+</script>
+
+<script type="text/javascript">
+    $('a#verPlatillo').click(function(){
+      var amount = document.getElementById("amount").value;
+      document.getElementById("verPlatillo").href += "/" + amount.toString();
+    })
+</script>
+</html>

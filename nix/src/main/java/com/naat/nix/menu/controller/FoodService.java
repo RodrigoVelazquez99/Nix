@@ -181,4 +181,19 @@ public class FoodService {
     }
   }
 
+  /**
+  * Obtener todos los platillos que coinciden con la entrada.
+  * @param entry la entrada de la cual queremos obtener los platillos que coincidan.
+  * @return los platillos que coinciden con la entrada.
+  */
+  public ArrayList<Food> getCoincidences (String entry) {
+    Query query = entityManager.createQuery("FROM Food p WHERE p.name LIKE :entry", Food.class);
+    query.setParameter("entry", entry + "%");
+    ArrayList<Food> foods = (ArrayList<Food>) query.getResultList();
+    if (foods.size() == 0) {
+      return new ArrayList<Food>();
+    }
+    return foods;
+  }
+
 }
