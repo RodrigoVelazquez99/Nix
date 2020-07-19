@@ -72,6 +72,7 @@
 
           <!-- Modal body -->
           <div class="modal-body">
+						<img id="modal-image" class="card-img-top" alt="Imagen" >
             <h6 class="modal-categoria"> Categoría </h6>
             <h6 class="modal-descripcion"> Descripcion </h6>
             <h6 class="modal-precio"> Precio </h6>
@@ -101,6 +102,9 @@ $('#agregarCarrito').on('show.bs.modal', function (event) {
   let categoria = button.data('categoria')
   var descripcion = button.data('descripcion')
   var precio = button.data('precio')
+	var modalImg = document.getElementById ('modal-image')
+	var foto = button.data('foto')
+	modalImg.src = "http://localhost:8080/" + foto
   document.getElementById("verPlatillo").href= "/cart/add/" + id.toString()
   var modal = $(this)
   modal.find('.modal-title').text(nombre)
