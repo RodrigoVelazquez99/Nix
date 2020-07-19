@@ -179,6 +179,6 @@ public class CartController {
 	@GetMapping(value = "/order/{address}")
 	public String confirmOrder(@PathVariable("address") String address, @AuthenticationPrincipal UserWrapper user) {
 		cartService.order(carrito, user.getCustomUser().getClient(), address);
-		return "redirect:/menu";
+		return "redirect:/menu/all";
 	}
 }
