@@ -70,7 +70,7 @@ public class UserService {
       client.setEmail(user.getEmail());
       client.setUser(user);
       client.setPhone(clientForm.getPhone());
-      client.setAddress(List.of(clientForm.getAddress()));
+      client.setAddress(clientForm.getAddresses());
       user.setClient(client);
       clientRepository.save(client);
       return client;

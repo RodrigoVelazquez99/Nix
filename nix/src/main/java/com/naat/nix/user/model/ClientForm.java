@@ -1,5 +1,7 @@
 package com.naat.nix.user.model;
 
+import java.util.ArrayList;
+
 import lombok.Data;
 
 /**
@@ -24,6 +26,6 @@ public class ClientForm {
   private String phone;
 
   /* La dirección del cliente */
-  private String address;
+  private ArrayList<String> addresses;
 
 }

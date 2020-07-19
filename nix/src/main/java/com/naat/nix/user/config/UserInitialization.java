@@ -1,6 +1,7 @@
 package com.naat.nix.user.config;
 
 import javax.annotation.PostConstruct;
+import java.util.ArrayList;
 
 import com.naat.nix.user.controller.AdminRepository;
 import com.naat.nix.user.controller.UserService;
@@ -51,8 +52,10 @@ public class UserInitialization {
     // Cliente
     var titoForm = new ClientForm();
     titoForm.setUsername("Tito");
-    titoForm.setPhone("5589675432"); 
-    titoForm.setAddress("Av. Paz, 15, Los Pinos, Ciudad de México");
+    titoForm.setPhone("5589675432");
+    var titoAddress = new ArrayList<String>();
+    titoAddress.add("Av. Paz, 15, Los Pinos, Ciudad de México");
+    titoForm.setAddresses(titoAddress);
 
     var clientTitoUser = new User("tito@correo.com", encoder.encode("12345678"));
     var clientTito = userService.newClient(clientTitoUser, titoForm);
@@ -61,7 +64,9 @@ public class UserInitialization {
     var mariaForm = new ClientForm();
     mariaForm.setUsername("Maria");
     mariaForm.setPhone("5543546789");
-    mariaForm.setAddress("Árbol, 64, Jardín, Ciudad de México");
+    var mariaAddress = new ArrayList<String>();
+    mariaAddress.add ("Árbol, 64, Jardín, Ciudad de México");
+    mariaForm.setAddresses(mariaAddress);
 
     var clientMariaUser = new User("maria@correo.com", encoder.encode("qwertui"));
     var clientMaria = userService.newClient(clientMariaUser, mariaForm);
