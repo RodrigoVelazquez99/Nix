@@ -5,6 +5,7 @@ import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.CascadeType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
@@ -58,7 +59,7 @@ public class Food {
 	private Category category;
 
 	/* Las solicitudes de platillos a los que pertenece */
-	@OneToMany(mappedBy = "food")
+	@OneToMany(mappedBy = "food", cascade = CascadeType.ALL)
 	private List<CartFood> cartFoods;
 
 	public Food(String name, String description, String image, int price,

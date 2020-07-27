@@ -171,8 +171,10 @@ public class FoodService {
   public void update (FoodForm foodForm) {
     Food food = repository.findByName(foodForm.getOldName());
     if (food != null) {
-      fileService.removeFile (food.getImage());
-      food.setImage(fileService.uploadFile(foodForm.getNewImage()));
+      if (!foodForm.getNewImage().isEmpty()) {
+        fileService.removeFile (food.getImage());
+        food.setImage(fileService.uploadFile(foodForm.getNewImage()));
+      }
       food.setPrice(foodForm.getNewPrice());
       food.setName(foodForm.getNewName());
       food.setCategory(foodForm.getNewCategory());

@@ -41,7 +41,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
       .ignoring()
       .antMatchers("/h2-console/**");
   }
-  
+
   /**
    * Forzar identificació para todas las URL excepto para el login, sign up y logout.
    * En caso de login, forzar ingreso de credenciales.
@@ -51,7 +51,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
   public void configure(HttpSecurity http) throws Exception {
     http
       .authorizeRequests()
-        .antMatchers("/resources/**", "/signup").permitAll()
+        .antMatchers("/resources/**", "/signup", "/js/addAddress.js", "/js/checkPassword.js").permitAll()
         .anyRequest().authenticated()
         .and()
       .formLogin()

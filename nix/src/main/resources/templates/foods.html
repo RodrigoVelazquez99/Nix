@@ -2,7 +2,9 @@
 
 <html xmlns:th="http://www.thymeleaf.org">
 
-  <head th:replace="fragments/common::head">
+  <head>
+    <div th:replace="fragments/common::head"></div>
+    <script async th:src="@{http://localhost:8080/js/createFoodModal.js}" type="text/javascript"></script>
     <title>Platillos</title>
   </head>
 
@@ -117,7 +119,7 @@
               <td th:utext="${food.description}"></td>
               <td th:utext="${food.category.category}"></td>
               <td >
-                <img th:src="@{http://localhost:8080/{image}(image=${food.image})}" style="width:100px;height:100px;" alt="Imagen">
+                <img th:src="@{http://localhost:8080/img/{image}(image=${food.image})}" style="width:100px;height:100px;" alt="Imagen">
               </td>
     			  </tr>
     			</tbody>
@@ -129,24 +131,5 @@
     </div>
 
   </body>
-
-  <!-- Cuando se cierra el popup tambien se debe cerrar el mensaje de error si existe -->
-  <script>
-  $('#crearPlatillo').on('hidden.bs.modal', function (event) {
-    var alert = document.getElementById('alert-error');
-    if (typeof alert != 'undefined') {
-      $('#alert-error').alert("close");
-    }
-  })
-  </script>
-
-  <!-- Si ocurrio un error, muestra el popup con la alerta del mensaje -->
-  <script>
-  $(document).ready(function(){
-    if (document.getElementById('error').innerHTML != null) {
-      $("#crearPlatillo").modal();
-    }
-  });
-  </script>
 
 </html>

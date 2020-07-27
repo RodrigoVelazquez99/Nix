@@ -2,7 +2,9 @@
 
 <html xmlns:th="http://www.thymeleaf.org">
 
-  <head th:replace="fragments/common::head">
+  <head>
+    <div th:replace="fragments/common::head"></div>
+    <script async th:src="@{http://localhost:8080/js/editFood.js}" type="text/javascript"></script>
     <title>Platillos</title>
   </head>
 
@@ -32,7 +34,7 @@
               <td th:utext="${food.description}"></td>
               <td th:utext="${food.category.category}"></td>
               <td >
-                <img th:src="@{http://localhost:8080/{image}(image=${food.image})}" style="width:100px;height:100px;" alt="Imagen">
+                <img th:src="@{http://localhost:8080/img/{image}(image=${food.image})}" style="width:100px;height:100px;" alt="Imagen">
               </td>
               <td><button id="botonEliminar" class="btn btn-danger" role="button"
                 th:attr="data-name=${food.name}" data-toggle="modal" data-target="#eliminarPlatillo">Eliminar</button></td>
@@ -40,7 +42,8 @@
                   th:attr="data-name=${food.name},
                            data-price=${food.price},
                            data-description=${food.description},
-                           data-category=${food.category}" data-toggle="modal" data-target="#editarPlatillo">Editar</button></td>
+                           data-category=${food.category},
+                           data-img=${food.image}" data-toggle="modal" data-target="#editarPlatillo">Editar</button></td>
             </tr>
           </tbody>
         </table>
@@ -58,7 +61,7 @@
             <h5 class="modal-title">Escribe los nuevos datos</h5>
           </div>
           <div class="modal-body">
-              <form th:action="@{/foods/edit}" th:object="${foodForm}" method="POST">
+              <form th:action="@{/foods/edit}" th:object="${foodForm}" method="POST" enctype="multipart/form-data">
 
                 <div th:if="${#fields.hasErrors('newName')}">
                   <div id = "alert-error" class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -97,8 +100,12 @@
                     </select>
                 </div>
 
+                <div class="form-group py-2">
+                  <img id="imageFood" alt="No se encontró la imagen" width="200" height="150" style="display: block; margin-left: auto; margin-right: auto;">
+                </div>
+
                 <div class="form-group">
-                  <input type="file" class="pt-2" name="newImage" th:field="*{newImage}" accept=".jpg" required/> <br></br>
+                  <input type="file" class="pt-2" name="newImage" th:field="*{newImage}" accept=".jpg"/> <br></br>
                 </div>
 
                 <div class="modal-footer">
@@ -136,54 +143,5 @@
       </div>
     </div>
 
-
   </body>
-
-  <!-- Obtiene el nombre del platillo a eliminar -->
-  <script>
-  $('#eliminarPlatillo').on('show.bs.modal', function (event) {
-      var boton = $(event.relatedTarget);
-      var nombre = boton.data('name');
-      document.getElementById('aceptar_eliminar').href = "/foods/edit/delete/" + nombre.toString();
-  })
-  </script>
-
-  <!-- Inserta el nombre del platillo actual en las entradas del popup -->
-  <script>
-  $('#editarPlatillo').on('show.bs.modal', function (event) {
-    var button = $(event.relatedTarget);
-    var name = button.data('name');
-    var price = button.data('price');
-    var description = button.data('description');
-    var category = button.data('category');
-    if (typeof name != 'undefined') {
-      document.getElementById("inputNewName").value = name.toString();
-      document.getElementById("inputOldName").value = name.toString();
-      document.getElementById("inputNewPrice").value = price;
-      document.getElementById("inputNewDescription").value = description.toString();
-      document.getElementById("inputNewCategory").value = category;
-    }
-  })
-  </script>
-
-  <!-- Cuando se cierra el popup tambien se debe cerrar el mensaje de error si existe -->
-  <script>
-  $('#editarPlatillo').on('hidden.bs.modal', function (event) {
-    var alert = document.getElementById('alert-error');
-    if (typeof alert != 'undefined') {
-      $('#alert-error').alert("close");
-    }
-  })
-  </script>
-
-  <!-- Si ocurrio un error, muestra el popup con la alerta del mensaje -->
-  <script>
-  $(document).ready(function(){
-    var error = document.getElementById('error').innerHTML;
-    if (error != null) {
-      $("#editarPlatillo").modal();
-    }
-  });
-  </script>
-
 </html>

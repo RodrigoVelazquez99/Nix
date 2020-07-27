@@ -2,7 +2,9 @@
 
 <html xmlns:th="http://www.thymeleaf.org">
 
-  <head th:replace="fragments/common::head">
+  <head>
+    <div th:replace="fragments/common::head"></div>
+    <script async th:src="@{http://localhost:8080/js/editCategory.js}" type="text/javascript"></script>
     <title>Categorías</title>
   </head>
 
@@ -97,48 +99,6 @@
       </div>
     </div>
 
-
   </body>
-
-  <!-- Obtiene el nombre de la categoria a eliminar -->
-  <script>
-  $('#eliminarCategoria').on('show.bs.modal', function (event) {
-      var boton = $(event.relatedTarget);
-      var nombre = boton.data('value');
-      document.getElementById('aceptar_eliminar').href = "/categories/edit/delete/" + nombre.toString();
-  })
-  </script>
-
-  <!-- Inserta el nombre de la categoria actual en las entradas del popup -->
-  <script>
-  $('#editarCategoria').on('show.bs.modal', function (event) {
-    var button = $(event.relatedTarget);
-    var nombre = button.data('value');
-    if (typeof nombre != 'undefined') {
-      document.getElementById("inputNewCategory").value = nombre.toString();
-      document.getElementById("inputOldCategory").value = nombre.toString();
-    }
-  })
-  </script>
-
-  <!-- Cuando se cierra el popup tambien se debe cerrar el mensaje de error si existe -->
-  <script>
-  $('#editarCategoria').on('hidden.bs.modal', function (event) {
-    var alert = document.getElementById('alert-error');
-    if (typeof alert != 'undefined') {
-      $('#alert-error').alert("close");
-    }
-  })
-  </script>
-
-  <!-- Si ocurrio un error, muestra el popup con la alerta del mensaje -->
-  <script>
-  $(document).ready(function(){
-    var error = document.getElementById('error').innerHTML;
-    if (error != null) {
-      $("#editarCategoria").modal();
-    }
-  });
-  </script>
 
 </html>
